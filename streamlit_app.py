@@ -5,7 +5,7 @@ from authentication import main as authentication_main
 
 # Main app execution
 def main():
-    render_header()
+    # render_header()
 
     # Fetch tables and procedures
     # tables, procedures_or_error = get_mysql_data()

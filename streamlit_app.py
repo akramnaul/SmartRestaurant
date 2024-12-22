@@ -17,8 +17,8 @@ def main():
     # Render other UI components
     # render_sample_elements()
 
-    st.sidebar.title("Navigation")
-    option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])
+    # st.sidebar.title("Navigation")
+    # option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])
 
     if option == "Home":
         st.title("Welcome to the Restaurant Management App!")

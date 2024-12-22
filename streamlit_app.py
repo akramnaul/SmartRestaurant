@@ -18,13 +18,13 @@ def main():
     # render_sample_elements()
 
     # st.sidebar.title("Navigation")
-    option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])
+    # option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])
 
-    if option == "Home":
-        st.title("Welcome to the Restaurant Management App!")
-        st.write("Use the sidebar to navigate.")
-    elif option == "Sign In":
-        st.title("Sign In Page")
+    # if option == "Home":
+    #     st.title("Welcome to the Restaurant Management App!")
+    #     st.write("Use the sidebar to navigate.")
+    # elif option == "Sign In":
+    #     st.title("Sign In Page")
         authentication_main()  # Call the authentication logic from authentication.py
 
 

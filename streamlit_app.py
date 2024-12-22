@@ -18,7 +18,7 @@ def main():
     # render_sample_elements()
 
     # st.sidebar.title("Navigation")
-    # option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])
+    option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])
 
     if option == "Home":
         st.title("Welcome to the Restaurant Management App!")

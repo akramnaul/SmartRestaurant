@@ -1,7 +1,7 @@
 import streamlit as st
 from db_connection import get_mysql_data
 from ui_components import render_header, render_data, render_sample_elements
-from authentication import authenticate_user
+from authentication import main as authentication_main
 
 # Main app execution
 def main():
@@ -16,7 +16,17 @@ def main():
 
     # Render other UI components
     render_sample_elements()
-    render authenticate_user()
+
+    st.sidebar.title("Navigation")
+    option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])
+
+    if option == "Home":
+        st.title("Welcome to the Restaurant Management App!")
+        st.write("Use the sidebar to navigate.")
+    elif option == "Sign In":
+        st.title("Sign In Page")
+        authentication_main()  # Call the authentication logic from authentication.py
+
 
 if __name__ == "__main__":
     main()

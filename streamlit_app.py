@@ -1,6 +1,7 @@
 import streamlit as st
 from db_connection import get_mysql_data
 from ui_components import render_header, render_data, render_sample_elements
+from authentication import authenticate_user
 
 # Main app execution
 def main():
@@ -15,6 +16,7 @@ def main():
 
     # Render other UI components
     render_sample_elements()
+    render authenticate_user()
 
 if __name__ == "__main__":
     main()

@@ -5,7 +5,16 @@ from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 # Function to call the RestaurantSignin stored procedure
 def authenticate_user(restaurant, user, password):
     """
-def authenticate_user(restaurant, user, password):
+    Authenticate a user by calling the RestaurantSignin stored procedure.
+
+    Args:
+        restaurant (str): Restaurant name.
+        user (str): User name.
+        password (str): User password.
+
+    Returns:
+        dict: OUT parameters from the stored procedure.
+    """
     try:
         conn = mysql.connector.connect(
             host=DB_HOST,
@@ -33,8 +42,7 @@ def authenticate_user(restaurant, user, password):
         cursor.close()
         conn.close()
 
-        print("Debugging Result:", result)  # Debug output
-
+        # Return a dictionary with OUT parameters
         if result:
             return {
                 'pRestaurantUserName': result[0],

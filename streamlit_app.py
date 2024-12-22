@@ -8,11 +8,11 @@ def main():
     render_header()
 
     # Fetch tables and procedures
-    tables, procedures_or_error = get_mysql_data()
-    if isinstance(procedures_or_error, str):  # Error case
-        st.error(procedures_or_error)
-    else:
-        render_data(tables, procedures_or_error)
+    # tables, procedures_or_error = get_mysql_data()
+    # if isinstance(procedures_or_error, str):  # Error case
+    #     st.error(procedures_or_error)
+    # else:
+    #     render_data(tables, procedures_or_error)
 
     # Render other UI components
     render_sample_elements()

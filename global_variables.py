@@ -5,7 +5,7 @@ DB_PASSWORD = 'm7xXGk6scyBv1iPORvmJ'
 DB_NAME = 'Rest'
 
 # Application Constants
-APP_NAME = "Restaurant Management System"
+APP_NAME = "Smart Restaurant Management System"
 VERSION = "1.0.0"
 
 # Global State (if needed, managed via session state in Streamlit)
@@ -21,7 +21,7 @@ ERROR_MESSAGES = {
 }
 
 SUCCESS_MESSAGES = {
-    "login_success": "Login successful. Welcome!",
+    "login_success": "Login successful. Welcome !",
 }
 
 # Default Guidelines or Help Texts

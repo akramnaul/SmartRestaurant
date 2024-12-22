@@ -24,31 +24,33 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Define OUT parameters
-        pRestaurantUserName = ''
-        pStatus = 0
-        pStatusCheck = ''
+        # Define OUT parameter variables
+        cursor.execute("SET @pRestaurantUserName = '';")
+        cursor.execute("SET @pStatus = 0;")
+        cursor.execute("SET @pStatusCheck = '';")
 
         # Call the stored procedure
         cursor.callproc('RestaurantSignin', [
             restaurant, user, password,
-            pRestaurantUserName, pStatus, pStatusCheck
+            '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
         ])
 
-        # Fetch OUT parameters
-        for result in cursor.stored_results():
-            # Extract OUT parameters from the result
-            result_data = result.fetchall()
+        # Fetch the OUT parameters
+        cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+        result = cursor.fetchone()
 
         cursor.close()
         conn.close()
 
         # Return a dictionary with OUT parameters
-        return {
-            'pRestaurantUserName': pRestaurantUserName,
-            'pStatus': pStatus,
-            'pStatusCheck': pStatusCheck
-        }
+        if result:
+            return {
+                'pRestaurantUserName': result[0],
+                'pStatus': result[1],
+                'pStatusCheck': result[2]
+            }
+        else:
+            return {'error': 'No result from the procedure.'}
 
     except mysql.connector.Error as err:
         return {'error': str(err)}

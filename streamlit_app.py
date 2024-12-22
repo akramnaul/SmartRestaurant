@@ -15,7 +15,7 @@ def main():
     #     render_data(tables, procedures_or_error)
 
     # Render other UI components
-    render_sample_elements()
+    # render_sample_elements()
 
     st.sidebar.title("Navigation")
     option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])

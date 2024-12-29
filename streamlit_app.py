@@ -25,7 +25,7 @@ def main():
     #     st.write("Use the sidebar to navigate.")
     # elif option == "Sign In":
     #     st.title("Sign In Page")
-        authentication_main()  # Call the authentication logic from authentication.py
+    #     authentication_main()  # Call the authentication logic from authentication.py
 
 
 if __name__ == "__main__":

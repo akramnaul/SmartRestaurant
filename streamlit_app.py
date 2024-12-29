@@ -5,12 +5,5 @@ import streamlit as st
 # from authentication import authenticate_user
 
 
-st.sidebar.title("Navigation")
-option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])
-
-if option == "Home":
-   st.title("Welcome to the Restaurant Management App!")
-   st.write("Use the sidebar to navigate.")
-elif option == "Sign In":
-     st.title("Sign In Page")
-     # authentication_main()  # Call the authentication logic from authentication.py
+st.title("Welcome to the Restaurant Management App!")
+st.title("Sign In Page")

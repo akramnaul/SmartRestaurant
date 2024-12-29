@@ -8,8 +8,8 @@ import streamlit as st
 st.set_page_config(
     page_title="Restaurant Management App",
     page_icon="🍽️",
-    layout="wide",  # Options: "centered", "wide"
-    initial_sidebar_state="auto",  # Options: "expanded", "collapsed", "auto"
+    layout="wide",
+    initial_sidebar_state="auto",
 )
 
 # Custom CSS
@@ -18,10 +18,10 @@ st.markdown(
     <style>
     body {
         font-family: 'Arial', sans-serif;
-        font-size: 6px;
+        font-size: 14px;
     }
     .stTitle {
-        font-size: 10px;
+        font-size: 24px;
         color: #2E86C1;
         text-align: center;
     }
@@ -34,6 +34,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Titles
 st.title("Welcome to the Restaurant Management App!")
 st.title("Sign In Page")
+
 

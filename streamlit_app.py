@@ -18,12 +18,16 @@ st.markdown(
     <style>
     body {
         font-family: 'Arial', sans-serif;
-        font-size: 16px;
+        font-size: 6px;
     }
     .stTitle {
-        font-size: 30px;
+        font-size: 10px;
         color: #2E86C1;
         text-align: center;
+    }
+    [data-testid="stToolbar"] {
+        visibility: hidden;
+        height: 0;
     }
     </style>
     """,

@@ -1,9 +1,9 @@
 import streamlit as st
-# from global_variables import *
-# from db_connection import get_mysql_data
-# from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
-# from ui_components import render_header, render_data, render_sample_elements
-# from authentication import authenticate_user
+from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+from global_variables import *
+from db_connection import get_mysql_data
+from ui_components import render_header, render_data, render_sample_elements
+from authentication import authenticate_user
 
 # Page Configuration
 st.set_page_config(
@@ -36,3 +36,5 @@ st.markdown(
 st.title("SmartRestaurant : Sign In Page")
 # Body
 st.write("Try signing in here with valid credentials")
+
+

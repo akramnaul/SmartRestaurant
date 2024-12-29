@@ -26,10 +26,10 @@ st.markdown(
         color: #2E86C1;
         text-align: center;
     }
-    [data-testid="stToolbar"] {
-        visibility: hidden;
-        height: 0;
-    }
+#    [data-testid="stToolbar"] {
+#        visibility: hidden;
+#        height: 0;
+#    }
     </style>
     """,
     unsafe_allow_html=True

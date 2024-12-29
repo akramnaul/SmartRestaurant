@@ -19,11 +19,11 @@ st.markdown(
     <style>
     body {
         font-family: 'Times New Roman', serif;
-        font-size: 16px !important;
+        font-size: 8px !important;
     }
     h1 {
         font-family: 'Times New Roman', serif;
-        font-size: 32px !important;
+        font-size: 12px !important;
         color: #2E86C1 !important;
         text-align: center;
     }

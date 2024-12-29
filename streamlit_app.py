@@ -19,10 +19,10 @@ st.markdown(
     <style>
     body {
         font-family: 'Arial', sans-serif;
-        font-size: 14px;
+        font-size: 8px;
     }
     .stTitle {
-        font-size: 24px;
+        font-size: 12px;
         color: #2E86C1;
         text-align: center;
     }

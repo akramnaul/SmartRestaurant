@@ -4,8 +4,6 @@ import streamlit as st
 # from ui_components import render_header, render_data, render_sample_elements
 # from authentication import authenticate_user
 
-# Main app execution
-def main():
 
     st.sidebar.title("Navigation")
     option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])

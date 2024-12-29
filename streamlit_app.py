@@ -6,7 +6,6 @@ import streamlit as st
 
 # Main app execution
 def main():
-    render_header()
 
     st.sidebar.title("Navigation")
     option = st.sidebar.radio("Select a page:", ["Home", "Sign In"])
@@ -17,7 +16,3 @@ def main():
     elif option == "Sign In":
         st.title("Sign In Page")
         # authentication_main()  # Call the authentication logic from authentication.py
-
-
-if __name__ == "__main__":
-    main()

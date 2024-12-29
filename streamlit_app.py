@@ -1,9 +1,9 @@
 import streamlit as st
-from global_variables import *
-from db_connection import get_mysql_data
-from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
-from ui_components import render_header, render_data, render_sample_elements
-from authentication import authenticate_user
+# from global_variables import *
+# from db_connection import get_mysql_data
+# from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+# from ui_components import render_header, render_data, render_sample_elements
+# from authentication import authenticate_user
 
 # Page Configuration
 st.set_page_config(
@@ -19,17 +19,14 @@ st.markdown(
     <style>
     body {
         font-family: 'Times New Roman', serif;
-        font-size: 8px;
+        font-size: 16px !important;
     }
-    .stTitle {
-        font-size: 12px;
-        color: #2E86C1;
+    h1 {
+        font-family: 'Times New Roman', serif;
+        font-size: 32px !important;
+        color: #2E86C1 !important;
         text-align: center;
     }
-#    [data-testid="stToolbar"] {
-#        visibility: hidden;
-#        height: 0;
-#    }
     </style>
     """,
     unsafe_allow_html=True
@@ -38,8 +35,3 @@ st.markdown(
 # Titles
 st.title("Welcome to the Restaurant Management App!")
 st.title("Sign In Page")
-
-
-
-
-

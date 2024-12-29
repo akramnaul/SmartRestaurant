@@ -19,11 +19,11 @@ st.markdown(
     <style>
     body {
         font-family: 'Times New Roman', serif;
-        font-size: 12px !important;
+        font-size: 8px !important;
     }
     h1 {
         font-family: 'Times New Roman', serif;
-        font-size: 24px !important;
+        font-size: 14px !important;
         color: #2E86C1 !important;
         text-align: left;
     }
@@ -34,5 +34,5 @@ st.markdown(
 
 # Titles
 st.title("SmartRestaurant : Sign In Page")
-
+# Body
 st.write("Try signing in here with valid credentials")

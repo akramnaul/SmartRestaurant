@@ -7,7 +7,7 @@ import streamlit as st
 
 # Page Configuration
 st.set_page_config(
-    page_title="Restaurant Management App",
+    page_title="SmartRestaurant",
     page_icon="🍽️",
     layout="wide",
     initial_sidebar_state="auto",
@@ -19,13 +19,13 @@ st.markdown(
     <style>
     body {
         font-family: 'Times New Roman', serif;
-        font-size: 8px !important;
+        font-size: 12px !important;
     }
     h1 {
         font-family: 'Times New Roman', serif;
-        font-size: 12px !important;
+        font-size: 24px !important;
         color: #2E86C1 !important;
-        text-align: center;
+        text-align: left;
     }
     </style>
     """,
@@ -33,5 +33,7 @@ st.markdown(
 )
 
 # Titles
-st.title("Welcome to the Restaurant Management App!")
+st.title("SmartRestaurant !")
 st.title("Sign In Page")
+
+st.write("Try signing in here with valid credentials")

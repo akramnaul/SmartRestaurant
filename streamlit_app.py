@@ -18,7 +18,7 @@ st.markdown(
     """
     <style>
     body {
-        font-family: 'Arial', sans-serif;
+        font-family: 'Times New Roman', serif;
         font-size: 8px;
     }
     .stTitle {

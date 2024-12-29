@@ -33,6 +33,6 @@ st.markdown(
 )
 
 # Titles
-st.title("SmartRestaurant\nSign In Page")
+st.title("SmartRestaurant : Sign In Page")
 
 st.write("Try signing in here with valid credentials")

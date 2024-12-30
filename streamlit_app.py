@@ -28,6 +28,4 @@ def main():
         render_data()  # Example of rendering some data
         render_sample_elements()  # Example of rendering other UI elements
 
-if __name__ == "__main__":
-    main()
 

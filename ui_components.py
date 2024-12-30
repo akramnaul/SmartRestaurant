@@ -2,9 +2,9 @@ import streamlit as st
 
 def render_header():
     """Render the main header of the Streamlit app."""
-    st.header("StreamlitPage Header: My Header")
-    st.title("StreamlitPage Title")
-    st.write("Hello StreamlitPage!")
+    st.header("SmartRestaurant")
+    st.title("Signin")
+    # st.write("Hello StreamlitPage!")
 
 def render_data(tables, procedures):
     """

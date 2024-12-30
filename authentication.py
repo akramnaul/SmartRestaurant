@@ -9,6 +9,7 @@ def authenticate_user(restaurant, user, password):
     conn = None
     cursor = None
     try:
+        # Establish database connection
         conn = mysql.connector.connect(
             host=DB_HOST,
             user=DB_USER,
@@ -17,29 +18,40 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Call stored procedure with OUT parameters
-        cursor.callproc('RestaurantSignin', [
-            restaurant, user, password, None, None, None
-        ])
+        # Call the stored procedure
+        cursor.callproc('RestaurantSignin', [restaurant, user, password, None, None, None])
 
-        # Fetch results
+        # Initialize `out_params` with default values
+        out_params = None
+
+        # Fetch results from the stored procedure
         for result in cursor.stored_results():
             out_params = result.fetchone()
 
+        # Check if results were retrieved
         if out_params:
             return {
-                'pRestaurantUserName': out_params[0],
-                'pStatus': bool(out_params[1]),
-                'pStatusCheck': out_params[2]
+                'pRestaurantUserName': out_params[0] if out_params[0] else "Unknown",
+                'pStatus': bool(out_params[1]) if out_params[1] is not None else False,
+                'pStatusCheck': out_params[2] if out_params[2] else "No status check available"
             }
         else:
-            return {'error': 'No data returned from stored procedure.'}
+            # No results were returned by the stored procedure
+            return {
+                'error': 'Stored procedure executed but returned no data.',
+                'pRestaurantUserName': None,
+                'pStatus': False,
+                'pStatusCheck': "No status check available"
+            }
 
     except mysql.connector.Error as err:
+        # Handle database connection errors
         return {'error': f"MySQL error: {str(err)}"}
     except Exception as e:
+        # Handle unexpected exceptions
         return {'error': f"Unexpected error: {str(e)}"}
     finally:
+        # Ensure resources are cleaned up
         if cursor:
             cursor.close()
         if conn:

@@ -6,40 +6,49 @@ def authenticate_user(restaurant, user, password):
     """
     Authenticate a user by calling the RestaurantSignin stored procedure.
     """
+    conn = None
+    cursor = None  # Initialize cursor to prevent UnboundLocalError
+
     try:
+        # Establish the connection
         conn = mysql.connector.connect(
             host="localhost",  # Update with your DB host
             user="root",       # Update with your DB user
             password="password",  # Update with your DB password
             database="restaurant_db"  # Update with your DB name
         )
-        cursor = conn.cursor()
+        
+        # Ensure cursor is created only if the connection is successful
+        if conn.is_connected():
+            cursor = conn.cursor()
 
-        # Set output parameters
-        cursor.execute("SET @pRestaurantUserName = NULL;")
-        cursor.execute("SET @pStatus = NULL;")
-        cursor.execute("SET @pStatusCheck = NULL;")
+            # Set output parameters
+            cursor.execute("SET @pRestaurantUserName = NULL;")
+            cursor.execute("SET @pStatus = NULL;")
+            cursor.execute("SET @pStatusCheck = NULL;")
 
-        # Call the stored procedure
-        cursor.callproc("RestaurantSignin", [
-            restaurant, user, password,
-            '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
-        ])
+            # Call the stored procedure
+            cursor.callproc("RestaurantSignin", [
+                restaurant, user, password,
+                '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
+            ])
 
-        # Fetch output parameters
-        cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
-        out_params = cursor.fetchone()
+            # Fetch output parameters
+            cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+            out_params = cursor.fetchone()
 
-        if out_params:
-            return {
-                'pRestaurantUserName': out_params[0],
-                'pStatus': bool(out_params[1]),
-                'pStatusCheck': out_params[2]
-            }
+            if out_params:
+                return {
+                    'pRestaurantUserName': out_params[0],
+                    'pStatus': bool(out_params[1]),
+                    'pStatusCheck': out_params[2]
+                }
+            else:
+                return {
+                    'error': 'Stored procedure executed but returned no data.'
+                }
         else:
-            return {
-                'error': 'Stored procedure executed but returned no data.'
-            }
+            return {'error': 'Failed to connect to the database.'}
 
     except mysql.connector.Error as err:
         return {'error': f"MySQL error: {err}"}
@@ -47,9 +56,9 @@ def authenticate_user(restaurant, user, password):
         return {'error': f"Unexpected error: {e}"}
     finally:
         if cursor:
-            cursor.close()
+            cursor.close()  # Ensure cursor is closed if it's created
         if conn:
-            conn.close()
+            conn.close()  # Ensure connection is closed
 
 def render_authentication_ui():
     """

@@ -44,14 +44,20 @@ render_header()
 st.header("SmartRestaurant - Sign In")
 
 # Render the authentication UI
-auth_response = render_authentication_ui()
+# In streamlit_app.py
 
-if auth_response:
-    st.write("Proceeding with the application...")
+from authentication import render_authentication_ui
 
-# If authenticated, proceed to display details
-if auth_response:
-    st.write("**Authentication Successful!**")
-    st.write(f"**User Name:** {auth_response['pRestaurantUserName']}")
-    st.write(f"**Status:** {'Success' if auth_response['pStatus'] else 'Failed'}")
-    st.write(f"**Status Check Message:** {auth_response['pStatusCheck']}")
+# Assuming this is where you call the render_authentication_ui function
+response = render_authentication_ui()
+
+# Check if response contains error or not
+if 'error' in response:
+    st.error(response['error'])
+else:
+    if response.get('pStatus') == 1:
+        st.success(f"Welcome, {response['pRestaurantUserName']}!")
+        st.info(response['pStatusCheck'])
+    else:
+        st.warning("Authentication failed.")
+        st.info(response['pStatusCheck'])

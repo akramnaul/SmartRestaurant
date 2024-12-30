@@ -13,7 +13,7 @@ def authenticate_user(restaurant, user, password):
         password (str): User password.
 
     Returns:
-        dict: OUT parameters from the stored procedure.
+        dict: OUT parameters from the stored procedure or error message.
     """
     try:
         conn = mysql.connector.connect(
@@ -24,40 +24,33 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Define OUT parameter variables
-        cursor.execute("SET @pRestaurantUserName = '';")
-        cursor.execute("SET @pStatus = 0;")
-        cursor.execute("SET @pStatusCheck = '';")
-
-        # Call the stored procedure
+        # Call the stored procedure with placeholders for OUT parameters
         cursor.callproc('RestaurantSignin', [
             restaurant, user, password,
             '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
         ])
 
-        # Fetch the OUT parameters
+        # Fetch OUT parameters
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
         cursor.close()
         conn.close()
 
-        # Return a dictionary with OUT parameters
         if result:
             return {
                 'pRestaurantUserName': result[0],
-                'pStatus': result[1],
+                'pStatus': int(result[1]),
                 'pStatusCheck': result[2]
             }
         else:
             return {'error': 'No result from the procedure.'}
-
     except mysql.connector.Error as err:
-        return {'error': str(err)}
+        return {'error': f"Database error: {str(err)}"}
 
 # Streamlit UI for authentication
-def main():
-    st.title("Restaurant Sign-In")
+def render_authentication_ui():
+    st.subheader("Restaurant Sign-In")
 
     with st.form("signin_form"):
         restaurant = st.text_input("Restaurant Name", help="Enter your restaurant's name.")
@@ -68,28 +61,20 @@ def main():
     if submitted:
         if not restaurant or not user or not password:
             st.error("All fields are mandatory.")
-            return
+            return None
 
-        # Call the authentication function
+        # Authenticate the user
         response = authenticate_user(restaurant, user, password)
 
         if 'error' in response:
-            st.error(f"Database error: {response['error']}")
+            st.error(response['error'])
+            return None
+
+        if response['pStatus']:
+            st.success(f"Welcome, {response['pRestaurantUserName']}!")
+            st.info(response['pStatusCheck'])
+            return response  # Successful authentication
         else:
-            pRestaurantUserName = response['pRestaurantUserName']
-            pStatus = response['pStatus']
-            pStatusCheck = response['pStatusCheck']
-
-            if pStatus:
-                st.success(f"Welcome, {pRestaurantUserName}!")
-                st.info(pStatusCheck)
-                # Proceed with registered user operations
-                st.write("Proceeding with registered user operations...")
-            else:
-                st.warning("Authentication failed.")
-                st.info(pStatusCheck)
-                # Proceed with unregistered user operations
-                st.write("Proceeding with unregistered user operations...")
-
-if __name__ == "__main__":
-    main()
+            st.warning("Authentication failed.")
+            st.info(response['pStatusCheck'])
+            return None  # Failed authentication

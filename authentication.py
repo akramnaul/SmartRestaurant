@@ -5,19 +5,10 @@ from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 def authenticate_user(restaurant, user, password):
     """
     Authenticate a user by calling the RestaurantSignin Stored Procedure.
-
-    Args:
-        restaurant (str): Restaurant name.
-        user (str): User name.
-        password (str): User password.
-
-    Returns:
-        dict: OUT parameters from the Stored Procedure.
     """
     conn = None
     cursor = None
     try:
-        # Establish the connection
         conn = mysql.connector.connect(
             host=DB_HOST,
             user=DB_USER,
@@ -26,33 +17,23 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Define and initialize OUT Parameter Variables
-        cursor.execute("SET @pRestaurantUserName = NULL;")
-        cursor.execute("SET @pStatus = NULL;")
-        cursor.execute("SET @pStatusCheck = NULL;")
-
-        # Call the stored procedure
+        # Call stored procedure with OUT parameters
         cursor.callproc('RestaurantSignin', [
-            restaurant, user, password,
-            '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
+            restaurant, user, password, None, None, None
         ])
 
-        # Fetch the OUT parameters
-        cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
-        result = cursor.fetchone()
+        # Fetch results
+        for result in cursor.stored_results():
+            out_params = result.fetchone()
 
-        # Validate and return results
-        if result:
+        if out_params:
             return {
-                'pRestaurantUserName': result[0] or "Unknown",
-                'pStatus': bool(result[1]) if result[1] is not None else False,
-                'pStatusCheck': result[2] or "No status check available"
+                'pRestaurantUserName': out_params[0],
+                'pStatus': bool(out_params[1]),
+                'pStatusCheck': out_params[2]
             }
         else:
-            return {
-                'error': 'Procedure executed but returned incomplete or null values.',
-                'raw_result': result
-            }
+            return {'error': 'No data returned from stored procedure.'}
 
     except mysql.connector.Error as err:
         return {'error': f"MySQL error: {str(err)}"}
@@ -66,22 +47,21 @@ def authenticate_user(restaurant, user, password):
 
 def render_authentication_ui():
     """
-    Streamlit UI for the authentication process.
+    Streamlit UI for user authentication.
     """
     st.subheader("Restaurant Signin")
 
     with st.form("signin_form"):
-        restaurant = st.text_input("Restaurant Name", help="Enter your restaurant's name.")
-        user = st.text_input("User Name", help="Enter your username.")
-        password = st.text_input("Password", type="password", help="Enter your password.")
+        restaurant = st.text_input("Restaurant Name")
+        user = st.text_input("User Name")
+        password = st.text_input("Password", type="password")
         submitted = st.form_submit_button("Signin")
 
     if submitted:
         if not restaurant or not user or not password:
-            st.error("All fields are mandatory.")
+            st.error("All fields are required.")
             return None
 
-        # Authenticate the user
         response = authenticate_user(restaurant, user, password)
 
         if 'error' in response:
@@ -91,35 +71,8 @@ def render_authentication_ui():
         if response.get('pStatus'):
             st.success(f"Welcome, {response['pRestaurantUserName']}!")
             st.info(response['pStatusCheck'])
-            return response  # Return full response on successful authentication
+            return response
         else:
             st.warning("Authentication failed.")
-            st.info(response['pStatusCheck'])
-            return None  # Return None on failed authentication
-
-# Call the stored procedure directly with OUT parameters
-cursor.callproc('RestaurantSignin', [
-    restaurant, user, password,  # IN parameters
-    None, None, None  # Placeholder for OUT parameters
-])
-
-# Fetch OUT parameters from the cursor
-for result in cursor.stored_results():
-    out_params = result.fetchall()[0]  # Get the first row
-    break  # Exit after fetching one result set
-
-# Validate and return results
-if out_params:
-    pRestaurantUserName = out_params[0]
-    pStatus = bool(out_params[1])
-    pStatusCheck = out_params[2]
-
-    return {
-        'pRestaurantUserName': pRestaurantUserName,
-        'pStatus': pStatus,
-        'pStatusCheck': pStatusCheck
-    }
-else:
-    return {'error': 'Procedure executed but returned no data.'}
-
-
+            st.info(response.get('pStatusCheck'))
+            return None

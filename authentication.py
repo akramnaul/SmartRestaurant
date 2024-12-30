@@ -18,26 +18,33 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Call the stored procedure
-        cursor.callproc('RestaurantSignin', [restaurant, user, password, None, None, None])
+        # Initialize OUT parameter placeholders
+        cursor.execute("SET @pRestaurantUserName = NULL;")
+        cursor.execute("SET @pStatus = NULL;")
+        cursor.execute("SET @pStatusCheck = NULL;")
 
-        # Fetch OUT parameter values after execution
+        # Call the stored procedure
+        cursor.callproc('RestaurantSignin', [restaurant, user, password, '@pRestaurantUserName', '@pStatus', '@pStatusCheck'])
+
+        # Fetch OUT parameter values
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         out_params = cursor.fetchone()
 
-        # Debugging: Print fetched results
-        print(f"DEBUG: Fetched OUT parameters: {out_params}")
+        # Debugging: Log the OUT parameters
+        print(f"DEBUG: OUT Parameters: {out_params}")
 
-        # Check if OUT parameters are populated
+        # Process and return results
         if out_params:
+            pRestaurantUserName = out_params[0] if out_params[0] else "Unknown"
+            pStatus = bool(out_params[1]) if out_params[1] is not None else False
+            pStatusCheck = out_params[2] if out_params[2] else "No status check available"
+
             return {
-                'pRestaurantUserName': out_params[0] if out_params[0] else "Unknown",
-                'pStatus': bool(out_params[1]) if out_params[1] is not None else False,
-                'pStatusCheck': out_params[2] if out_params[2] else "No status check available"
+                'pRestaurantUserName': pRestaurantUserName,
+                'pStatus': pStatus,
+                'pStatusCheck': pStatusCheck
             }
         else:
-            # Debug: No data was returned
-            print("DEBUG: Stored procedure executed but returned no data.")
             return {
                 'error': 'Stored procedure executed but returned no data.',
                 'pRestaurantUserName': None,
@@ -46,15 +53,12 @@ def authenticate_user(restaurant, user, password):
             }
 
     except mysql.connector.Error as err:
-        # Debug: Log MySQL errors
         print(f"DEBUG: MySQL error: {str(err)}")
         return {'error': f"MySQL error: {str(err)}"}
     except Exception as e:
-        # Debug: Log unexpected errors
         print(f"DEBUG: Unexpected error: {str(e)}")
         return {'error': f"Unexpected error: {str(e)}"}
     finally:
-        # Ensure cleanup
         if cursor:
             cursor.close()
         if conn:

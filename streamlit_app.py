@@ -27,28 +27,34 @@ def connect_to_db():
         st.error(f"Error: {e}")
         return None
 
-# Function to execute a stored procedure and handle OUT parameters
+# Function to execute a stored procedure and retrieve OUT parameters
 def execute_stored_procedure(proc_name, in_params, out_param_count):
     try:
         connection = connect_to_db()
         if connection is not None:
             cursor = connection.cursor()
 
-            # Prepare parameters (IN and OUT)
-            params = list(in_params) + [None] * out_param_count
-            
-            # Call the stored procedure
-            cursor.callproc(proc_name, params)
+            # Define @variables for OUT parameters
+            out_vars = [f"@out{i}" for i in range(1, out_param_count + 1)]
 
-            # Fetch results
-            st.write("Stored Procedure Execution Results:")
-            for result in cursor.stored_results():
-                st.write(result.fetchall())
+            # Build the parameter list for the procedure
+            params = ", ".join(
+                [f"'{param}'" for param in in_params] + out_vars
+            )
 
-            # Fetch OUT parameters
+            # Execute the stored procedure
+            call_proc_query = f"CALL {proc_name}({params});"
+            cursor.execute(call_proc_query)
+
+            # Retrieve the OUT parameter values
+            out_values_query = f"SELECT {', '.join(out_vars)};"
+            cursor.execute(out_values_query)
+            out_values = cursor.fetchone()
+
+            # Display OUT parameters
             st.write("OUT Parameters:")
-            for i in range(len(in_params), len(params)):
-                st.write(f"OUT Param {i - len(in_params) + 1}: {params[i]}")
+            for i, value in enumerate(out_values, start=1):
+                st.write(f"OUT Param {i}: {value}")
 
             cursor.close()
             connection.close()

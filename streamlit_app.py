@@ -1,93 +1,65 @@
 import streamlit as st
-from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, APP_NAME, VERSION, CURRENT_USER, IS_AUTHENTICATED, USER_ROLE, ERROR_MESSAGES, SUCCESS_MESSAGES, GUIDELINES
-# from db_connection import get_mysql_data
-from authentication import render_authentication_ui
-from ui_components import render_header, render_data, render_sample_elements
-import mysql.connector  # Ensure this import is at the top of your file
+import mysql.connector
+from mysql.connector import Error
 
+# Database configuration
+DB_HOST = '192.95.14.153'
+DB_USER = 'webbuilderuser'
+DB_PASSWORD = 'm7xXGk6scyBv1iPORvmJ'
+DB_NAME = 'Rest'
 
-# Page Configuration
-st.set_page_config(
-    page_title="SmartRestaurant",
-    page_icon="🍽️",
-    layout="wide",
-    initial_sidebar_state="auto",
-)
-
-# Custom CSS
-st.markdown(
-    """
-    <style>
-    body {
-        font-family: 'Times New Roman', serif;
-        font-size: 8px !important;
-    }
-    h1 {
-        font-family: 'Times New Roman', serif;
-        font-size: 14px !important;
-        color: #2E86C1 !important;
-        text-align: left;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# Titles
-# st.title("SmartRestaurant : Sign In Page")
-# Body
-# st.write("Try signing in here with valid credentials")
-
-# Render the header (example of including modular UI components)
-render_header()
-
-# Render the authentication UI
-# Render the header
-# st.header("SmartRestaurant - Sign In")
-
-
-
-
-def test_db_connection():
-    conn = None  # Initialize conn to None before using it
+# Function to connect to the database and test stored procedures
+def connect_to_db():
     try:
-        conn = mysql.connector.connect(
+        # Establishing the connection
+        connection = mysql.connector.connect(
             host=DB_HOST,
             user=DB_USER,
             password=DB_PASSWORD,
             database=DB_NAME
         )
-        if conn.is_connected():
-            print("Connection successful!")
+        
+        if connection.is_connected():
+            st.success("Successfully connected to the database!")
+            return connection
         else:
-            print("Connection failed!")
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-    finally:
-        if conn:
-            conn.close()
+            st.error("Failed to connect to the database.")
+            return None
+            
+    except Error as e:
+        st.error(f"Error: {e}")
+        return None
 
-# Test the database connection
-test_db_connection()
-
-
-
-
-# Render authentication UI and get the response
-response = render_authentication_ui()
-
-if response:
-    if 'error' in response:
-        st.error(f"Error: {response['error']}")
-        if 'raw_result' in response:
-            st.warning(f"Raw result from the stored procedure: {response['raw_result']}")
-    else:
-        if response.get('pStatus') == 1:
-            st.success(f"Welcome, {response['pRestaurantUserName']}!")
-            st.info(response['pStatusCheck'])
+# Function to execute a stored procedure
+def execute_stored_procedure(proc_name, params=None):
+    try:
+        connection = connect_to_db()
+        if connection is not None:
+            cursor = connection.cursor()
+            
+            # Call stored procedure
+            cursor.callproc(proc_name, params if params else [])
+            
+            # Fetch and display results from OUT parameters (if any)
+            for result in cursor.stored_results():
+                st.write("Stored Procedure Result:", result.fetchall())
+            
+            cursor.close()
+            connection.close()
         else:
-            st.warning("Authentication failed.")
-            st.info(response['pStatusCheck'])
-else:
-    st.error("No response received from authentication.")
+            st.error("Unable to execute stored procedure, database connection failed.")
+    
+    except Error as e:
+        st.error(f"Error: {e}")
 
+# Streamlit UI
+st.title("MySQL Database Connection and Stored Procedure Testing")
+
+# Input for stored procedure name and parameters
+proc_name = st.text_input("Enter Stored Procedure Name", "your_procedure_name_here")
+params_input = st.text_area("Enter Parameters (comma-separated)", "param1,param2")
+
+# Execute the stored procedure when the button is pressed
+if st.button("Test Stored Procedure"):
+    params = tuple(map(str, params_input.split(','))) if params_input else None
+    execute_stored_procedure(proc_name, params)

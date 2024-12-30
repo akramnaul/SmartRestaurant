@@ -5,14 +5,14 @@ from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 def authenticate_user(restaurant, user, password):
     """
     Authenticate a user by calling the RestaurantSignin Stored Procedure.
-    
+
     Args:
         restaurant (str): Restaurant name.
         user (str): User name.
         password (str): User password.
 
     Returns:
-        dict: OUT parameters from the Stored Procedure : @pRestaurantUserName, @pStatus (BOOLEAN), @pStatusCheck
+        dict: OUT parameters from the Stored Procedure.
     """
     conn = None
     cursor = None
@@ -26,9 +26,9 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Define OUT Parameter Variables
+        # Define and initialize OUT Parameter Variables
         cursor.execute("SET @pRestaurantUserName = NULL;")
-        cursor.execute("SET @pStatus = NULL;")  # BOOLEAN type, should be TRUE or FALSE
+        cursor.execute("SET @pStatus = NULL;")
         cursor.execute("SET @pStatusCheck = NULL;")
 
         # Call the stored procedure
@@ -41,44 +41,33 @@ def authenticate_user(restaurant, user, password):
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
-        # Debug: Log the raw result
-        print(f"DEBUG: Raw result from stored procedure: {result}")
-
         # Validate and return results
         if result:
-            pRestaurantUserName = result[0] if result[0] else "Unknown"
-            pStatus = bool(result[1]) if result[1] is not None else False
-            pStatusCheck = result[2] if result[2] else "No status check available"
-            
             return {
-                'pRestaurantUserName': pRestaurantUserName,
-                'pStatus': pStatus,
-                'pStatusCheck': pStatusCheck
+                'pRestaurantUserName': result[0] or "Unknown",
+                'pStatus': bool(result[1]) if result[1] is not None else False,
+                'pStatusCheck': result[2] or "No status check available"
             }
         else:
-            # Debug: Include raw result in the error message
             return {
                 'error': 'Procedure executed but returned incomplete or null values.',
-                'raw_result': result,
-                'pRestaurantUserName': result[0] if result else None,
-                'pStatus': result[1] if result else None,
-                'pStatusCheck': result[2] if result else None
+                'raw_result': result
             }
 
     except mysql.connector.Error as err:
         return {'error': f"MySQL error: {str(err)}"}
     except Exception as e:
         return {'error': f"Unexpected error: {str(e)}"}
-
     finally:
-        # Ensure cleanup
         if cursor:
             cursor.close()
         if conn:
             conn.close()
 
-# Streamlit UI for authentication
 def render_authentication_ui():
+    """
+    Streamlit UI for the authentication process.
+    """
     st.subheader("Restaurant Signin")
 
     with st.form("signin_form"):
@@ -99,11 +88,11 @@ def render_authentication_ui():
             st.error(response['error'])
             return None
 
-        if response['pStatus']:
+        if response.get('pStatus'):
             st.success(f"Welcome, {response['pRestaurantUserName']}!")
             st.info(response['pStatusCheck'])
-            return response  # Successful authentication
+            return response  # Return full response on successful authentication
         else:
             st.warning("Authentication failed.")
             st.info(response['pStatusCheck'])
-            return None  # Failed authentication
+            return None  # Return None on failed authentication

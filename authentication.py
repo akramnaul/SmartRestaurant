@@ -12,7 +12,7 @@ def authenticate_user(restaurant, user, password):
         password (str): User password.
 
     Returns:
-        dict: OUT parameters from the Stored Procedure : @pRestaurantUserName, @pStatus, @pStatusCheck
+        dict: OUT parameters from the Stored Procedure : @pRestaurantUserName, @pStatus (BOOLEAN), @pStatusCheck
     """
     conn = None
     cursor = None
@@ -28,7 +28,7 @@ def authenticate_user(restaurant, user, password):
 
         # Define OUT Parameter Variables
         cursor.execute("SET @pRestaurantUserName = NULL;")
-        cursor.execute("SET @pStatus = NULL;")
+        cursor.execute("SET @pStatus = NULL;")  # BOOLEAN type, should be TRUE or FALSE
         cursor.execute("SET @pStatusCheck = NULL;")
 
         # Call the stored procedure
@@ -45,7 +45,7 @@ def authenticate_user(restaurant, user, password):
         if result and all(result):
             return {
                 'pRestaurantUserName': result[0] or "Unknown",
-                'pStatus': int(result[1]) if result[1] is not None else 0,
+                'pStatus': bool(result[1]) if result[1] is not None else False,  # Convert to BOOLEAN
                 'pStatusCheck': result[2] or "No status check available"
             }
         else:

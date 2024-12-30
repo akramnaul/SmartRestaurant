@@ -50,13 +50,13 @@ def authenticate_user(restaurant, user, password):
 
 # Streamlit UI for authentication
 def render_authentication_ui():
-    st.subheader("Restaurant Sign-In")
+    st.subheader("Restaurant Signin")
 
     with st.form("signin_form"):
         restaurant = st.text_input("Restaurant Name", help="Enter your restaurant's name.")
         user = st.text_input("User Name", help="Enter your username.")
         password = st.text_input("Password", type="password", help="Enter your password.")
-        submitted = st.form_submit_button("Sign In")
+        submitted = st.form_submit_button("Signin")
 
     if submitted:
         if not restaurant or not user or not password:

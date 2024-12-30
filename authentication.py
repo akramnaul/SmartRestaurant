@@ -41,7 +41,7 @@ def authenticate_user(restaurant, user, password):
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
-        # Log the result for debugging
+        # Debug: Log the raw result
         print(f"DEBUG: Raw result from stored procedure: {result}")
 
         # Validate and return results
@@ -56,7 +56,7 @@ def authenticate_user(restaurant, user, password):
                 'pStatusCheck': pStatusCheck
             }
         else:
-            # If no result, return error
+            # Debug: Return the raw result if no data is returned
             return {
                 'error': 'Procedure executed but returned incomplete or null values.',
                 'raw_result': result,
@@ -76,6 +76,18 @@ def authenticate_user(restaurant, user, password):
             cursor.close()
         if conn:
             conn.close()
+
+    if response.get('pStatus') == 1:
+        st.success(f"Welcome, {response['pRestaurantUserName']}!")
+        st.info(response['pStatusCheck'])
+        return response  # Successful authentication
+    else:
+        st.warning("Authentication failed.")
+        st.info(response['pStatusCheck'])  # Display status message from procedure
+        return None  # Failed authentication
+
+    print(f"DEBUG: Auth Response: {response}")
+
 
 def render_authentication_ui():
     """

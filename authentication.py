@@ -96,3 +96,11 @@ def render_authentication_ui():
             st.warning("Authentication failed.")
             st.info(response['pStatusCheck'])
             return None  # Return None on failed authentication
+
+# After fetching OUT parameters
+cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+result = cursor.fetchone()
+
+# Log the result for debugging
+print(f"DEBUG: OUT Parameters - @pRestaurantUserName: {result[0]}, @pStatus: {result[1]}, @pStatusCheck: {result[2]}")
+

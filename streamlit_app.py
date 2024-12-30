@@ -41,10 +41,27 @@ render_header()
 
 # Render the authentication UI
 # Render the header
-st.header("SmartRestaurant - Sign In")
+# st.header("SmartRestaurant - Sign In")
 
-# Render the authentication UI
-# In streamlit_app.py
+def test_db_connection():
+    try:
+        conn = mysql.connector.connect(
+            host="localhost",  # Ensure this is correct for your setup
+            user="your_user",
+            password="your_password",
+            database="your_database"
+        )
+        if conn.is_connected():
+            print("Connection successful!")
+        else:
+            print("Connection failed!")
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    finally:
+        if conn:
+            conn.close()
+
+test_db_connection()
 
 # Render authentication UI and get the response
 response = render_authentication_ui()

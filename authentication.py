@@ -2,16 +2,18 @@ import streamlit as st
 import mysql.connector
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 
+import mysql.connector
+
 def authenticate_user(restaurant, user, password):
     conn = None
     cursor = None
     try:
-        # Establish connection to the MySQL database
+        # Establish connection to MySQL
         conn = mysql.connector.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME
+            host=DB_HOST,  # Ensure correct host
+            user=DB_USER,  # Ensure correct username
+            password=DB_PASSWORD,  # Ensure correct password
+            database=DB_NAME  # Ensure correct database
         )
         cursor = conn.cursor()
 
@@ -30,8 +32,8 @@ def authenticate_user(restaurant, user, password):
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
-        # Debugging output for parameters
-        print(f"DEBUG: Raw result: {result}")
+        # Debugging: log the output
+        print(f"DEBUG: Raw result from stored procedure: {result}")
 
         if result:
             pRestaurantUserName = result[0] if result[0] else "Unknown"
@@ -45,7 +47,7 @@ def authenticate_user(restaurant, user, password):
                 'pStatusCheck': pStatusCheck
             }
         else:
-            print("DEBUG: No result returned")
+            print("DEBUG: No result returned from stored procedure.")
             return {
                 'error': 'No result returned from the stored procedure.'
             }
@@ -63,18 +65,6 @@ def authenticate_user(restaurant, user, password):
             cursor.close()
         if conn:
             conn.close()
-
-    response = authenticate_user(restaurant, user, password)
-    
-    if 'error' in response:
-        st.error(response['error'])
-    else:
-        if response.get('pStatus') == 1:
-            st.success(f"Welcome, {response['pRestaurantUserName']}!")
-            st.info(response['pStatusCheck'])
-        else:
-            st.warning("Authentication failed.")
-            st.info(response['pStatusCheck'])
 
 
 
@@ -98,16 +88,17 @@ def render_authentication_ui():
             st.error("All fields are required!")
             return
 
-        response = authenticate_user(restaurant, user, password)
-
-        if 'error' in response:
-            st.error(response['error'])
-        elif response.get('pStatus'):
+    response = authenticate_user(restaurant, user, password)
+    
+    if 'error' in response:
+        st.error(response['error'])
+    else:
+        if response.get('pStatus') == 1:
             st.success(f"Welcome, {response['pRestaurantUserName']}!")
             st.info(response['pStatusCheck'])
         else:
-            st.error("Authentication failed.")
-            st.warning(response.get('pStatusCheck', "No status check available."))
+            st.warning("Authentication failed.")
+            st.info(response['pStatusCheck'])
 
 if __name__ == "__main__":
     render_authentication_ui()

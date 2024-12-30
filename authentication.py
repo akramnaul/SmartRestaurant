@@ -28,7 +28,7 @@ def authenticate_user(restaurant, user, password):
 
         # Define OUT Parameter Variables
         cursor.execute("SET @pRestaurantUserName = NULL;")
-        cursor.execute("SET @pStatus = NULL;")  # BOOLEAN type, should be TRUE or FALSE
+        cursor.execute("SET @pStatus = NULL;")  # BOOLEAN type
         cursor.execute("SET @pStatusCheck = NULL;")
 
         # Call the stored procedure
@@ -45,10 +45,11 @@ def authenticate_user(restaurant, user, password):
         if result and all(result):
             return {
                 'pRestaurantUserName': result[0] or "Unknown",
-                'pStatus': bool(result[1]) if result[1] is not None else False,  # Convert to BOOLEAN
+                'pStatus': bool(result[1]) if result[1] is not None else False,  # BOOLEAN check
                 'pStatusCheck': result[2] or "No status check available"
             }
         else:
+            # Log the error for debugging purposes
             return {
                 'error': 'Procedure executed but returned incomplete or null values.',
                 'pRestaurantUserName': result[0] if result else None,

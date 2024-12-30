@@ -38,8 +38,6 @@ st.markdown(
 # Body
 # st.write("Try signing in here with valid credentials")
 
-st.title("SmartRestaurant : Sign In Page")
-
 # Render the header (example of including modular UI components)
 render_header()
 

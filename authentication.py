@@ -37,32 +37,33 @@ def authenticate_user(restaurant, user, password):
             '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
         ])
 
-        # Fetch the OUT parameters
+        # Fetch the OUT parameters after execution
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
         # Debug: Log the raw result
         print(f"DEBUG: Raw result from stored procedure: {result}")
 
-        # Validate and return results
+        # Ensure that we are getting valid values
         if result:
             pRestaurantUserName = result[0] if result[0] else "Unknown"
             pStatus = bool(result[1]) if result[1] is not None else False
             pStatusCheck = result[2] if result[2] else "No status check available"
-            
+
+            # Debug: Check what we're returning
+            print(f"DEBUG: Returning auth response - pRestaurantUserName: {pRestaurantUserName}, pStatus: {pStatus}, pStatusCheck: {pStatusCheck}")
+
             return {
                 'pRestaurantUserName': pRestaurantUserName,
                 'pStatus': pStatus,
                 'pStatusCheck': pStatusCheck
             }
         else:
-            # Debug: Return the raw result if no data is returned
+            # Debug: If the result is empty
+            print("DEBUG: No result returned from procedure")
             return {
                 'error': 'Procedure executed but returned incomplete or null values.',
-                'raw_result': result,
-                'pRestaurantUserName': result[0] if result else None,
-                'pStatus': result[1] if result else None,
-                'pStatusCheck': result[2] if result else None
+                'raw_result': result
             }
 
     except mysql.connector.Error as err:
@@ -76,17 +77,6 @@ def authenticate_user(restaurant, user, password):
             cursor.close()
         if conn:
             conn.close()
-
-    if response.get('pStatus') == 1:
-        st.success(f"Welcome, {response['pRestaurantUserName']}!")
-        st.info(response['pStatusCheck'])
-        return response  # Successful authentication
-    else:
-        st.warning("Authentication failed.")
-        st.info(response['pStatusCheck'])  # Display status message from procedure
-        return None  # Failed authentication
-
-    print(f"DEBUG: Auth Response: {response}")
 
 
 def render_authentication_ui():

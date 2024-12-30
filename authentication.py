@@ -41,7 +41,7 @@ def authenticate_user(restaurant, user, password):
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
-        # Debug: Log the raw result
+        # DEBUG: Print out the raw result
         print(f"DEBUG: Raw result from stored procedure: {result}")
 
         # Validate and return results
@@ -50,19 +50,22 @@ def authenticate_user(restaurant, user, password):
             pStatus = bool(result[1]) if result[1] is not None else False
             pStatusCheck = result[2] if result[2] else "No status check available"
             
+            # DEBUG: Log each output parameter for clarity
+            print(f"DEBUG: pRestaurantUserName: {pRestaurantUserName}")
+            print(f"DEBUG: pStatus: {pStatus}")
+            print(f"DEBUG: pStatusCheck: {pStatusCheck}")
+            
             return {
                 'pRestaurantUserName': pRestaurantUserName,
                 'pStatus': pStatus,
                 'pStatusCheck': pStatusCheck
             }
         else:
-            # Debug: Include raw result in the error message
+            # If no result returned
+            print("DEBUG: No result returned from stored procedure.")
             return {
-                'error': 'Procedure executed but returned incomplete or null values.',
-                'raw_result': result,
-                'pRestaurantUserName': result[0] if result else None,
-                'pStatus': result[1] if result else None,
-                'pStatusCheck': result[2] if result else None
+                'error': 'Procedure executed but returned no result.',
+                'raw_result': result
             }
 
     except mysql.connector.Error as err:
@@ -76,6 +79,7 @@ def authenticate_user(restaurant, user, password):
             cursor.close()
         if conn:
             conn.close()
+
 
 # Streamlit UI for authentication
 def render_authentication_ui():

@@ -34,12 +34,12 @@ st.markdown(
 )
 
 # Titles
-st.title("SmartRestaurant : Sign In Page")
+# st.title("SmartRestaurant : Sign In Page")
 # Body
-st.write("Try signing in here with valid credentials")
+# st.write("Try signing in here with valid credentials")
 
 def main():
-    st.title("WebApp for Restaurant Management")
+    st.title("SmartRestaurant : Sign In Page")
 
     # Render the header (example of including modular UI components)
     render_header()

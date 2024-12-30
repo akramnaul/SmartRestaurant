@@ -65,7 +65,3 @@ if response:
             st.info(response['pStatusCheck'])
 else:
     st.error("No response received from authentication.")
-        st.info(response['pStatusCheck'])
-    else:
-        st.warning("Authentication failed.")
-        st.info(response['pStatusCheck'])

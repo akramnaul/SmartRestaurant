@@ -3,6 +3,8 @@ import streamlit as st
 # from db_connection import get_mysql_data
 from authentication import render_authentication_ui
 from ui_components import render_header, render_data, render_sample_elements
+import mysql.connector  # Ensure this import is at the top of your file
+
 
 # Page Configuration
 st.set_page_config(
@@ -51,9 +53,9 @@ def test_db_connection():
     try:
         conn = mysql.connector.connect(
             host="localhost",  # Ensure this is correct for your setup
-            user="your_user",
-            password="your_password",
-            database="your_database"
+            user="your_user",  # Your MySQL username
+            password="your_password",  # Your MySQL password
+            database="your_database"  # The name of your database
         )
         if conn.is_connected():
             print("Connection successful!")

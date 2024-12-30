@@ -46,10 +46,14 @@ def authenticate_user(restaurant, user, password):
 
         # Validate and return results
         if result:
+            pRestaurantUserName = result[0] if result[0] else "Unknown"
+            pStatus = bool(result[1]) if result[1] is not None else False
+            pStatusCheck = result[2] if result[2] else "No status check available"
+            
             return {
-                'pRestaurantUserName': result[0] or "Unknown",
-                'pStatus': bool(result[1]) if result[1] is not None else False,  # Convert to BOOLEAN
-                'pStatusCheck': result[2] or "No status check available"
+                'pRestaurantUserName': pRestaurantUserName,
+                'pStatus': pStatus,
+                'pStatusCheck': pStatusCheck
             }
         else:
             # Debug: Include raw result in the error message

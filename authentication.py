@@ -2,18 +2,9 @@ import streamlit as st
 import mysql.connector
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 
-def authenticate_user(restaurant, user, password):
-    """
-    Authenticate a user by calling the RestaurantSignin Stored Procedure.
-    
-    Args:
-        restaurant (str): Restaurant name.
-        user (str): User name.
-        password (str): User password.
+import mysql.connector
 
-    Returns:
-        dict: OUT parameters from the Stored Procedure : @pRestaurantUserName, @pStatus (BOOLEAN), @pStatusCheck
-    """
+def authenticate_user(restaurant, user, password):
     conn = None
     cursor = None
     try:
@@ -26,29 +17,30 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Define OUT Parameter Variables
+        # Initialize OUT parameters
         cursor.execute("SET @pRestaurantUserName = NULL;")
         cursor.execute("SET @pStatus = NULL;")
         cursor.execute("SET @pStatusCheck = NULL;")
 
-        # Call the stored procedure
+        # Call stored procedure
         cursor.callproc('RestaurantSignin', [
             restaurant, user, password,
             '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
         ])
 
-        # After calling the stored procedure, execute to fetch the output
+        # Fetch the output values from the stored procedure
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
-        # Debugging: Log the values retrieved from the stored procedure
+        # Debug: Print the raw result from the stored procedure
         print(f"DEBUG: Raw result from stored procedure: {result}")
-        
+
         if result:
             pRestaurantUserName = result[0] if result[0] else "Unknown"
-            pStatus = bool(result[1]) if result[1] is not None else False
+            pStatus = result[1] if result[1] is not None else 0
             pStatusCheck = result[2] if result[2] else "No status check available"
-            
+
+            # Debug: Display final response data
             print(f"DEBUG: Returning auth response - pRestaurantUserName: {pRestaurantUserName}, pStatus: {pStatus}, pStatusCheck: {pStatusCheck}")
 
             return {
@@ -75,8 +67,10 @@ def authenticate_user(restaurant, user, password):
         if conn:
             conn.close()
 
+    pStatusCheck = result[2] if result[2] else "No status check available"
+
     response = authenticate_user(restaurant, user, password)
-    
+
     # Debug: Log the response
     print(f"DEBUG: Authentication response: {response}")
     
@@ -89,11 +83,6 @@ def authenticate_user(restaurant, user, password):
         else:
             st.warning("Authentication failed.")
             st.info(response['pStatusCheck'])  # Display status message from procedure
-
-    pStatusCheck = response.get('pStatusCheck', 'No status check available')
-    if pStatusCheck is None or pStatusCheck == '':
-        pStatusCheck = 'No status check available'
-
 
 
 

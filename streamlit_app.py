@@ -46,6 +46,9 @@ st.header("SmartRestaurant - Sign In")
 # Render the authentication UI
 auth_response = render_authentication_ui()
 
+if auth_response:
+    st.write("Proceeding with the application...")
+
 # If authenticated, proceed to display details
 if auth_response:
     st.write("**Authentication Successful!**")

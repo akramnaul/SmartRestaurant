@@ -5,7 +5,7 @@ from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 def authenticate_user(restaurant, user, password):
     """
     Authenticate a user by calling the RestaurantSignin Stored Procedure.
-
+    
     Args:
         restaurant (str): Restaurant name.
         user (str): User name.
@@ -45,7 +45,7 @@ def authenticate_user(restaurant, user, password):
         print(f"DEBUG: Raw result from stored procedure: {result}")
 
         # Validate and return results
-        if result and all(result):
+        if result:
             return {
                 'pRestaurantUserName': result[0] or "Unknown",
                 'pStatus': bool(result[1]) if result[1] is not None else False,  # Convert to BOOLEAN

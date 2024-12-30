@@ -9,7 +9,7 @@ def authenticate_user(restaurant, user, password):
     conn = None
     cursor = None
     try:
-        # Establish database connection
+        # Establish the database connection
         conn = mysql.connector.connect(
             host=DB_HOST,
             user=DB_USER,
@@ -18,22 +18,25 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Initialize OUT parameter placeholders
+        # Initialize OUT parameters
         cursor.execute("SET @pRestaurantUserName = NULL;")
         cursor.execute("SET @pStatus = NULL;")
         cursor.execute("SET @pStatusCheck = NULL;")
 
         # Call the stored procedure
-        cursor.callproc('RestaurantSignin', [restaurant, user, password, '@pRestaurantUserName', '@pStatus', '@pStatusCheck'])
+        cursor.callproc('RestaurantSignin', [
+            restaurant, user, password,
+            '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
+        ])
 
-        # Fetch OUT parameter values
+        # Fetch OUT parameters
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         out_params = cursor.fetchone()
 
-        # Debugging: Log the OUT parameters
-        print(f"DEBUG: OUT Parameters: {out_params}")
+        # Debugging: Log the fetched OUT parameters
+        print(f"DEBUG: OUT Parameters fetched: {out_params}")
 
-        # Process and return results
+        # Validate and return results
         if out_params:
             pRestaurantUserName = out_params[0] if out_params[0] else "Unknown"
             pStatus = bool(out_params[1]) if out_params[1] is not None else False
@@ -65,33 +68,32 @@ def authenticate_user(restaurant, user, password):
             conn.close()
 
 def render_authentication_ui():
-    """
-    Streamlit UI for user authentication.
-    """
     st.subheader("Restaurant Signin")
 
     with st.form("signin_form"):
-        restaurant = st.text_input("Restaurant Name")
-        user = st.text_input("User Name")
-        password = st.text_input("Password", type="password")
+        restaurant = st.text_input("Restaurant Name", help="Enter your restaurant's name.")
+        user = st.text_input("User Name", help="Enter your username.")
+        password = st.text_input("Password", type="password", help="Enter your password.")
         submitted = st.form_submit_button("Signin")
 
     if submitted:
         if not restaurant or not user or not password:
-            st.error("All fields are required.")
+            st.error("All fields are mandatory.")
             return None
 
+        # Authenticate the user
         response = authenticate_user(restaurant, user, password)
 
         if 'error' in response:
             st.error(response['error'])
             return None
 
-        if response.get('pStatus'):
+        if response['pStatus']:
             st.success(f"Welcome, {response['pRestaurantUserName']}!")
             st.info(response['pStatusCheck'])
-            return response
+            return response  # Successful authentication
         else:
             st.warning("Authentication failed.")
-            st.info(response.get('pStatusCheck'))
-            return None
+            st.info(response['pStatusCheck'])
+            return None  # Failed authentication
+

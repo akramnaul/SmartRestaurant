@@ -2,13 +2,11 @@ import streamlit as st
 import mysql.connector
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 
-import mysql.connector
-
 def authenticate_user(restaurant, user, password):
     conn = None
     cursor = None
     try:
-        # Establish the connection
+        # Establish connection to the MySQL database
         conn = mysql.connector.connect(
             host=DB_HOST,
             user=DB_USER,
@@ -17,7 +15,7 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Initialize OUT parameters
+        # Set initial OUT parameters to NULL
         cursor.execute("SET @pRestaurantUserName = NULL;")
         cursor.execute("SET @pStatus = NULL;")
         cursor.execute("SET @pStatusCheck = NULL;")
@@ -28,20 +26,18 @@ def authenticate_user(restaurant, user, password):
             '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
         ])
 
-        # Fetch the output values from the stored procedure
+        # Retrieve the output parameters
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
-        # Debug: Print the raw result from the stored procedure
-        print(f"DEBUG: Raw result from stored procedure: {result}")
+        # Debugging output for parameters
+        print(f"DEBUG: Raw result: {result}")
 
         if result:
             pRestaurantUserName = result[0] if result[0] else "Unknown"
             pStatus = result[1] if result[1] is not None else 0
             pStatusCheck = result[2] if result[2] else "No status check available"
-
-            # Debug: Display final response data
-            print(f"DEBUG: Returning auth response - pRestaurantUserName: {pRestaurantUserName}, pStatus: {pStatus}, pStatusCheck: {pStatusCheck}")
+            print(f"DEBUG: Processed result - pRestaurantUserName: {pRestaurantUserName}, pStatus: {pStatus}, pStatusCheck: {pStatusCheck}")
 
             return {
                 'pRestaurantUserName': pRestaurantUserName,
@@ -49,30 +45,26 @@ def authenticate_user(restaurant, user, password):
                 'pStatusCheck': pStatusCheck
             }
         else:
-            print("DEBUG: No result returned from procedure")
+            print("DEBUG: No result returned")
             return {
-                'error': 'Procedure executed but returned incomplete or null values.',
-                'raw_result': result
+                'error': 'No result returned from the stored procedure.'
             }
 
     except mysql.connector.Error as err:
+        print(f"DEBUG: MySQL Error: {err}")
         return {'error': f"MySQL error: {str(err)}"}
+
     except Exception as e:
+        print(f"DEBUG: Unexpected Error: {e}")
         return {'error': f"Unexpected error: {str(e)}"}
 
     finally:
-        # Ensure cleanup
         if cursor:
             cursor.close()
         if conn:
             conn.close()
 
-    pStatusCheck = result[2] if result[2] else "No status check available"
-
     response = authenticate_user(restaurant, user, password)
-
-    # Debug: Log the response
-    print(f"DEBUG: Authentication response: {response}")
     
     if 'error' in response:
         st.error(response['error'])
@@ -82,7 +74,9 @@ def authenticate_user(restaurant, user, password):
             st.info(response['pStatusCheck'])
         else:
             st.warning("Authentication failed.")
-            st.info(response['pStatusCheck'])  # Display status message from procedure
+            st.info(response['pStatusCheck'])
+
+
 
 
 

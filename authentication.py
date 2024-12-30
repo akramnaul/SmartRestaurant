@@ -8,30 +8,27 @@ def authenticate_user(restaurant, user, password):
     """
     try:
         conn = mysql.connector.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME
+            host="localhost",  # Update with your DB host
+            user="root",       # Update with your DB user
+            password="password",  # Update with your DB password
+            database="restaurant_db"  # Update with your DB name
         )
         cursor = conn.cursor()
 
-        # Initialize OUT parameters
+        # Set output parameters
         cursor.execute("SET @pRestaurantUserName = NULL;")
         cursor.execute("SET @pStatus = NULL;")
         cursor.execute("SET @pStatusCheck = NULL;")
 
         # Call the stored procedure
-        cursor.callproc('RestaurantSignin', [
+        cursor.callproc("RestaurantSignin", [
             restaurant, user, password,
             '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
         ])
 
-        # Retrieve OUT parameters in the same session
+        # Fetch output parameters
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         out_params = cursor.fetchone()
-
-        # Debugging
-        print(f"DEBUG: OUT Parameters fetched: {out_params}")
 
         if out_params:
             return {
@@ -45,44 +42,42 @@ def authenticate_user(restaurant, user, password):
             }
 
     except mysql.connector.Error as err:
-        print(f"DEBUG: MySQL error: {str(err)}")
-        return {'error': f"MySQL error: {str(err)}'}
+        return {'error': f"MySQL error: {err}"}
     except Exception as e:
-        print(f"DEBUG: Unexpected error: {str(e)}")
-        return {'error': f"Unexpected error: {str(e)}'}
+        return {'error': f"Unexpected error: {e}"}
     finally:
         if cursor:
             cursor.close()
         if conn:
             conn.close()
 
-
 def render_authentication_ui():
+    """
+    Streamlit UI for authentication.
+    """
     st.subheader("Restaurant Signin")
 
     with st.form("signin_form"):
-        restaurant = st.text_input("Restaurant Name", help="Enter your restaurant's name.")
-        user = st.text_input("User Name", help="Enter your username.")
-        password = st.text_input("Password", type="password", help="Enter your password.")
-        submitted = st.form_submit_button("Signin")
+        restaurant = st.text_input("Restaurant Name")
+        user = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Sign In")
 
     if submitted:
         if not restaurant or not user or not password:
-            st.error("All fields are mandatory.")
-            return None
+            st.error("All fields are required!")
+            return
 
-        # Authenticate the user
         response = authenticate_user(restaurant, user, password)
 
         if 'error' in response:
             st.error(response['error'])
-            return None
-
-        if response.get('pStatus'):
+        elif response.get('pStatus'):
             st.success(f"Welcome, {response['pRestaurantUserName']}!")
             st.info(response['pStatusCheck'])
         else:
             st.error("Authentication failed.")
             st.warning(response.get('pStatusCheck', "No status check available."))
 
-
+if __name__ == "__main__":
+    render_authentication_ui()

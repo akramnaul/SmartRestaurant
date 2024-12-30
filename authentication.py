@@ -3,9 +3,6 @@ import mysql.connector
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 
 # Function to call the RestaurantSignin stored procedure
-import mysql.connector
-from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
-
 def authenticate_user(restaurant, user, password):
     """
     Authenticate a user by calling the RestaurantSignin stored procedure.

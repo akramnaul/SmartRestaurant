@@ -3,7 +3,7 @@ import streamlit as st
 def render_header():
     """Render the main header of the Streamlit app."""
     st.header("SmartRestaurant Header")
-    st.title("Signin")
+    # st.title("Signin")
     # st.write("Hello StreamlitPage!")
 
 def render_data(tables, procedures):

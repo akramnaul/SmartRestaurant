@@ -2,7 +2,6 @@ import streamlit as st
 import mysql.connector
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 
-# Function to call the RestaurantSignin Stored Procedure
 def authenticate_user(restaurant, user, password):
     """
     Authenticate a user by calling the RestaurantSignin Stored Procedure.
@@ -14,7 +13,6 @@ def authenticate_user(restaurant, user, password):
 
     Returns:
         dict: OUT parameters from the Stored Procedure : @pRestaurantUserName, @pStatus, @pStatusCheck
-
     """
     conn = None
     cursor = None
@@ -29,9 +27,9 @@ def authenticate_user(restaurant, user, password):
         cursor = conn.cursor()
 
         # Define OUT Parameter Variables
-        cursor.execute("SET @pRestaurantUserName = '';")
-        cursor.execute("SET @pStatus = 0;")
-        cursor.execute("SET @pStatusCheck = '';")
+        cursor.execute("SET @pRestaurantUserName = NULL;")
+        cursor.execute("SET @pStatus = NULL;")
+        cursor.execute("SET @pStatusCheck = NULL;")
 
         # Call the stored procedure
         cursor.callproc('RestaurantSignin', [
@@ -44,14 +42,19 @@ def authenticate_user(restaurant, user, password):
         result = cursor.fetchone()
 
         # Validate and return results
-        if result:
+        if result and all(result):
             return {
                 'pRestaurantUserName': result[0] or "Unknown",
-                'pStatus': result[1] or 0,
+                'pStatus': int(result[1]) if result[1] is not None else 0,
                 'pStatusCheck': result[2] or "No status check available"
             }
         else:
-            return {'error': 'No result from the procedure.'}
+            return {
+                'error': 'Procedure executed but returned incomplete or null values.',
+                'pRestaurantUserName': result[0] if result else None,
+                'pStatus': result[1] if result else None,
+                'pStatusCheck': result[2] if result else None
+            }
 
     except mysql.connector.Error as err:
         return {'error': f"MySQL error: {str(err)}"}

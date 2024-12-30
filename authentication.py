@@ -97,10 +97,29 @@ def render_authentication_ui():
             st.info(response['pStatusCheck'])
             return None  # Return None on failed authentication
 
-# After fetching OUT parameters
-cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
-result = cursor.fetchone()
+# Call the stored procedure directly with OUT parameters
+cursor.callproc('RestaurantSignin', [
+    restaurant, user, password,  # IN parameters
+    None, None, None  # Placeholder for OUT parameters
+])
 
-# Log the result for debugging
-print(f"DEBUG: OUT Parameters - @pRestaurantUserName: {result[0]}, @pStatus: {result[1]}, @pStatusCheck: {result[2]}")
+# Fetch OUT parameters from the cursor
+for result in cursor.stored_results():
+    out_params = result.fetchall()[0]  # Get the first row
+    break  # Exit after fetching one result set
+
+# Validate and return results
+if out_params:
+    pRestaurantUserName = out_params[0]
+    pStatus = bool(out_params[1])
+    pStatusCheck = out_params[2]
+
+    return {
+        'pRestaurantUserName': pRestaurantUserName,
+        'pStatus': pStatus,
+        'pStatusCheck': pStatusCheck
+    }
+else:
+    return {'error': 'Procedure executed but returned no data.'}
+
 

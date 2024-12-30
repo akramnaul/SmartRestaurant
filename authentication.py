@@ -15,7 +15,10 @@ def authenticate_user(restaurant, user, password):
     Returns:
         dict: OUT parameters from the stored procedure.
     """
+    conn = None
+    cursor = None
     try:
+        # Establish the connection
         conn = mysql.connector.connect(
             host=DB_HOST,
             user=DB_USER,
@@ -39,23 +42,27 @@ def authenticate_user(restaurant, user, password):
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
-        cursor.close()
-        conn.close()
-
-        # Validate and process the result
+        # Validate and return results
         if result:
             return {
                 'pRestaurantUserName': result[0] or "Unknown",
-                'pStatus': int(result[1]) if result[1] is not None and str(result[1]).isdigit() else 0,
+                'pStatus': int(result[1]) if result[1] and str(result[1]).isdigit() else 0,
                 'pStatusCheck': result[2] or "No status check available"
             }
         else:
             return {'error': 'No result from the procedure.'}
 
     except mysql.connector.Error as err:
-        return {'error': str(err)}
+        return {'error': f"MySQL error: {str(err)}"}
     except Exception as e:
         return {'error': f"Unexpected error: {str(e)}"}
+
+    finally:
+        # Ensure cleanup
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 # Streamlit UI for authentication
 def render_authentication_ui():

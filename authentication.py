@@ -2,10 +2,10 @@ import streamlit as st
 import mysql.connector
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 
-# Function to call the RestaurantSignin stored procedure
+# Function to call the RestaurantSignin Stored Procedure
 def authenticate_user(restaurant, user, password):
     """
-    Authenticate a user by calling the RestaurantSignin stored procedure.
+    Authenticate a user by calling the RestaurantSignin Stored Procedure.
 
     Args:
         restaurant (str): Restaurant name.
@@ -13,7 +13,8 @@ def authenticate_user(restaurant, user, password):
         password (str): User password.
 
     Returns:
-        dict: OUT parameters from the stored procedure.
+        dict: OUT parameters from the Stored Procedure : @pRestaurantUserName, @pStatus, @pStatusCheck
+
     """
     conn = None
     cursor = None
@@ -27,7 +28,7 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Define OUT parameter variables
+        # Define OUT Parameter Variables
         cursor.execute("SET @pRestaurantUserName = '';")
         cursor.execute("SET @pStatus = 0;")
         cursor.execute("SET @pStatusCheck = '';")
@@ -46,7 +47,7 @@ def authenticate_user(restaurant, user, password):
         if result:
             return {
                 'pRestaurantUserName': result[0] or "Unknown",
-                'pStatus': int(result[1]) if result[1] and str(result[1]).isdigit() else 0,
+                'pStatus': result[1] or 0,
                 'pStatusCheck': result[2] or "No status check available"
             }
         else:

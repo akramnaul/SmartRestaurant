@@ -35,7 +35,7 @@ def execute_stored_procedure(proc_name, in_params, out_param_count):
             cursor = connection.cursor()
 
             # Prepare parameters (IN and OUT)
-            params = in_params + [None] * out_param_count
+            params = list(in_params) + [None] * out_param_count
             
             # Call the stored procedure
             cursor.callproc(proc_name, params)
@@ -65,7 +65,7 @@ proc_name = st.text_input("Enter Stored Procedure Name", "your_procedure_name_he
 
 # Input for IN parameters
 in_params_input = st.text_area("Enter IN Parameters (comma-separated)", "param1,param2")
-in_params = tuple(map(str.strip, in_params_input.split(','))) if in_params_input else []
+in_params = tuple(map(str.strip, in_params_input.split(','))) if in_params_input else ()
 
 # Input for number of OUT parameters
 out_param_count = st.number_input("Enter Number of OUT Parameters", min_value=0, step=1, value=0)

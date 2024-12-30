@@ -66,13 +66,11 @@ test_db_connection()
 # Render authentication UI and get the response
 response = render_authentication_ui()
 
-# Debugging: Check the type of response
 if response:
-    st.write(f"DEBUG: Response received: {response}")
-
-    # Check if the response contains an error
     if 'error' in response:
-        st.error(response['error'])
+        st.error(f"Error: {response['error']}")
+        if 'raw_result' in response:
+            st.warning(f"Raw result from the stored procedure: {response['raw_result']}")
     else:
         if response.get('pStatus') == 1:
             st.success(f"Welcome, {response['pRestaurantUserName']}!")
@@ -82,3 +80,4 @@ if response:
             st.info(response['pStatusCheck'])
 else:
     st.error("No response received from authentication.")
+

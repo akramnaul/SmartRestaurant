@@ -3,6 +3,9 @@ import mysql.connector
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 
 # Function to call the RestaurantSignin stored procedure
+import mysql.connector
+from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+
 def authenticate_user(restaurant, user, password):
     """
     Authenticate a user by calling the RestaurantSignin stored procedure.
@@ -13,7 +16,7 @@ def authenticate_user(restaurant, user, password):
         password (str): User password.
 
     Returns:
-        dict: OUT parameters from the stored procedure or error message.
+        dict: OUT parameters from the stored procedure.
     """
     try:
         conn = mysql.connector.connect(
@@ -24,29 +27,38 @@ def authenticate_user(restaurant, user, password):
         )
         cursor = conn.cursor()
 
-        # Call the stored procedure with placeholders for OUT parameters
+        # Define OUT parameter variables
+        cursor.execute("SET @pRestaurantUserName = '';")
+        cursor.execute("SET @pStatus = 0;")
+        cursor.execute("SET @pStatusCheck = '';")
+
+        # Call the stored procedure
         cursor.callproc('RestaurantSignin', [
             restaurant, user, password,
             '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
         ])
 
-        # Fetch OUT parameters
+        # Fetch the OUT parameters
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
         cursor.close()
         conn.close()
 
+        # Validate and process the result
         if result:
             return {
-                'pRestaurantUserName': result[0],
-                'pStatus': int(result[1]),
-                'pStatusCheck': result[2]
+                'pRestaurantUserName': result[0] or "Unknown",
+                'pStatus': int(result[1]) if result[1] is not None and str(result[1]).isdigit() else 0,
+                'pStatusCheck': result[2] or "No status check available"
             }
         else:
             return {'error': 'No result from the procedure.'}
+
     except mysql.connector.Error as err:
-        return {'error': f"Database error: {str(err)}"}
+        return {'error': str(err)}
+    except Exception as e:
+        return {'error': f"Unexpected error: {str(e)}"}
 
 # Streamlit UI for authentication
 def render_authentication_ui():

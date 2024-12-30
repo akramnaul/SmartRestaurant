@@ -21,14 +21,14 @@ def authenticate_user(restaurant, user, password):
         # Call the stored procedure
         cursor.callproc('RestaurantSignin', [restaurant, user, password, None, None, None])
 
-        # Initialize `out_params` with default values
-        out_params = None
+        # Fetch OUT parameter values after execution
+        cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+        out_params = cursor.fetchone()
 
-        # Fetch results from the stored procedure
-        for result in cursor.stored_results():
-            out_params = result.fetchone()
+        # Debugging: Print fetched results
+        print(f"DEBUG: Fetched OUT parameters: {out_params}")
 
-        # Check if results were retrieved
+        # Check if OUT parameters are populated
         if out_params:
             return {
                 'pRestaurantUserName': out_params[0] if out_params[0] else "Unknown",
@@ -36,7 +36,8 @@ def authenticate_user(restaurant, user, password):
                 'pStatusCheck': out_params[2] if out_params[2] else "No status check available"
             }
         else:
-            # No results were returned by the stored procedure
+            # Debug: No data was returned
+            print("DEBUG: Stored procedure executed but returned no data.")
             return {
                 'error': 'Stored procedure executed but returned no data.',
                 'pRestaurantUserName': None,
@@ -45,13 +46,15 @@ def authenticate_user(restaurant, user, password):
             }
 
     except mysql.connector.Error as err:
-        # Handle database connection errors
+        # Debug: Log MySQL errors
+        print(f"DEBUG: MySQL error: {str(err)}")
         return {'error': f"MySQL error: {str(err)}"}
     except Exception as e:
-        # Handle unexpected exceptions
+        # Debug: Log unexpected errors
+        print(f"DEBUG: Unexpected error: {str(e)}")
         return {'error': f"Unexpected error: {str(e)}"}
     finally:
-        # Ensure resources are cleaned up
+        # Ensure cleanup
         if cursor:
             cursor.close()
         if conn:

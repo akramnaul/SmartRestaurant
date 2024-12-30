@@ -28,7 +28,7 @@ def authenticate_user(restaurant, user, password):
 
         # Define OUT Parameter Variables
         cursor.execute("SET @pRestaurantUserName = NULL;")
-        cursor.execute("SET @pStatus = NULL;")  # BOOLEAN type, should be TRUE or FALSE
+        cursor.execute("SET @pStatus = NULL;")
         cursor.execute("SET @pStatusCheck = NULL;")
 
         # Call the stored procedure
@@ -37,20 +37,18 @@ def authenticate_user(restaurant, user, password):
             '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
         ])
 
-        # Fetch the OUT parameters after execution
+        # After calling the stored procedure, execute to fetch the output
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         result = cursor.fetchone()
 
-        # Debug: Log the raw result
+        # Debugging: Log the values retrieved from the stored procedure
         print(f"DEBUG: Raw result from stored procedure: {result}")
-
-        # Ensure that we are getting valid values
+        
         if result:
             pRestaurantUserName = result[0] if result[0] else "Unknown"
             pStatus = bool(result[1]) if result[1] is not None else False
             pStatusCheck = result[2] if result[2] else "No status check available"
-
-            # Debug: Check what we're returning
+            
             print(f"DEBUG: Returning auth response - pRestaurantUserName: {pRestaurantUserName}, pStatus: {pStatus}, pStatusCheck: {pStatusCheck}")
 
             return {
@@ -59,7 +57,6 @@ def authenticate_user(restaurant, user, password):
                 'pStatusCheck': pStatusCheck
             }
         else:
-            # Debug: If the result is empty
             print("DEBUG: No result returned from procedure")
             return {
                 'error': 'Procedure executed but returned incomplete or null values.',
@@ -80,20 +77,25 @@ def authenticate_user(restaurant, user, password):
 
     response = authenticate_user(restaurant, user, password)
     
-    # Debug: Log the raw response
+    # Debug: Log the response
     print(f"DEBUG: Authentication response: {response}")
     
-    # Display the result in Streamlit
-    if response.get('pStatus') == 1:
-        st.success(f"Welcome, {response['pRestaurantUserName']}!")
-        st.info(response['pStatusCheck'])
+    if 'error' in response:
+        st.error(response['error'])
     else:
-        st.warning("Authentication failed.")
-        st.info(response['pStatusCheck'])  # Display status message from procedure
+        if response.get('pStatus') == 1:
+            st.success(f"Welcome, {response['pRestaurantUserName']}!")
+            st.info(response['pStatusCheck'])
+        else:
+            st.warning("Authentication failed.")
+            st.info(response['pStatusCheck'])  # Display status message from procedure
 
     pStatusCheck = response.get('pStatusCheck', 'No status check available')
     if pStatusCheck is None or pStatusCheck == '':
         pStatusCheck = 'No status check available'
+
+
+
 
 
 def render_authentication_ui():

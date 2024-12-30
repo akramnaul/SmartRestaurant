@@ -1,5 +1,5 @@
 import streamlit as st
-from config import * # DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, APP_NAME, VERSION, CURRENT_USER, IS_AUTHENTICATED, USER_ROLE, ERROR_MESSAGES, SUCCESS_MESSAGES, GUIDELINES
 # from global_variables import *
 from db_connection import get_mysql_data
 from authentication import render_authentication_ui

@@ -79,4 +79,4 @@ out_params = tuple(map(str.strip, out_params_input.split(','))) if out_params_in
 
 # Execute the Stored Procedure when the Button is Pressed / Clicked
 if st.button("Test Stored Procedure"):
-    execute_stored_procedure(proc_name, in_parameters, out_parameterss)
+    execute_stored_procedure(proc_name, in_parameters, out_parameters)

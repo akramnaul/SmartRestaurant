@@ -43,7 +43,7 @@ def execute_stored_procedure(proc_name, in_parameters, out_parameters):
             # )
 
             # Execute the stored procedure
-            call_proc_query = f"CALL {proc_name}({in_parameters + out_parameters});"
+            call_proc_query = f"CALL {proc_name}({in_parameters + ',' + out_parameters});"
             cursor.execute(call_proc_query)
 
             # Retrieve the OUT parameter values

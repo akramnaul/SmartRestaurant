@@ -43,7 +43,7 @@ def execute_stored_procedure(proc_name, in_parameters, out_parameters):
             # )
 
             # Execute the stored procedure
-            call_proc_query = f"CALL {proc_name}({in_parameters + ',' + out_parameters});"
+            call_proc_query = f"CALL {proc_name}({in_parameters + out_parameters});"
             cursor.execute(call_proc_query)
 
             # Retrieve the OUT parameter values
@@ -79,4 +79,4 @@ out_params = tuple(map(str.strip, out_params_input.split(','))) if out_params_in
 
 # Execute the Stored Procedure when the Button is Pressed / Clicked
 if st.button("Test Stored Procedure"):
-    execute_stored_procedure(proc_name, in_params, out_params)
+    execute_stored_procedure(proc_name, in_parameters, out_parameterss)

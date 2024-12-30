@@ -2,13 +2,11 @@ import streamlit as st
 import mysql.connector
 from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 
-# In authentication.py
-
 def authenticate_user(restaurant, user, password):
     try:
         # Your logic for MySQL connection and procedure call...
         
-        result = fetch_result_from_mysql()  # Example function
+        result = fetch_result_from_mysql()  # Example function that fetches the result from MySQL
 
         if result:
             return {
@@ -21,6 +19,7 @@ def authenticate_user(restaurant, user, password):
 
     except Exception as e:
         return {'error': f"An error occurred: {str(e)}"}
+
 
 
 

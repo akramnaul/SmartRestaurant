@@ -43,7 +43,11 @@ render_header()
 # Render the header
 # st.header("SmartRestaurant - Sign In")
 
+
+
+
 def test_db_connection():
+    conn = None  # Initialize conn to None before using it
     try:
         conn = mysql.connector.connect(
             host="localhost",  # Ensure this is correct for your setup
@@ -61,7 +65,11 @@ def test_db_connection():
         if conn:
             conn.close()
 
+# Test the database connection
 test_db_connection()
+
+
+
 
 # Render authentication UI and get the response
 response = render_authentication_ui()

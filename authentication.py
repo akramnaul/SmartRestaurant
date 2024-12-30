@@ -4,12 +4,9 @@ from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
 
 def authenticate_user(restaurant, user, password):
     """
-    Authenticate a user by calling the RestaurantSignin Stored Procedure.
+    Authenticate a user by calling the RestaurantSignin stored procedure.
     """
-    conn = None
-    cursor = None
     try:
-        # Establish the database connection
         conn = mysql.connector.connect(
             host=DB_HOST,
             user=DB_USER,
@@ -29,43 +26,36 @@ def authenticate_user(restaurant, user, password):
             '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
         ])
 
-        # Fetch OUT parameters
+        # Retrieve OUT parameters in the same session
         cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
         out_params = cursor.fetchone()
 
-        # Debugging: Log the fetched OUT parameters
+        # Debugging
         print(f"DEBUG: OUT Parameters fetched: {out_params}")
 
-        # Validate and return results
         if out_params:
-            pRestaurantUserName = out_params[0] if out_params[0] else "Unknown"
-            pStatus = bool(out_params[1]) if out_params[1] is not None else False
-            pStatusCheck = out_params[2] if out_params[2] else "No status check available"
-
             return {
-                'pRestaurantUserName': pRestaurantUserName,
-                'pStatus': pStatus,
-                'pStatusCheck': pStatusCheck
+                'pRestaurantUserName': out_params[0],
+                'pStatus': bool(out_params[1]),
+                'pStatusCheck': out_params[2]
             }
         else:
             return {
-                'error': 'Stored procedure executed but returned no data.',
-                'pRestaurantUserName': None,
-                'pStatus': False,
-                'pStatusCheck': "No status check available"
+                'error': 'Stored procedure executed but returned no data.'
             }
 
     except mysql.connector.Error as err:
         print(f"DEBUG: MySQL error: {str(err)}")
-        return {'error': f"MySQL error: {str(err)}"}
+        return {'error': f"MySQL error: {str(err)}'}
     except Exception as e:
         print(f"DEBUG: Unexpected error: {str(e)}")
-        return {'error': f"Unexpected error: {str(e)}"}
+        return {'error': f"Unexpected error: {str(e)}'}
     finally:
         if cursor:
             cursor.close()
         if conn:
             conn.close()
+
 
 def render_authentication_ui():
     st.subheader("Restaurant Signin")
@@ -88,12 +78,11 @@ def render_authentication_ui():
             st.error(response['error'])
             return None
 
-        if response['pStatus']:
+        if response.get('pStatus'):
             st.success(f"Welcome, {response['pRestaurantUserName']}!")
             st.info(response['pStatusCheck'])
-            return response  # Successful authentication
         else:
-            st.warning("Authentication failed.")
-            st.info(response['pStatusCheck'])
-            return None  # Failed authentication
+            st.error("Authentication failed.")
+            st.warning(response.get('pStatusCheck', "No status check available."))
+
 

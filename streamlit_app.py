@@ -36,13 +36,25 @@ def execute_stored_procedure(proc_name, params=None):
         connection = connect_to_db()
         if connection is not None:
             cursor = connection.cursor()
-            
+
             # Call stored procedure
             cursor.callproc(proc_name, params if params else [])
             
             # Fetch and display results from OUT parameters (if any)
+            out_parameters = []
             for result in cursor.stored_results():
                 st.write("Stored Procedure Result:", result.fetchall())
+            
+            # Now fetch OUT parameters from the procedure call
+            for param in cursor.description:
+                if param[3] == 2:  # OUT parameter
+                    out_parameters.append(cursor.var(param[0]).getvalue())
+            
+            # Display OUT parameters if any
+            if out_parameters:
+                st.write("OUT Parameters:")
+                for i, out_param in enumerate(out_parameters, start=1):
+                    st.write(f"OUT Param {i}: {out_param}")
             
             cursor.close()
             connection.close()

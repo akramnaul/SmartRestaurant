@@ -78,6 +78,23 @@ def authenticate_user(restaurant, user, password):
         if conn:
             conn.close()
 
+    response = authenticate_user(restaurant, user, password)
+    
+    # Debug: Log the raw response
+    print(f"DEBUG: Authentication response: {response}")
+    
+    # Display the result in Streamlit
+    if response.get('pStatus') == 1:
+        st.success(f"Welcome, {response['pRestaurantUserName']}!")
+        st.info(response['pStatusCheck'])
+    else:
+        st.warning("Authentication failed.")
+        st.info(response['pStatusCheck'])  # Display status message from procedure
+
+    pStatusCheck = response.get('pStatusCheck', 'No status check available')
+    if pStatusCheck is None or pStatusCheck == '':
+        pStatusCheck = 'No status check available'
+
 
 def render_authentication_ui():
     """

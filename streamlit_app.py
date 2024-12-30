@@ -52,10 +52,10 @@ def test_db_connection():
     conn = None  # Initialize conn to None before using it
     try:
         conn = mysql.connector.connect(
-            host="localhost",  # Ensure this is correct for your setup
-            user="your_user",  # Your MySQL username
-            password="your_password",  # Your MySQL password
-            database="your_database"  # The name of your database
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
         )
         if conn.is_connected():
             print("Connection successful!")

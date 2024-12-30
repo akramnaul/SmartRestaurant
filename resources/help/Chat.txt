@@ -1,1 +1,254 @@
+I have a properly analyzed and designed remote MySQL Database : Rest
+
+with Credentials :
+
+# Configuration constants for the application
+DB_HOST = '192.95.14.153'
+DB_USER = 'webbuilderuser'
+DB_PASSWORD = 'm7xXGk6scyBv1iPORvmJ'
+DB_NAME = 'Rest'
+
+Database has complete business logic in the Stored Procedures communicating through IN and OUT Parameters.
+
+SQLYog Database Client :
+Statements used, executed correctly and got OUT Parameters Values as
+@pRestaurantUserName : 'OwnerKhan'
+@pStatus : '1'
+@pStatusCheck : 'KhanBurger : 03004444001 : abcd : Login Successful @ 2024-12-30 12:24:12 !!! '
+
+SET @pRestaurant='KhanBurger',@pRestaurantUser='03004444001',@pRestaurantUserPassword='abcd',@pRestaurantUserName=NULL,@pStatus=NULL,@pStatusCheck=NULL ; 
+CALL RestaurantSignin(@pRestaurant,@pRestaurantUser,@pRestaurantUserPassword,@pRestaurantUserName,@pStatus,@pStatusCheck) ; 
+SELECT @pRestaurant,@pRestaurantUser,@pRestaurantUserPassword,@pRestaurantUserName,@pStatus,@pStatusCheck ; 
+
+Thus 100% correct Database and Stored Procedures.
+
+*****************
+
+I want to develop a complete frontend webapp using streamlit and host it using github and https://share.streamlit.io/
+
+*****************
+
+main code file is : streamlit_app.py
+
+it has include files for managing various modules to manage :
+
+import streamlit as st
+# from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, APP_NAME, VERSION, CURRENT_USER, IS_AUTHENTICATED, USER_ROLE, ERROR_MESSAGES, SUCCESS_MESSAGES, GUIDELINES
+# from db_connection import get_mysql_data
+from authentication import render_authentication_ui
+from ui_components import render_header, render_data, render_sample_elements
+
+*****************
+
+streamlit_app.py :
+
+import streamlit as st
+# from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, APP_NAME, VERSION, CURRENT_USER, IS_AUTHENTICATED, USER_ROLE, ERROR_MESSAGES, SUCCESS_MESSAGES, GUIDELINES
+# from db_connection import get_mysql_data
+from authentication import render_authentication_ui
+from ui_components import render_header, render_data, render_sample_elements
+
+# Page Configuration
+st.set_page_config(
+    page_title="SmartRestaurant",
+    page_icon="🍽️",
+    layout="wide",
+    initial_sidebar_state="auto",
+)
+
+# Custom CSS
+st.markdown(
+    """
+    <style>
+    body {
+        font-family: 'Times New Roman', serif;
+        font-size: 8px !important;
+    }
+    h1 {
+        font-family: 'Times New Roman', serif;
+        font-size: 14px !important;
+        color: #2E86C1 !important;
+        text-align: left;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Titles
+# st.title("SmartRestaurant : Sign In Page")
+# Body
+# st.write("Try signing in here with valid credentials")
+
+# Render the header (example of including modular UI components)
+render_header()
+
+# Render the authentication UI
+auth_response = render_authentication_ui()
+
+# If authenticated, proceed with the application
+if auth_response:
+   st.write("Proceeding with the application...")
+   # Add more UI components or logic here
+   render_data()  # Example of rendering some data
+   render_sample_elements()  # Example of rendering other UI elements
+
+*****************
+
+authentication.py :
+
+import streamlit as st
+import mysql.connector
+from config import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+
+def authenticate_user(restaurant, user, password):
+    """
+    Authenticate a user by calling the RestaurantSignin Stored Procedure.
+    
+    Args:
+        restaurant (str): Restaurant name.
+        user (str): User name.
+        password (str): User password.
+
+    Returns:
+        dict: OUT parameters from the Stored Procedure : @pRestaurantUserName, @pStatus (BOOLEAN), @pStatusCheck
+    """
+    conn = None
+    cursor = None
+    try:
+        # Establish the connection
+        conn = mysql.connector.connect(
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
+        )
+        cursor = conn.cursor()
+
+        # Define OUT Parameter Variables
+        cursor.execute("SET @pRestaurantUserName = NULL;")
+        cursor.execute("SET @pStatus = NULL;")  # BOOLEAN type, should be TRUE or FALSE
+        cursor.execute("SET @pStatusCheck = NULL;")
+
+        # Call the stored procedure
+        cursor.callproc('RestaurantSignin', [
+            restaurant, user, password,
+            '@pRestaurantUserName', '@pStatus', '@pStatusCheck'
+        ])
+
+        # Fetch the OUT parameters
+        cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+        result = cursor.fetchone()
+
+        # Debug: Log the raw result
+        print(f"DEBUG: Raw result from stored procedure: {result}")
+
+        # Validate and return results
+        if result:
+            pRestaurantUserName = result[0] if result[0] else "Unknown"
+            pStatus = bool(result[1]) if result[1] is not None else False
+            pStatusCheck = result[2] if result[2] else "No status check available"
+            
+            return {
+                'pRestaurantUserName': pRestaurantUserName,
+                'pStatus': pStatus,
+                'pStatusCheck': pStatusCheck
+            }
+        else:
+            # Debug: Include raw result in the error message
+            return {
+                'error': 'Procedure executed but returned incomplete or null values.',
+                'raw_result': result,
+                'pRestaurantUserName': result[0] if result else None,
+                'pStatus': result[1] if result else None,
+                'pStatusCheck': result[2] if result else None
+            }
+
+    except mysql.connector.Error as err:
+        return {'error': f"MySQL error: {str(err)}"}
+    except Exception as e:
+        return {'error': f"Unexpected error: {str(e)}"}
+
+    finally:
+        # Ensure cleanup
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+# Streamlit UI for authentication
+def render_authentication_ui():
+    st.subheader("Restaurant Signin")
+
+    with st.form("signin_form"):
+        restaurant = st.text_input("Restaurant Name", help="Enter your restaurant's name.")
+        user = st.text_input("User Name", help="Enter your username.")
+        password = st.text_input("Password", type="password", help="Enter your password.")
+        submitted = st.form_submit_button("Signin")
+
+    if submitted:
+        if not restaurant or not user or not password:
+            st.error("All fields are mandatory.")
+            return None
+
+        # Authenticate the user
+        response = authenticate_user(restaurant, user, password)
+
+        if 'error' in response:
+            st.error(response['error'])
+            return None
+
+        if response['pStatus']:
+            st.success(f"Welcome, {response['pRestaurantUserName']}!")
+            st.info(response['pStatusCheck'])
+            return response  # Successful authentication
+        else:
+            st.warning("Authentication failed.")
+            st.info(response['pStatusCheck'])
+            return None  # Failed authentication
+
+*****************
+
+ui_components.py :
+
+import streamlit as st
+
+def render_header():
+    """Render the main header of the Streamlit app."""
+    st.header("SmartRestaurant Header")
+    # st.title("Signin")
+    # st.write("Hello StreamlitPage!")
+
+def render_data(tables, procedures):
+    """
+    Render tables and procedures in the UI.
+    Args:
+        tables (list): List of database tables.
+        procedures (list): List of stored procedures.
+    """
+    st.subheader('Tables in the Database:')
+    if tables:
+        for table in tables:
+            st.write(f"- {table[0]}")
+    else:
+        st.write("No tables found.")
+
+    st.subheader('Stored Procedures in the Database:')
+    if procedures:
+        for procedure in procedures:
+            st.write(f"- {procedure[1]}")  # Procedure name is in the second column
+    else:
+        st.write("No stored procedures found.")
+
+def render_sample_elements():
+    """Render other sample Streamlit elements."""
+    st.subheader('This is a subheader')
+    st.markdown('_Markdown_')
+    st.text('This is sample text')
+    st.latex(r''' e^{i\pi} + 1 = 10 ''')
+    st.caption('This is a caption')
+
+*****************
+
+Write / correct code for authentication.py and appropriate code / calling for the streamlit_app.py to get the values of 3 OUT Parameters in the streamlit code.
 

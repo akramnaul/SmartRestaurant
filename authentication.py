@@ -12,10 +12,10 @@ def authenticate_user(restaurant, user, password):
     try:
         # Establish the connection
         conn = mysql.connector.connect(
-            host="localhost",  # Update with your DB host
-            user="root",       # Update with your DB user
-            password="password",  # Update with your DB password
-            database="restaurant_db"  # Update with your DB name
+            host='192.95.14.153',  # Your actual server IP
+            user='webbuilderuser',
+            password='m7xXGk6scyBv1iPORvmJ',
+            database='Rest'
         )
         
         # Ensure cursor is created only if the connection is successful

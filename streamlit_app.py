@@ -38,9 +38,9 @@ def execute_stored_procedure(stored_procedure_name, inout_parameters):
             call_stored_procedure_query = f"CALL {stored_procedure_name}{inout_parameters};"
             cursor.execute(call_stored_procedure_query)
 
-            st.write(f"pRestaurantUserName : {inout_parameters[3]}")
-            st.write(f"pStatus : {inout_parameters[4]}")
-            st.write(f"pStatusCheck : {inout_parameters[5]}")
+            # st.write(f"pRestaurantUserName : {inout_parameters[3]}")
+            # st.write(f"pStatus : {inout_parameters[4]}")
+            # st.write(f"pStatusCheck : {inout_parameters[5]}")
 
             cursor.close()
             connection.close()

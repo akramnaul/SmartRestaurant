@@ -25,7 +25,7 @@ def connect_database():
 # Function to Execute a Stored Procedure
 def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
     try:
-        # connection = connect_database()
+        connection = connect_database()
         if connection is not None:
             # st.success("Successfully Connected MySQL Database : Rest ! ")
             cursor = connection.cursor()

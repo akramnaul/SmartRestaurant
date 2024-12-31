@@ -76,7 +76,7 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
         if connection is not None:
             st.success("Successfully Connected MySQL Database : Rest ! ")
             # Button to Trigger the Stored Procedure
-            if st.button("Test Stored Procedure : RestaurantSignin"):
+            if st.button("ClickTest Stored Procedure : RestaurantSignin"):
                 stored_procedure_name = "RestaurantSignin"
                 # Declare & Initialize the IN Parameters
                 pRestaurant = "KhanBurger"
@@ -99,32 +99,3 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
         return None
     
 stored_procedure_ui() # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")
-
-
-
-
-# # Database configuration
-# DB_HOST = '192.95.14.153'
-# DB_USER = 'webbuilderuser'
-# DB_PASSWORD = 'm7xXGk6scyBv1iPORvmJ'
-# DB_NAME = 'Rest'
-
-# # Function to Connect remote MySQL Database Server
-# def connect_to_db():
-#     try:
-#         connection = mysql.connector.connect(
-#             host=DB_HOST,
-#             user=DB_USER,
-#             password=DB_PASSWORD,
-#             database=DB_NAME
-#         )
-#         if connection.is_connected():
-#             st.success("Successfully Connected MySQL Database : Rest ! ")
-#             return connection
-#         else:
-#             st.error("Failed to Connect MySQL Database : Rest ! ")
-#             return None
-#     except Error as e:
-#         st.error(f"Error: {e}")
-#         return None
-

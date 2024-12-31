@@ -11,10 +11,6 @@ def connect_database():
             DB_USER = st.secrets["database"]["DB_USER"]
             DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]
             DB_NAME = st.secrets["database"]["DB_NAME"]
-            # host=DB_HOST,
-            # user=DB_USER,
-            # password=DB_PASSWORD,
-            # database=DB_NAME
         )
         if connection.is_connected():
             # st.success("Successfully Connected MySQL Database : Rest ! ")
@@ -97,5 +93,5 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
     except Error as e:
         st.error(f"Error: {e}")
         return None
-    
+
 stored_procedure_ui() # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")

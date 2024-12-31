@@ -5,10 +5,18 @@ from mysql.connector import Error
 
 # Function to Connect remote MySQL Database Server
 def connect_database():
-    DB_HOST = st.secrets["database"]["DB_HOST"]
-    DB_USER = st.secrets["database"]["DB_USER"]
-    DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]
-    DB_NAME = st.secrets["database"]["DB_NAME"]
+    try:
+        DB_HOST = st.secrets["database"]["DB_HOST"]
+        DB_USER = st.secrets["database"]["DB_USER"]
+        DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]
+        DB_NAME = st.secrets["database"]["DB_NAME"]
+    except KeyError as e:
+        st.error(f"Missing Secret: {e}")
+
+    # DB_HOST = st.secrets["database"]["DB_HOST"]
+    # DB_USER = st.secrets["database"]["DB_USER"]
+    # DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]
+    # DB_NAME = st.secrets["database"]["DB_NAME"]
     try:
         connection = mysql.connector.connect( # DB_HOST,DB_USER,DB_PASSWORD,DB_NAME
             host=DB_HOST,

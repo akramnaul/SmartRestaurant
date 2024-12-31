@@ -42,34 +42,37 @@ def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestauran
         st.error(f"Error: {e}")
         return None
 
-# Streamlit UI
-st.title("MySQL Database Connection and Stored Procedure Testing")
-try:
-    connection = connect_database()
-    if connection is not None:
-# Button to Trigger the Stored Procedure
-        if st.button("Call The Database Stored Procedure : RestaurantSignin"):
-            stored_procedure_name = "RestaurantSignin"
-            # Declare & Initialize the IN Parameters
-            pRestaurant = "KhanBurger"
-            pRestaurantUser = "03004444001"
-            pRestaurantUserPassword = "abcd"
-        
-            # Call the Database Stored Procedure
-            result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
-except Error as e:
-    st.error(f"Error: {e}")
-    return None
+# Stored Procedure User Interface UI
+def stored_procedure_ui(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
+    st.title("MySQL Database Connection and Stored Procedure Testing")
+    try:
+        connection = connect_database()
+        if connection is not None:
+            # Button to Trigger the Stored Procedure
+            if st.button("Call The Database Stored Procedure : RestaurantSignin"):
+                stored_procedure_name = "RestaurantSignin"
+                # Declare & Initialize the IN Parameters
+                pRestaurant = "KhanBurger"
+                pRestaurantUser = "03004444001"
+                pRestaurantUserPassword = "abcd"
+            
+                # Call the Database Stored Procedure
+                result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
+    except Error as e:
+        st.error(f"Error: {e}")
+        return None
+    
+    # Display The Results
+    if result:
+        st.write("Stored Procedure Results:")
+        st.write(f"Result : {result}")
+        st.write(f"pRestaurantUserName : {result['pRestaurantUserName']}")
+        st.write(f"pStatus : {result['pStatus']}")
+        st.write(f"pStatusCheck : {result['pStatusCheck']}")
+    else:
+        st.error("Failed to execute stored procedure or retrieve results.")
 
-# Display The Results
-if result:
-    st.write("Stored Procedure Results:")
-    st.write(f"Result : {result}")
-    st.write(f"pRestaurantUserName : {result['pRestaurantUserName']}")
-    st.write(f"pStatus : {result['pStatus']}")
-    st.write(f"pStatusCheck : {result['pStatusCheck']}")
-else:
-    st.error("Failed to execute stored procedure or retrieve results.")
+stored_procedure_ui(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")
 
 
 

@@ -12,10 +12,10 @@ def connect_database():
     load_dotenv()
     try:
         connection = mysql.connector.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME
+            host=os.getenv("DB_HOST"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_NAME")
         )
         if connection.is_connected():
             # st.success("Successfully Connected MySQL Database : Rest ! ")

@@ -7,10 +7,10 @@ from mysql.connector import Error
 def connect_database():
     try:
         connection = mysql.connector.connect(
-            host=st.secrets["database"]["DB_HOST"],
-            user=st.secrets["database"]["DB_USER"],
-            password=st.secrets["database"]["DB_PASSWORD"],
-            database=st.secrets["database"]["DB_NAME"]
+            st.secrets["database"]["DB_HOST"],
+            st.secrets["database"]["DB_USER"],
+            st.secrets["database"]["DB_PASSWORD"],
+            st.secrets["database"]["DB_NAME"]
         )
         if connection.is_connected():
             # st.success("Successfully Connected MySQL Database : Rest ! ")

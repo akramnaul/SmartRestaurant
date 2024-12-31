@@ -77,9 +77,9 @@ if st.button("Test Stored Procedure"):
     
     # IN parameters
     in_params = [
-        "KhanRestaurant",  # Replace with actual restaurant name
-        "03004444001",        # Replace with actual user name
-        "abcd"     # Replace with actual password
+        "KhanRestaurant", # Replace with actual restaurant name
+        "03004444001",    # Replace with actual user name
+        "abcd"            # Replace with actual password
     ]
 
     # Execute the stored procedure and get OUT parameters
@@ -87,6 +87,6 @@ if st.button("Test Stored Procedure"):
 
     if result:
         # Display OUT parameters
-        st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
+        st.write(f"pRestaurantUserName: {result[3]}")
         st.write(f"pStatus: {result['pStatus']}")
         st.write(f"pStatusCheck: {result['pStatusCheck']}")

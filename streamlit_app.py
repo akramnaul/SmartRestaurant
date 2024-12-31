@@ -85,12 +85,12 @@ if st.button("Test Stored Procedure"):
     stored_procedure_name = "RestaurantSignin"
     
     parameters = [
-    pRestaurant,
-    pRestaurantUser,
-    pRestaurantUserPassword,
-    pRestaurantUserName,
-    pStatus,
-    pStatusCheck
+        pRestaurant,
+        pRestaurantUser,
+        pRestaurantUserPassword,
+        pRestaurantUserName,
+        pStatus,
+        pStatusCheck
     ]
 
     execute_stored_procedure(stored_procedure_name, parameters)

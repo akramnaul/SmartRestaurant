@@ -76,11 +76,14 @@ if st.button("Call Stored Procedure"):
     stored_procedure_name = "RestaurantSignin"
 
     pRestaurant = "KhanBurger"
+    pRestaurantUser = "03004444001"
+    pRestaurantUserPassword = "abcd"
+
     # IN parameters
     in_params = [
         pRestaurant,  # Replace with actual restaurant name
-        "03004444001",  # Replace with actual user name
-        "abcd"          # Replace with actual password
+        pRestaurantUser,  # Replace with actual user name
+        pRestaurantUserPassword          # Replace with actual password
     ]
 
     # Execute the stored procedure

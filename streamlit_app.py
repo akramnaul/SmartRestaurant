@@ -7,7 +7,6 @@ import os
 # Load environment variables from .env
 load_dotenv()
 
-
 # Function to Connect remote MySQL Database Server
 def connect_database():
     try:

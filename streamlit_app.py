@@ -39,29 +39,26 @@ def execute_stored_procedure(
         if connection is not None:
             cursor = connection.cursor()
 
-            # Initialize OUT Parameters
+            # Initialize OUT Parameters for the Stored Procedure
             cursor.execute("SET @pRestaurant = 'KhanBurger',@pRestaurantUser = '03004444001',@pRestaurantUserPassword = 'abcd';")
-            # cursor.execute("SET @pRestaurantUserName = '';")
-            # cursor.execute("SET @pStatus = FALSE;")
-            # cursor.execute("SET @pStatusCheck = '';")
 
-            # Call the stored procedure
-            call_query = (
+            # Call the Stored Procedure
+            call_stored_procedure = (
                 f"CALL {stored_procedure_name}("
-                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}', "
-                f"@pRestaurantUserName, @pStatus, @pStatusCheck);"
+                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
+                f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
             )
-            cursor.execute(call_query)
+            cursor.execute(call_stored_procedure)
 
-            # Fetch the OUT parameters
+            # Fetch the OUT Parameters
             cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
             out_parameters = cursor.fetchone()
 
-            # Close the connection
+            # Close the Cursor & Database Connection
             cursor.close()
             connection.close()
 
-            # Return the results
+            # Return the Results
             return {
                 "pRestaurantUserName": out_parameters[0],
                 "pStatus": bool(out_parameters[1]),
@@ -77,25 +74,24 @@ def execute_stored_procedure(
 # Streamlit UI
 st.title("MySQL Database Connection and Stored Procedure Testing")
 
-# Button to trigger stored procedure
-if st.button("Call Stored Procedure"):
+# Button to Trigger the Stored Procedure
+if st.button("Call The Database Stored Procedure : RestaurantSignin"):
     stored_procedure_name = "RestaurantSignin"
 
-    # Input parameters
+    # Declare & Initialize the IN Parameters
     pRestaurant = "KhanBurger"
     pRestaurantUser = "03004444001"
     pRestaurantUserPassword = "abcd"
 
-    # Call the stored procedure
-    result = execute_stored_procedure(
-        stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword
-    )
+    # Call the Database Stored Procedure
+    result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
 
     # Display the results
     if result:
         st.write("Stored Procedure Results:")
-        st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
-        st.write(f"pStatus: {result['pStatus']}")
-        st.write(f"pStatusCheck: {result['pStatusCheck']}")
+        st.write(f"Result : {result}")
+        st.write(f"pRestaurantUserName : {result['pRestaurantUserName']}")
+        st.write(f"pStatus : {result['pStatus']}")
+        st.write(f"pStatusCheck : {result['pStatusCheck']}")
     else:
         st.error("Failed to execute stored procedure or retrieve results.")

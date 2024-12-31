@@ -1,4 +1,6 @@
 import streamlit as st
+import mysql.connector
+from mysql.connector import Error
 
 # Database configuration
 DB_HOST = st.secrets["database"]["DB_HOST"]

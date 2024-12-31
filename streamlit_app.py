@@ -5,7 +5,7 @@ from mysql.connector import Error
 
 # Function to Connect remote MySQL Database Server
 def connect_database():
-    try:
+    try: 
         connection = mysql.connector.connect(
             DB_HOST = st.secrets["database"]["DB_HOST"]
             DB_USER = st.secrets["database"]["DB_USER"]

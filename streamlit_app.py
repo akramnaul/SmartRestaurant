@@ -8,7 +8,7 @@ DB_USER = 'webbuilderuser'
 DB_PASSWORD = 'm7xXGk6scyBv1iPORvmJ'
 DB_NAME = 'Rest'
 
-# Function to connect to MySQL database
+# Function to Connect remote MySQL Database Server
 def connect_to_db():
     try:
         connection = mysql.connector.connect(
@@ -18,31 +18,26 @@ def connect_to_db():
             database=DB_NAME
         )
         if connection.is_connected():
-            st.success("Successfully connected to MySQL Database: Rest!")
+            st.success("Successfully Connected MySQL Database : Rest ! ")
             return connection
         else:
-            st.error("Failed to connect to MySQL Database: Rest!")
+            st.error("Failed to Connect MySQL Database : Rest ! ")
             return None
     except Error as e:
         st.error(f"Error: {e}")
         return None
 
-# Function to execute a stored procedure
-def execute_stored_procedure(
-    stored_procedure_name="RestaurantSignin",
-    pRestaurant="KhanBurger",
-    pRestaurantUser="03004444001",
-    pRestaurantUserPassword="abcd"
-):
+# Function to Execute a Stored Procedure
+def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
     try:
         connection = connect_to_db()
         if connection is not None:
             cursor = connection.cursor()
 
-            # Initialize OUT Parameters for the Stored Procedure
+            # Initialize OUT Parameters for the Stored Procedure RestaurantSignin
             cursor.execute("SET @pRestaurant = 'KhanBurger',@pRestaurantUser = '03004444001',@pRestaurantUserPassword = 'abcd';")
 
-            # Call the Stored Procedure
+            # Call the Stored Procedure RestaurantSignin
             call_stored_procedure = (
                 f"CALL {stored_procedure_name}("
                 f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
@@ -50,7 +45,7 @@ def execute_stored_procedure(
             )
             cursor.execute(call_stored_procedure)
 
-            # Fetch the OUT Parameters
+            # Fetch the OUT Parameters from MySQL Server
             cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
             out_parameters = cursor.fetchone()
 
@@ -58,14 +53,14 @@ def execute_stored_procedure(
             cursor.close()
             connection.close()
 
-            # Return the Results
+            # Return The Results
             return {
                 "pRestaurantUserName": out_parameters[0],
                 "pStatus": bool(out_parameters[1]),
                 "pStatusCheck": out_parameters[2],
             }
         else:
-            st.error("Failed to execute stored procedure. Database connection failed.")
+            st.error("Failed to Execute Stored Procedure.....Database Connection Failed.....")
             return None
     except Error as e:
         st.error(f"Error: {e}")
@@ -77,7 +72,6 @@ st.title("MySQL Database Connection and Stored Procedure Testing")
 # Button to Trigger the Stored Procedure
 if st.button("Call The Database Stored Procedure : RestaurantSignin"):
     stored_procedure_name = "RestaurantSignin"
-
     # Declare & Initialize the IN Parameters
     pRestaurant = "KhanBurger"
     pRestaurantUser = "03004444001"

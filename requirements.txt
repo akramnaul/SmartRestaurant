@@ -4,4 +4,5 @@ pymysql>=1.1.1                # Alternative MySQL connector (optional)
 requests>=2.32.3              # For handling HTTP requests (if needed for authentication)
 pandas>=2.2.3                 # For data manipulation (often used with Streamlit apps)
 numpy>=2.2.0                  # For numerical operations (optional, if needed)
+python-dotenv>=1.0.1          # For keeping / getting Database Credentials in .env
 

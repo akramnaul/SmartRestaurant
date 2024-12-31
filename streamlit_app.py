@@ -42,7 +42,7 @@ def execute_stored_procedure(stored_procedure_name = "RestaurantSignin", pRestau
             # Construct the procedure call query
             call_query = (
                 f"CALL {stored_procedure_name}("
-                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}', "
+                f"{pRestaurant}, {pRestaurantUser}, {pRestaurantUserPassword}, "
                 f"@pRestaurantUserName, @pStatus, @pStatusCheck);"
             # call_query = (
                 # f"CALL {stored_procedure_name}("

@@ -100,6 +100,6 @@ if st.button("Test Stored Procedure"):
     pStatus = parameters[4]
     pStatusCheck = parameters[5]
 
-    st.write("st.write("pRestaurantUserName : {pRestaurantUserName}"
+    st.write("pRestaurantUserName : {pRestaurantUserName}")
     st.write(f"pStatus : {pStatus}")
     st.write(f"pStatusCheck : {pStatusCheck}")

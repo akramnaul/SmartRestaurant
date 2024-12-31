@@ -24,7 +24,7 @@ def connect_to_db():
             st.error("Failed to Connect to MySQL Database : Rest!")
             return None
     except Error as e:
-        st.error(f"Error : {e}")
+        st.error(f"Error: {e}")
         return None
 
 # Function to Execute Stored Procedure Passing IN and Retrieving OUT Parameters
@@ -36,7 +36,7 @@ def execute_stored_procedure(stored_procedure_name, in_params):
 
             # Define OUT variables
             cursor.execute("SET @pRestaurantUserName = '';")
-            cursor.execute("SET @pStatus = 0;")
+            cursor.execute("SET @pStatus = FALSE;")
             cursor.execute("SET @pStatusCheck = '';")
 
             # Construct the procedure call query
@@ -57,9 +57,9 @@ def execute_stored_procedure(stored_procedure_name, in_params):
 
             # Return OUT parameters
             return {
-                "pRestaurantUserName": out_values[3],
-                "pStatus": bool(out_values[4]),
-                "pStatusCheck": out_values[5]
+                "pRestaurantUserName": out_values[0],
+                "pStatus": bool(out_values[1]),
+                "pStatusCheck": out_values[2]
             }
         else:
             st.error("Unable to Execute Stored Procedure, Database Connection Failed.")
@@ -72,44 +72,22 @@ def execute_stored_procedure(stored_procedure_name, in_params):
 st.title("MySQL Database Connection and Stored Procedure Testing")
 
 # Execute the Stored Procedure when the Button is Pressed / Clicked
-# if st.button("Test Stored Procedure"):
-#     stored_procedure_name = "RestaurantSignin"
-#     restaurant = "KhanRestaurant"
-#     restaurant_user = "03004444001"
-#     restaurant_user_password = "abcd"
-#     # IN parameters
-#     in_params = [
-#         restaurant,
-#         restaurant_user,
-#         restaurant_user_password
-#     ]
-
-#     # Execute the stored procedure and get OUT parameters
-#     result = execute_stored_procedure(stored_procedure_name, in_params)
-    
-#     if result:
-#         # Display OUT Parameters (if received)
-#         st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
-#         st.write(f"pStatus: {result['pStatus']}")
-#         st.write(f"pStatusCheck: {result['pStatusCheck']}")
-
 if st.button("Test Stored Procedure"):
     stored_procedure_name = "RestaurantSignin"
     
     # IN parameters
     in_params = [
         "KhanBurger",  # Replace with actual restaurant name
-        "03004444001",        # Replace with actual user name
-        "abcd"     # Replace with actual password
+        "03004444001",  # Replace with actual user name
+        "abcd"          # Replace with actual password
     ]
 
     # Execute the stored procedure
     result = execute_stored_procedure(stored_procedure_name, in_params)
 
-    # Check if result is not None
-    st.write(f"Result : {result}")
+    # Display results
+    st.write(f"Result: {result}")
     if result:
-        # Display OUT parameters
         st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
         st.write(f"pStatus: {result['pStatus']}")
         st.write(f"pStatusCheck: {result['pStatusCheck']}")

@@ -73,7 +73,7 @@ def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestauran
 def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
     st.title("MySQL Database Connection and Stored Procedure Testing")
     try:
-        connection = connect_database()
+        connection = connect_mysql_database()
         if connection is not None:
             st.success("Successfully Connected MySQL Database : Rest ! ")
             # Button to Trigger the Stored Procedure

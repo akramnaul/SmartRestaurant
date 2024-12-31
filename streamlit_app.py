@@ -33,7 +33,7 @@ def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestauran
     try:
         connection = connect_database()
         if connection is not None:
-            st.success("Successfully Connected MySQL Database : Rest ! ")
+            # st.success("Successfully Connected MySQL Database : Rest ! ")
             cursor = connection.cursor()
 
             # Initialize OUT Parameters for the Stored Procedure RestaurantSignin
@@ -74,6 +74,7 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
     try:
         connection = connect_database()
         if connection is not None:
+            st.success("Successfully Connected MySQL Database : Rest ! ")
             # Button to Trigger the Stored Procedure
             if st.button("Call The Database Stored Procedure : RestaurantSignin"):
                 stored_procedure_name = "RestaurantSignin"

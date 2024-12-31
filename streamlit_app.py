@@ -98,7 +98,7 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
     else:
         st.error("Failed to execute stored procedure or retrieve results.")
 
-stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")
+stored_procedure_ui() # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")
 
 
 

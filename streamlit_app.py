@@ -107,6 +107,7 @@ if st.button("Test Stored Procedure"):
     result = execute_stored_procedure(stored_procedure_name, in_params)
 
     # Check if result is not None
+    st.write(f"Result : {result}")
     if result:
         # Display OUT parameters
         st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")

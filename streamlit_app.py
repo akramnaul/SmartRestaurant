@@ -55,7 +55,7 @@ def execute_stored_procedure(stored_procedure_name, in_params):
             cursor.close()
             connection.close()
 
-            # Return OUT parameters
+            # Return OUT Parameters
             return {
                 "pRestaurantUserName": out_values[0],
                 "pStatus": bool(out_values[1]),
@@ -72,12 +72,13 @@ def execute_stored_procedure(stored_procedure_name, in_params):
 st.title("MySQL Database Connection and Stored Procedure Testing")
 
 # Execute the Stored Procedure when the Button is Pressed / Clicked
-if st.button("Test Stored Procedure"):
+if st.button("Call Stored Procedure"):
     stored_procedure_name = "RestaurantSignin"
-    
+
+    pRestaurant = "KhanBurger"
     # IN parameters
     in_params = [
-        "KhanBurger",  # Replace with actual restaurant name
+        pRestaurant,  # Replace with actual restaurant name
         "03004444001",  # Replace with actual user name
         "abcd"          # Replace with actual password
     ]

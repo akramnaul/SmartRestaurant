@@ -84,8 +84,8 @@ if st.button("Test Stored Procedure"):
         restaurant_user_password
     ]
 
-    # Execute the stored procedure and get OUT parameters
-    result = execute_stored_procedure(stored_procedure_name, in_params)
+# Execute the stored procedure and get OUT parameters
+result = execute_stored_procedure(stored_procedure_name, in_params)
 
 if result:
     # Display OUT Parameters (if received)

@@ -10,7 +10,12 @@ def connect_database():
     DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]
     DB_NAME = st.secrets["database"]["DB_NAME"]
     try:
-        connection = mysql.connector.connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME)
+        connection = mysql.connector.connect( # DB_HOST,DB_USER,DB_PASSWORD,DB_NAME
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
+        )
         if connection.is_connected():
             # st.success("Successfully Connected MySQL Database : Rest ! ")
             return connection

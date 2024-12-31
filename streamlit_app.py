@@ -87,8 +87,9 @@ if st.button("Test Stored Procedure"):
     # Execute the stored procedure and get OUT parameters
     result = execute_stored_procedure(stored_procedure_name, in_params)
 
-    if result:
-        # Display OUT parameters
-        st.write(f"pRestaurantUserName: {result[3]}")
-        st.write(f"pStatus: {result['pStatus']}")
-        st.write(f"pStatusCheck: {result['pStatusCheck']}")
+if result:
+    # Display OUT Parameters (if received)
+    st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
+    st.write(f"pStatus: {result['pStatus']}")
+    st.write(f"pStatusCheck: {result['pStatusCheck']}")
+

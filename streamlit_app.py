@@ -28,14 +28,14 @@ def connect_to_db():
         return None
 
 # Function to Execute Stored Procedure Passing IN and Retrieving OUT Parameters
-def execute_stored_procedure(stored_procedure_name, in_params):
+def execute_stored_procedure(stored_procedure_name = "RestaurantSignin", pRestaurant = "KhanBurger", pRestaurantUser = "03004444001", pRestaurantUserPassword = "abcd",pRestaurantUserName = "@pRestaurantUserName",pStatus = "@pStatus",pStatusCheck = "@pStatusCheck"):
     try:
         connection = connect_to_db()
         if connection is not None:
             cursor = connection.cursor()
 
             # Define OUT variables
-            cursor.execute("SET @pRestaurantUserName = '';")
+            cursor.execute("SET "+pRestaurantUserName+" = '';")
             cursor.execute("SET @pStatus = FALSE;")
             cursor.execute("SET @pStatusCheck = '';")
 

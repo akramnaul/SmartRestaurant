@@ -98,7 +98,7 @@ if st.button("Test Stored Procedure"):
     
     # IN parameters
     in_params = [
-        "KhanRestaurant",  # Replace with actual restaurant name
+        "KhanBurger",  # Replace with actual restaurant name
         "03004444001",        # Replace with actual user name
         "abcd"     # Replace with actual password
     ]

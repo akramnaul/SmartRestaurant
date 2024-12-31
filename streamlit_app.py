@@ -1,37 +1,38 @@
 import streamlit as st
 import mysql.connector
 from mysql.connector import Error
-from config import *
+from connect_database import connect_mysql_database
+# from config import *
 
 # Function to Connect remote MySQL Database Server
-def connect_database():
-    try:
-        # # Database Configuration
-        # DB_HOST = st.secrets["database"]["DB_HOST"]
-        # DB_USER = st.secrets["database"]["DB_USER"]
-        # DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]
-        # DB_NAME = st.secrets["database"]["DB_NAME"]
+# def connect_database():
+#     try:
+#         # # Database Configuration
+#         # DB_HOST = st.secrets["database"]["DB_HOST"]
+#         # DB_USER = st.secrets["database"]["DB_USER"]
+#         # DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]
+#         # DB_NAME = st.secrets["database"]["DB_NAME"]
 
-        connection = mysql.connector.connect(
-            host=DB_HOST,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            database=DB_NAME
-        )
-        if connection.is_connected():
-            # st.success("Successfully Connected MySQL Database : Rest ! ")
-            return connection
-        else:
-            st.error("Failed to Connect MySQL Database : Rest ! ")
-            return None
-    except Error as e:
-        st.error(f"Error: {e}")
-        return None
+#         connection = mysql.connector.connect(
+#             host=DB_HOST,
+#             user=DB_USER,
+#             password=DB_PASSWORD,
+#             database=DB_NAME
+#         )
+#         if connection.is_connected():
+#             # st.success("Successfully Connected MySQL Database : Rest ! ")
+#             return connection
+#         else:
+#             st.error("Failed to Connect MySQL Database : Rest ! ")
+#             return None
+#     except Error as e:
+#         st.error(f"Error: {e}")
+#         return None
 
 # Function to Execute a Stored Procedure
 def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
     try:
-        connection = connect_database()
+        connection = connect_mysql_database()
         if connection is not None:
             # st.success("Successfully Connected MySQL Database : Rest ! ")
             cursor = connection.cursor()

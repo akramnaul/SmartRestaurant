@@ -2,9 +2,14 @@ import streamlit as st
 import mysql.connector
 from mysql.connector import Error
 # from config import *
+from dotenv import load_dotenv
+import os
+
 
 # Function to Connect remote MySQL Database Server
 def connect_database():
+    # Load environment variables from .env
+    load_dotenv()
     try:
         connection = mysql.connector.connect(
             host=DB_HOST,

@@ -42,8 +42,12 @@ def execute_stored_procedure(stored_procedure_name = "RestaurantSignin", pRestau
             # Construct the procedure call query
             call_query = (
                 f"CALL {stored_procedure_name}("
-                f"'{in_params[0]}', '{in_params[1]}', '{in_params[2]}', "
+                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}', "
                 f"@pRestaurantUserName, @pStatus, @pStatusCheck);"
+            # call_query = (
+                # f"CALL {stored_procedure_name}("
+                # f"'{in_params[0]}', '{in_params[1]}', '{in_params[2]}', "
+                # f"@pRestaurantUserName, @pStatus, @pStatusCheck);"
             )
             cursor.execute(call_query)
 

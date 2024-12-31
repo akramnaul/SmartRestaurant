@@ -2,7 +2,7 @@ import streamlit as st
 import mysql.connector
 from mysql.connector import Error
 
-# Database configuration
+# Database Configuration
 DB_HOST = st.secrets["database"]["DB_HOST"]
 DB_USER = st.secrets["database"]["DB_USER"]
 DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]

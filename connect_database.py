@@ -1,6 +1,6 @@
 import streamlit as st
-# import mysql.connector
-# from mysql.connector import Error
+import mysql.connector
+from mysql.connector import Error
 
 # Database configuration
 DB_HOST = st.secrets["database"]["DB_HOST"]
@@ -14,7 +14,7 @@ DB_NAME = st.secrets["database"]["DB_NAME"]
 # DB_NAME = 'Rest'
 
 # Function to Connect remote MySQL Database Server
-def connect_database():
+def connect_mysql_database():
     try:
         connection = mysql.connector.connect(
             host=DB_HOST,

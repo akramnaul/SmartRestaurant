@@ -1,15 +1,16 @@
 import streamlit as st
 import mysql.connector
 from mysql.connector import Error
+from config import DB_HOST,DB_USER,DB_PASSWORD,DB_NAME
 
 # Function to Connect remote MySQL Database Server
 def connect_database():
     try:
-        # Database Configuration
-        DB_HOST = st.secrets["database"]["DB_HOST"]
-        DB_USER = st.secrets["database"]["DB_USER"]
-        DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]
-        DB_NAME = st.secrets["database"]["DB_NAME"]
+        # # Database Configuration
+        # DB_HOST = st.secrets["database"]["DB_HOST"]
+        # DB_USER = st.secrets["database"]["DB_USER"]
+        # DB_PASSWORD = st.secrets["database"]["DB_PASSWORD"]
+        # DB_NAME = st.secrets["database"]["DB_NAME"]
 
         connection = mysql.connector.connect(
             host=DB_HOST,

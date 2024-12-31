@@ -36,8 +36,8 @@ def execute_stored_procedure(stored_procedure_name = "RestaurantSignin", pRestau
 
             # Define OUT variables
             cursor.execute("SET "+pRestaurantUserName+" = '';")
-            cursor.execute("SET @pStatus = FALSE;")
-            cursor.execute("SET @pStatusCheck = '';")
+            cursor.execute("SET "+pStatus+" = FALSE;")
+            cursor.execute("SET "+pStatusCheck+" = '';")
 
             # Construct the procedure call query
             call_query = (

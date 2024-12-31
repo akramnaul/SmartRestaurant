@@ -57,9 +57,9 @@ def execute_stored_procedure(stored_procedure_name, in_params):
 
             # Return OUT parameters
             return {
-                "pRestaurantUserName": out_values[0],
-                "pStatus": bool(out_values[1]),
-                "pStatusCheck": out_values[2],
+                "pRestaurantUserName": out_values[3],
+                "pStatus": bool(out_values[4]),
+                "pStatusCheck": out_values[5],
             }
         else:
             st.error("Unable to Execute Stored Procedure, Database Connection Failed.")

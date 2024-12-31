@@ -1,6 +1,6 @@
-# import streamlit as st
-# import mysql.connector
-# from mysql.connector import Error
+import streamlit as st
+import mysql.connector
+from mysql.connector import Error
 from connect_database import connect_database
 
 # Function to Execute a Stored Procedure

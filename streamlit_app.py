@@ -39,10 +39,11 @@ def execute_stored_procedure(
         if connection is not None:
             cursor = connection.cursor()
 
-            # Initialize OUT parameters
-            cursor.execute("SET @pRestaurantUserName = '';")
-            cursor.execute("SET @pStatus = FALSE;")
-            cursor.execute("SET @pStatusCheck = '';")
+            # Initialize OUT Parameters
+            cursor.execute("SET @pRestaurant = 'KhanBurger',@pRestaurantUser = '03004444001',@pRestaurantUserPassword = 'abcd';")
+            # cursor.execute("SET @pRestaurantUserName = '';")
+            # cursor.execute("SET @pStatus = FALSE;")
+            # cursor.execute("SET @pStatusCheck = '';")
 
             # Call the stored procedure
             call_query = (

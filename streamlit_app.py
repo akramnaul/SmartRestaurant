@@ -83,7 +83,7 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
                 result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
                 # Display The Results
                 if result:
-                    st.write("Stored Procedure Results:")
+                    st.write("Stored Procedure OUT Parameters :")
                     # st.write(f"Result : {result}")
                     st.write(f"pRestaurantUserName : {result['pRestaurantUserName']}")
                     st.write(f"pStatus : {result['pStatus']}")

@@ -18,36 +18,55 @@ def connect_to_db():
             database=DB_NAME
         )
         if connection.is_connected():
-            st.success("Successfully Connected MySQL Database : Rest !")
+            st.success("Successfully Connected to MySQL Database : Rest!")
             return connection
         else:
-            st.error("Failed to Connect MySQL Database : Rest !")
+            st.error("Failed to Connect to MySQL Database : Rest!")
             return None
     except Error as e:
-        st.error(f"Error : {e} ")
+        st.error(f"Error : {e}")
         return None
 
 # Function to Execute Stored Procedure Passing IN and Retrieving OUT Parameters
-def execute_stored_procedure(stored_procedure_name, inout_parameters):
+def execute_stored_procedure(stored_procedure_name, in_params):
     try:
         connection = connect_to_db()
         if connection is not None:
             cursor = connection.cursor()
 
-            # Execute the stored procedure
-            call_stored_procedure_query = f"CALL {stored_procedure_name}{inout_parameters};"
-            cursor.execute(call_stored_procedure_query)
+            # Define OUT variables
+            cursor.execute("SET @pRestaurantUserName = '';")
+            cursor.execute("SET @pStatus = 0;")
+            cursor.execute("SET @pStatusCheck = '';")
 
-            # st.write(f"pRestaurantUserName : {inout_parameters[3]}")
-            # st.write(f"pStatus : {inout_parameters[4]}")
-            # st.write(f"pStatusCheck : {inout_parameters[5]}")
+            # Construct the procedure call query
+            call_query = (
+                f"CALL {stored_procedure_name}("
+                f"'{in_params[0]}', '{in_params[1]}', '{in_params[2]}', "
+                f"@pRestaurantUserName, @pStatus, @pStatusCheck);"
+            )
+            cursor.execute(call_query)
 
+            # Retrieve OUT parameters
+            cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+            out_values = cursor.fetchone()
+
+            # Close the cursor and connection
             cursor.close()
             connection.close()
+
+            # Return OUT parameters
+            return {
+                "pRestaurantUserName": out_values[0],
+                "pStatus": bool(out_values[1]),
+                "pStatusCheck": out_values[2],
+            }
         else:
             st.error("Unable to Execute Stored Procedure, Database Connection Failed.")
+            return None
     except Error as e:
         st.error(f"Error: {e}")
+        return None
 
 # Streamlit UI
 st.title("MySQL Database Connection and Stored Procedure Testing")
@@ -56,15 +75,18 @@ st.title("MySQL Database Connection and Stored Procedure Testing")
 if st.button("Test Stored Procedure"):
     stored_procedure_name = "RestaurantSignin"
     
-    parameters = "(pRestaurant,pRestaurantUser,pRestaurantUserPassword,pRestaurantUserName,pStatus,pStatusCheck)"
+    # IN parameters
+    in_params = [
+        "KhanRestaurant",  # Replace with actual restaurant name
+        "03004444001",        # Replace with actual user name
+        "abcd"     # Replace with actual password
+    ]
 
-    execute_stored_procedure(stored_procedure_name, parameters)
+    # Execute the stored procedure and get OUT parameters
+    result = execute_stored_procedure(stored_procedure_name, in_params)
 
-    # Fetch the OUT parameter values from the parameter list
-    pRestaurantUserName = parameters[3]
-    pStatus = parameters[4]
-    pStatusCheck = parameters[5]
-
-    st.write("pRestaurantUserName : {pRestaurantUserName}")
-    st.write(f"pStatus : {pStatus}")
-    st.write(f"pStatusCheck : {pStatusCheck}")
+    if result:
+        # Display OUT parameters
+        st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
+        st.write(f"pStatus: {result['pStatus']}")
+        st.write(f"pStatusCheck: {result['pStatusCheck']}")

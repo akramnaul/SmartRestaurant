@@ -28,13 +28,13 @@ def connect_to_db():
         return None
 
 # Function to Execute Stored Procedure Passing IN and Retrieving OUT Parameters
-def execute_stored_procedure(stored_procedure_name = "RestaurantSignin", pRestaurant = "KhanBurger", pRestaurantUser = "03004444001", pRestaurantUserPassword = "abcd",pRestaurantUserName = "@pRestaurantUserName",pStatus = "@pStatus",pStatusCheck = "@pStatusCheck"):
+def execute_stored_procedure(stored_procedure_name = "RestaurantSignin", pRestaurant = "KhanBurger", pRestaurantUser = "03004444001", pRestaurantUserPassword = "abcd"):
     try:
         connection = connect_to_db()
         if connection is not None:
             cursor = connection.cursor()
 
-            # Define OUT variables
+            # Define OUT Parameters / Variables / Equal to Pass By Reference
             cursor.execute("SET "+pRestaurantUserName+" = '';")
             cursor.execute("SET "+pStatus+" = FALSE;")
             cursor.execute("SET "+pStatusCheck+" = '';")
@@ -51,9 +51,9 @@ def execute_stored_procedure(stored_procedure_name = "RestaurantSignin", pRestau
             )
             cursor.execute(call_query)
 
-            # Retrieve OUT parameters
+            # Retrieve OUT Parameters / Variables / Equal to Pass By Reference
             cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
-            out_values = cursor.fetchone()
+            out_parameters = cursor.fetchone()
 
             # Close the cursor and connection
             cursor.close()
@@ -61,9 +61,9 @@ def execute_stored_procedure(stored_procedure_name = "RestaurantSignin", pRestau
 
             # Return OUT Parameters
             return {
-                "pRestaurantUserName": out_values[0],
-                "pStatus": bool(out_values[1]),
-                "pStatusCheck": out_values[2]
+                "pRestaurantUserName": out_parameters[0],
+                "pStatus": bool(out_parameters[1]),
+                "pStatusCheck": out_parameters[2]
             }
         else:
             st.error("Unable to Execute Stored Procedure, Database Connection Failed.")
@@ -91,7 +91,7 @@ if st.button("Call Stored Procedure"):
     ]
 
     # Execute the stored procedure
-    result = execute_stored_procedure(stored_procedure_name, in_params)
+    result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword,pRestaurantUserName,pStatus,pStatusCheck)
 
     # Display results
     st.write(f"Result: {result}")

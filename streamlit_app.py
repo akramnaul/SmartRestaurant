@@ -72,24 +72,45 @@ def execute_stored_procedure(stored_procedure_name, in_params):
 st.title("MySQL Database Connection and Stored Procedure Testing")
 
 # Execute the Stored Procedure when the Button is Pressed / Clicked
+# if st.button("Test Stored Procedure"):
+#     stored_procedure_name = "RestaurantSignin"
+#     restaurant = "KhanRestaurant"
+#     restaurant_user = "03004444001"
+#     restaurant_user_password = "abcd"
+#     # IN parameters
+#     in_params = [
+#         restaurant,
+#         restaurant_user,
+#         restaurant_user_password
+#     ]
+
+#     # Execute the stored procedure and get OUT parameters
+#     result = execute_stored_procedure(stored_procedure_name, in_params)
+    
+#     if result:
+#         # Display OUT Parameters (if received)
+#         st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
+#         st.write(f"pStatus: {result['pStatus']}")
+#         st.write(f"pStatusCheck: {result['pStatusCheck']}")
+
 if st.button("Test Stored Procedure"):
     stored_procedure_name = "RestaurantSignin"
-    restaurant = "KhanRestaurant"
-    restaurant_user = "03004444001"
-    restaurant_user_password = "abcd"
+    
     # IN parameters
     in_params = [
-        restaurant,
-        restaurant_user,
-        restaurant_user_password
+        "KhanRestaurant",  # Replace with actual restaurant name
+        "03004444001",        # Replace with actual user name
+        "abcd"     # Replace with actual password
     ]
 
-    # Execute the stored procedure and get OUT parameters
+    # Execute the stored procedure
     result = execute_stored_procedure(stored_procedure_name, in_params)
-    
+
+    # Check if result is not None
     if result:
-        # Display OUT Parameters (if received)
+        # Display OUT parameters
         st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
         st.write(f"pStatus: {result['pStatus']}")
         st.write(f"pStatusCheck: {result['pStatusCheck']}")
-
+    else:
+        st.error("Failed to execute stored procedure or retrieve results.")

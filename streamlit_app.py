@@ -5,6 +5,12 @@ from mysql.connector import Error
 
 # Function to Connect remote MySQL Database Server
 def connect_database():
+    if "database" in st.secrets:
+        st.write("Database secrets loaded successfully!")
+        st.write("Host:", st.secrets["database"]["DB_HOST"])
+    else:
+        st.error("Database secrets are not found.")
+    
     try:
         DB_HOST = st.secrets["database"]["DB_HOST"]
         DB_USER = st.secrets["database"]["DB_USER"]

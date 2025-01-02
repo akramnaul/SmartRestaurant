@@ -25,7 +25,7 @@ from logic_ui import *
 #                 pRestaurantUserPassword = "abcd"
             
 #                 # Call the Database Stored Procedure
-#                 result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
+#                 result = execute_stored_procedure_RestaurantSignin(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
 #                 # Display The Results
 #                 if result:
 #                     st.write("Stored Procedure OUT Parameters :")

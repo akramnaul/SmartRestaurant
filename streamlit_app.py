@@ -1,7 +1,6 @@
 import streamlit as st
 import mysql.connector
 from mysql.connector import Error
-# from config import *
 from dotenv import load_dotenv
 import os
 from logic_backend import *

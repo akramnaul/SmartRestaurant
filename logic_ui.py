@@ -1,11 +1,10 @@
 import streamlit as st
 import mysql.connector
 from mysql.connector import Error
-# from config import *
 from dotenv import load_dotenv
 import os
-from database import *
-from logic import *
+from logic_backend import *
+from logic_frontend import *
 
 # Stored Procedure User Interface UI
 def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):

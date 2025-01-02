@@ -17,7 +17,7 @@ def connect_database():
             database=os.getenv("DB_NAME")
         )
         if connection.is_connected():
-            # st.success("Successfully Connected MySQL Database : Rest ! ")
+            st.success("Successfully Connected MySQL Database : Rest ! ")
             return connection
         else:
             st.error("Failed to Connect MySQL Database : Rest ! ")

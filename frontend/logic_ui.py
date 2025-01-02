@@ -24,6 +24,12 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
                 pRestaurantUserPassword = "abcd"
 
             # Call the Stored Procedure : Name : IN : OUT Parameters
+            stored_procedure_call = ( # stored_procedure_name_and_in_out_parameters = (
+                f"CALL {stored_procedure_name}("
+                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
+                f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
+            )
+            # Call the Stored Procedure : Name : IN : OUT Parameters
             # stored_procedure_name_and_in_out_parameters = (
             #     f"CALL {stored_procedure_name}("
             #     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
@@ -31,10 +37,19 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
             # )
 
             # Fetch the OUT Parameters from MySQL Server
-            # stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
+            stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
 
-            # Call the Database Stored Procedure
-                result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
+            # Return The Results
+            # Store the returning parameters in a variable
+            returning_parameters = {
+                "pRestaurantUserName": out_parameters[0],
+                "pStatus": bool(out_parameters[1]),
+                "pStatusCheck": out_parameters[2],
+            }
+
+            # Call the Database Stored Procedure   : 
+                result = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters,returning_parameters)
+                # result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
                 # Display The Results
                 if result:
                     st.write("Stored Procedure OUT Parameters :")

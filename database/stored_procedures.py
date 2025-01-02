@@ -16,12 +16,18 @@ def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestauran
             # Initialize OUT Parameters for the Stored Procedure RestaurantSignin
             cursor.execute("SET @pRestaurant = 'KhanBurger',@pRestaurantUser = '03004444001',@pRestaurantUserPassword = 'abcd';")
 
-            # Call the Stored Procedure RestaurantSignin
-            call_stored_procedure = (
+            # Call the Stored Procedure RestaurantSignin : Construct Parameters
+            stored_procedure_parameters = (
                 f"CALL {stored_procedure_name}("
                 f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
                 f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
             )
+            # Call the Stored Procedure RestaurantSignin
+            call_stored_procedure = (stored_procedure_parameters)
+            #     f"CALL {stored_procedure_name}("
+            #     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
+            #     f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
+            # )
             cursor.execute(call_stored_procedure)
 
             # Fetch the OUT Parameters from MySQL Server

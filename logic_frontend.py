@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 import os
-from database import *
+from logic_backend import *
 
 # Function to Execute a Stored Procedure
 def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):

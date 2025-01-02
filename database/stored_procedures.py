@@ -13,17 +13,14 @@ def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestauran
             # st.success("Successfully Connected MySQL Database : Rest ! ")
             cursor = connection.cursor()
 
-            # Initialize OUT Parameters for the Stored Procedure RestaurantSignin
-            # cursor.execute("SET @pRestaurant = 'KhanBurger',@pRestaurantUser = '03004444001',@pRestaurantUserPassword = 'abcd';")
-
-            # Call the Stored Procedure RestaurantSignin : Construct Parameters
-            stored_procedure_parameters = (
+            # Call the Stored Procedure : Name : IN : OUT Parameters
+            stored_procedure_name_and_in_out_parameters = (
                 f"CALL {stored_procedure_name}("
                 f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
                 f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
             )
             # Call the Stored Procedure RestaurantSignin
-            call_stored_procedure = (stored_procedure_parameters)
+            call_stored_procedure = (stored_procedure_name_and_in_out_parameters)
             #     f"CALL {stored_procedure_name}("
             #     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
             #     f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
@@ -31,7 +28,9 @@ def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestauran
             cursor.execute(call_stored_procedure)
 
             # Fetch the OUT Parameters from MySQL Server
-            cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+            stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
+            cursor.execute(stored_procedure_out_parameters)
+            # cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
             out_parameters = cursor.fetchone()
 
             # Close the Cursor & Database Connection

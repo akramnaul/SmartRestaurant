@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 import os
-from logic_backend import *
+from ./database/connect_database import *
 from logic_frontend import *
 from logic_ui import *
 

@@ -6,7 +6,7 @@ import os
 from database.connect_database import *
 
 # Function to Execute a Stored Procedure
-def execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters,returning_parameters):
+def execute_stored_procedure(stored_procedure_call, stored_procedure_out_parameters, stored_procedure_returning_parameters):
 # def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
     try:
         connection = connect_database()
@@ -48,7 +48,7 @@ def execute_stored_procedure(stored_procedure_call,stored_procedure_out_paramete
             # }
             
             # Return the dictionary
-            return returning_parameters
+            return stored_procedure_returning_parameters
 
             # return {
             #     "pRestaurantUserName": out_parameters[0],

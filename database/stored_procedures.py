@@ -38,11 +38,21 @@ def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestauran
             connection.close()
 
             # Return The Results
-            return {
+            # Store the returning parameters in a variable
+            returning_parameters = {
                 "pRestaurantUserName": out_parameters[0],
                 "pStatus": bool(out_parameters[1]),
                 "pStatusCheck": out_parameters[2],
             }
+            
+            # Return the dictionary
+            return returning_parameters
+
+            # return {
+            #     "pRestaurantUserName": out_parameters[0],
+            #     "pStatus": bool(out_parameters[1]),
+            #     "pStatusCheck": out_parameters[2],
+            # }
         else:
             st.error("Failed to Execute Stored Procedure.....Database Connection Failed.....")
             return None

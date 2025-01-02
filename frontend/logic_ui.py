@@ -25,9 +25,9 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
 
             # Call the Stored Procedure : Name : IN : OUT Parameters
             stored_procedure_call = ( # stored_procedure_name_and_in_out_parameters = (
-                f"CALL {stored_procedure_name}("
-                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
-                f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
+                f"CALL RestaurantSignin("
+                f"'KhanBurger', '03004444001', 'abcd',"            # IN Parameters
+                f"@pRestaurantUserName, @pStatus, @pStatusCheck);" # OUT Parameters
             )
             # Call the Stored Procedure : Name : IN : OUT Parameters
             # stored_procedure_name_and_in_out_parameters = (

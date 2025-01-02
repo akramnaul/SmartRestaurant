@@ -14,7 +14,7 @@ def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestauran
             cursor = connection.cursor()
 
             # Initialize OUT Parameters for the Stored Procedure RestaurantSignin
-            cursor.execute("SET @pRestaurant = 'KhanBurger',@pRestaurantUser = '03004444001',@pRestaurantUserPassword = 'abcd';")
+            # cursor.execute("SET @pRestaurant = 'KhanBurger',@pRestaurantUser = '03004444001',@pRestaurantUserPassword = 'abcd';")
 
             # Call the Stored Procedure RestaurantSignin : Construct Parameters
             stored_procedure_parameters = (

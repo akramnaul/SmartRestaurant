@@ -6,7 +6,7 @@ import os
 from logic_backend import *
 
 # Function to Execute a Stored Procedure
-def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
+def execute_stored_procedure_RestaurantSignin(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
     try:
         connection = connect_database()
         if connection is not None:

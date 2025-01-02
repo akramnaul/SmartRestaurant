@@ -41,7 +41,7 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
 
             # Return The Results
             # Store the returning parameters in a variable
-            returning_parameters = {
+            stored_procedure_returning_parameters = {
                 "pRestaurantUserName": out_parameters[0],
                 "pStatus": bool(out_parameters[1]),
                 "pStatusCheck": out_parameters[2],

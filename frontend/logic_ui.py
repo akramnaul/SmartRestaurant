@@ -22,8 +22,18 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
                 pRestaurant = "KhanBurger"
                 pRestaurantUser = "03004444001"
                 pRestaurantUserPassword = "abcd"
-            
-                # Call the Database Stored Procedure
+
+            # Call the Stored Procedure : Name : IN : OUT Parameters
+            # stored_procedure_name_and_in_out_parameters = (
+            #     f"CALL {stored_procedure_name}("
+            #     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
+            #     f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
+            # )
+
+            # Fetch the OUT Parameters from MySQL Server
+            # stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
+
+            # Call the Database Stored Procedure
                 result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
                 # Display The Results
                 if result:

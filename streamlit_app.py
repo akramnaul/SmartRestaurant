@@ -4,8 +4,8 @@ from mysql.connector import Error
 from dotenv import load_dotenv
 import os 
 from database.connect_database import *
-from logic_frontend import *
-from logic_ui import *
+from database.stored_procedures import *
+from frontend.logic_ui import *
 
 # # Stored Procedure User Interface UI
 # def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):

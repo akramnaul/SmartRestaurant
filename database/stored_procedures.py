@@ -25,7 +25,7 @@ def execute_stored_procedure(stored_procedure_call,stored_procedure_out_paramete
             returning_out_parameters = cursor.fetchone()
 
         # Validate and return the result as a dictionary
-        if out_parameters:
+        if returning_out_parameters:
             return returning_out_parameters
         else:
             st.warning("No Output Parameters Returned from the Stored Procedure.")

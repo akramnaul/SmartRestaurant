@@ -4,8 +4,8 @@ import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 import os
-from database.connect_database import *
-from database.stored_procedures import *
+from database.connect_database import connect_database
+from database.stored_procedures import stored_procedures
 
 # Stored Procedure User Interface UI
 def stored_procedure_ui():

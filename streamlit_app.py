@@ -7,6 +7,12 @@ import os
 from database.connect_database import connect_database
 from logic_ui import stored_procedure_ui
 
-#    stored_procedure_ui()
+stored_procedure_call = (
+    f"CALL {stored_procedure_name}("
+    f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"  # IN Parameters
+    f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                    # OUT Parameters
+)
 
-stored_procedure_ui() # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")
+execute_stored_procedure(stored_procedure_call)
+
+# stored_procedure_ui() # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")

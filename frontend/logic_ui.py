@@ -41,15 +41,15 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
 
             # Return The Results
             # Store the returning parameters in a variable
-            stored_procedure_returning_parameters = {
-                "pRestaurantUserName": out_parameters[0],
-                "pStatus": bool(out_parameters[1]),
-                "pStatusCheck": out_parameters[2],
-            }
+            # stored_procedure_returning_parameters = {
+            #     "pRestaurantUserName": out_parameters[0],
+            #     "pStatus": bool(out_parameters[1]),
+            #     "pStatusCheck": out_parameters[2],
+            # }
 
             # Call the Database Stored Procedure   : 
-                result = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters,returning_parameters)
-                # result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
+                # result = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters,returning_parameters)
+                result = execute_stored_procedure(stored_procedure_name, pRestaurant, pRestaurantUser, pRestaurantUserPassword)
                 # Display The Results
                 if result:
                     st.write("Stored Procedure OUT Parameters :")

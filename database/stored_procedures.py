@@ -1,38 +1,37 @@
 # stored_procedures.py
-
 import streamlit as st
-import mysql.connector
 from mysql.connector import Error
-from dotenv import load_dotenv
-import os
 from database.connect_database import connect_database
 
 # Function to Execute a Stored Procedure
 def execute_stored_procedure(stored_procedure_call):
     try:
+        # Connect to the database
         connection = connect_database()
-        if connection is not None:
-            # st.success("Successfully Connected MySQL Database : Rest ! ")
-            cursor = connection.cursor()
+        if connection is None:
+            st.error("Database connection failed. Cannot execute the stored procedure.")
+            return None
+
+        # Use a cursor to execute the stored procedure
+        with connection.cursor() as cursor:
             cursor.execute(stored_procedure_call)
 
-            # Fetch the OUT Parameters from MySQL Server
-            # stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
+            # Fetch the OUT parameters
             cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
             out_parameters = cursor.fetchone()
 
-            # Close the Cursor & Database Connection
-            cursor.close()
-            connection.close()
+        # Return the result as a dictionary
+        return {
+            "pRestaurantUserName": out_parameters[0],
+            "pStatus": bool(out_parameters[1]),
+            "pStatusCheck": out_parameters[2],
+        }
 
-            return {
-                "pRestaurantUserName": out_parameters[0],
-                "pStatus": bool(out_parameters[1]),
-                "pStatusCheck": out_parameters[2],
-            }
-        else:
-            st.error("Failed to Execute Stored Procedure.....Database Connection Failed.....")
-            return None
     except Error as e:
-        st.error(f"Error: {e}")
+        st.error(f"An error occurred while executing the stored procedure: {e}")
         return None
+
+    finally:
+        # Ensure the connection is closed
+        if connection is not None and connection.is_connected():
+            connection.close()

@@ -30,11 +30,11 @@ def stored_procedure_ui(): # stored_procedure_name="RestaurantSignin",pRestauran
             #     f"@pRestaurantUserName, @pStatus, @pStatusCheck);" # OUT Parameters
             # )
             # Call the Stored Procedure : Name : IN : OUT Parameters
-            # stored_procedure_name_and_in_out_parameters = (
-            #     f"CALL {stored_procedure_name}("
-            #     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
-            #     f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
-            # )
+            stored_procedure_call = ( # stored_procedure_name_and_in_out_parameters = (
+                f"CALL {stored_procedure_name}("
+                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
+                f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
+            )
 
             # Fetch the OUT Parameters from MySQL Server
             # stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"

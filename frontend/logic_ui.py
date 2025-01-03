@@ -7,41 +7,42 @@ import os
 from database.connect_database import connect_database
 from database.stored_procedures import stored_procedures
 
-# Stored Procedure User Interface UI
+# Stored Procedure User Interface
 def stored_procedure_ui():
     st.title("MySQL Database")
+
     try:
         connection = connect_database()
         if connection is not None:
-            st.success("Successfully Connected MySQL Database : Rest ! ")
+            st.success("Successfully connected to the MySQL database!")
 
             # Button to Trigger the Stored Procedure
-            if st.button("Click 2 Test : RestaurantSignin"):
+            if st.button("Click to Test: RestaurantSignin"):
+                # Stored Procedure Name and IN Parameters
                 stored_procedure_name = "RestaurantSignin"
-
-                # Declare & Initialize the IN Parameters
                 pRestaurant = "KhanBurger"
                 pRestaurantUser = "03004444001"
                 pRestaurantUserPassword = "abcd"
 
-            # Call the Stored Procedure : Name : IN : OUT Parameters
-            stored_procedure_call = (
-                f"CALL {stored_procedure_name}("
-                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
-                f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
-            )
+                # Build the stored procedure call string
+                stored_procedure_call = (
+                    f"CALL {stored_procedure_name}("
+                    f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"  # IN Parameters
+                    f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                    # OUT Parameters
+                )
 
-            # Call the Database Stored Procedure   : 
-                result = execute_stored_procedure(stored_procedure_call) # ,stored_procedure_out_parameters,returning_parameters)
-                # Display The Results
+                # Execute the stored procedure
+                result = execute_stored_procedure(stored_procedure_call)
+
+                # Display the results
                 if result:
-                    st.write("Stored Procedure OUT Parameters :")
-                    # st.write(f"Result : {result}")
-                    st.write(f"pRestaurantUserName : {result['pRestaurantUserName']}")
-                    st.write(f"pStatus : {result['pStatus']}")
-                    st.write(f"pStatusCheck : {result['pStatusCheck']}")
+                    st.write("Stored Procedure Output Parameters:")
+                    st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
+                    st.write(f"pStatus: {result['pStatus']}")
+                    st.write(f"pStatusCheck: {result['pStatusCheck']}")
                 else:
-                    st.error("Failed to execute stored procedure or retrieve results.")
+                    st.error("Failed to execute the stored procedure or retrieve results.")
+        else:
+            st.error("Failed to connect to the database. Please check the connection details.")
     except Error as e:
-        st.error(f"Error: {e}")
-        return None
+        st.error(f"An error occurred: {e}")

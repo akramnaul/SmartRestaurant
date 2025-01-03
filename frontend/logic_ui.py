@@ -1,11 +1,13 @@
 # logic_ui.py
 import streamlit as st
-import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 import os 
 from database.connect_database import connect_database
 from database.stored_procedures import execute_stored_procedure
+
+# Load environment variables (if needed for database credentials)
+load_dotenv()
 
 # Stored Procedure User Interface
 def stored_procedure_ui():
@@ -32,8 +34,10 @@ def stored_procedure_ui():
                     f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                    # OUT Parameters
                 )
 
-                # Execute the stored procedure
-                result = execute_stored_procedure(stored_procedure_call)
+                # Show loading indicator
+                with st.spinner("Executing stored procedure..."):
+                    # Execute the stored procedure
+                    result = execute_stored_procedure(stored_procedure_call)
 
                 # Display the results
                 if result:
@@ -47,5 +51,4 @@ def stored_procedure_ui():
             st.error("Failed to connect to the database. Please check the connection details.")
 
     except Error as e:
-        st.exception(f"An error occurred while interacting with the database: {e}")
-
+        st.error(f"An error occurred while interacting with the database: {e}")

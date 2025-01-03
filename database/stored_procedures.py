@@ -6,8 +6,8 @@ import os
 from database.connect_database import *
 
 # Function to Execute a Stored Procedure
-def execute_stored_procedure(stored_procedure_call, stored_procedure_out_parameters, stored_procedure_returning_parameters):
-# def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
+# def execute_stored_procedure(stored_procedure_call, stored_procedure_out_parameters, stored_procedure_returning_parameters):
+def execute_stored_procedure(stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd"):
     try:
         connection = connect_database()
         if connection is not None:
@@ -15,11 +15,11 @@ def execute_stored_procedure(stored_procedure_call, stored_procedure_out_paramet
             cursor = connection.cursor()
 
             # # Call the Stored Procedure : Name : IN : OUT Parameters
-            # stored_procedure_name_and_in_out_parameters = (
-            #     f"CALL {stored_procedure_name}("
-            #     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
-            #     f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
-            # )
+            stored_procedure_call = (
+                f"CALL {stored_procedure_name}("
+                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
+                f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
+            )
             # Call the Stored Procedure RestaurantSignin
             # call_stored_procedure = (stored_procedure_name_and_in_out_parameters)
             #     f"CALL {stored_procedure_name}("
@@ -31,8 +31,8 @@ def execute_stored_procedure(stored_procedure_call, stored_procedure_out_paramet
 
             # Fetch the OUT Parameters from MySQL Server
             # stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
-            cursor.execute(stored_procedure_out_parameters)
-            # cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+            # cursor.execute(stored_procedure_out_parameters)
+            cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
             out_parameters = cursor.fetchone()
 
             # Close the Cursor & Database Connection

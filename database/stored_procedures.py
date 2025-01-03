@@ -13,7 +13,7 @@ def execute_stored_procedure(stored_procedure_call,stored_procedure_out_paramete
         # Connect to the database
         connection = connect_database()
         if connection is None:
-            st.error("Database connection failed. Cannot execute the stored procedure.")
+            st.error("Database Connection Failed. Cannot Execute the Stored Procedure.")
             return None
 
         # Use a cursor to execute the stored procedure
@@ -21,22 +21,22 @@ def execute_stored_procedure(stored_procedure_call,stored_procedure_out_paramete
             cursor.execute(stored_procedure_call)
 
             # Fetch the OUT parameters
-            cursor.execute(stored_procedure_out_parameters) # "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+            cursor.execute(stored_procedure_out_parameters)
             out_parameters = cursor.fetchone()
 
         # Validate and return the result as a dictionary
         if out_parameters:
-            return {
+            return out_parameters # {
                 "pRestaurantUserName": out_parameters[0],
                 "pStatus": bool(out_parameters[1]),
                 "pStatusCheck": out_parameters[2],
-            }
+            # }
         else:
-            st.warning("No output parameters returned from the stored procedure.")
+            st.warning("No Output Parameters Returned from the Stored Procedure.")
             return None
 
     except Error as e:
-        st.exception(f"An error occurred while executing the stored procedure: {e}")
+        st.exception(f"An Error Occurred While Executing the Stored Procedure: {e}")
         return None
 
     finally:

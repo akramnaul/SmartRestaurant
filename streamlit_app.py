@@ -3,8 +3,8 @@ import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 import os 
-from database.connect_database import *
-from database.stored_procedures import *
+from database.connect_database import connect_database
+from logic_ui import stored_procedure_ui
 from frontend.logic_ui import *
 
 # # Stored Procedure User Interface UI

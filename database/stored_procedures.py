@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 import os
-from database.connect_database import *
+from database.connect_database import connect_database
 
 # Function to Execute a Stored Procedure
 def execute_stored_procedure(stored_procedure_call) # , stored_procedure_out_parameters, stored_procedure_returning_parameters):

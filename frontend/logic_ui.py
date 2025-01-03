@@ -40,15 +40,15 @@ def stored_procedure_ui():
                     # Execute the stored procedure
                     out_parameters = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters)
 
-                # Display the results
-                if out_parameters: {
-                    st.write("Stored Procedure Output Parameters:")
-                    st.write("pRestaurantUserName": out_parameters[0])
-                    st.write("pStatus": bool(out_parameters[1])
-                    st.write("pStatusCheck": out_parameters[2])
-                }
-                else:
-                    st.error("Failed to execute the stored procedure or retrieve results.")
+                    # Display the results
+                    if out_parameters: {
+                        st.write("Stored Procedure Output Parameters:")
+                        st.write("pRestaurantUserName": out_parameters[0])
+                        st.write("pStatus": bool(out_parameters[1])
+                        st.write("pStatusCheck": out_parameters[2])
+                    }
+                    else:
+                        st.error("Failed to execute the stored procedure or retrieve results.")
         else:
             st.error("Failed to Connect to the Database. Please Check the Connection Details.....")
 

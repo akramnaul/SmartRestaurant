@@ -7,7 +7,7 @@ import os
 from database.connect_database import connect_database
 
 # Function to Execute a Stored Procedure
-def execute_stored_procedure(stored_procedure_call):
+def execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters):
     connection = None
     try:
         # Connect to the database
@@ -21,7 +21,7 @@ def execute_stored_procedure(stored_procedure_call):
             cursor.execute(stored_procedure_call)
 
             # Fetch the OUT parameters
-            cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
+            cursor.execute(stored_procedure_out_parameters) # "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
             out_parameters = cursor.fetchone()
 
         # Validate and return the result as a dictionary

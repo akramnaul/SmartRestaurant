@@ -7,7 +7,7 @@ from database.connect_database import connect_database
 from database.stored_procedures import execute_stored_procedure
 
 # Load environment variables (if needed for database credentials)
-load_dotenv()
+# load_dotenv()
 
 # Stored Procedure User Interface
 def stored_procedure_ui():
@@ -17,10 +17,10 @@ def stored_procedure_ui():
         # Attempt to connect to the database
         connection = connect_database()
         if connection is not None:
-            st.success("Successfully connected to the MySQL database!")
+            st.success("Successfully Connected MySQL Database : Rest !")
 
             # Button to trigger the stored procedure
-            if st.button("Click to Test: RestaurantSignin"):
+            if st.button("Click 2 Test : RestaurantSignin"):
                 # Define stored procedure name and IN parameters
                 stored_procedure_name = "RestaurantSignin"
                 pRestaurant = "KhanBurger"
@@ -31,7 +31,7 @@ def stored_procedure_ui():
                 stored_procedure_call = (
                     f"CALL {stored_procedure_name}("
                     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"  # IN Parameters
-                    f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                    # OUT Parameters
+                    f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                     # OUT Parameters
                 )
 
                 # Show loading indicator
@@ -39,6 +39,8 @@ def stored_procedure_ui():
                     # Execute the stored procedure
                     result = execute_stored_procedure(stored_procedure_call)
 
+                stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
+                
                 # Display the results
                 if result:
                     st.write("Stored Procedure Output Parameters:")

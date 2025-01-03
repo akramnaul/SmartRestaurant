@@ -22,11 +22,11 @@ def execute_stored_procedure(stored_procedure_call,stored_procedure_out_paramete
 
             # Fetch the OUT parameters
             cursor.execute(stored_procedure_out_parameters)
-            out_parameters = cursor.fetchone()
+            returning_out_parameters = cursor.fetchone()
 
         # Validate and return the result as a dictionary
         if out_parameters:
-            return out_parameters
+            return returning_out_parameters
         else:
             st.warning("No Output Parameters Returned from the Stored Procedure.")
             return None

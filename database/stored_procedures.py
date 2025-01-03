@@ -21,7 +21,7 @@ def execute_stored_procedure(stored_procedure_call) # , stored_procedure_out_par
             #     f"CALL {stored_procedure_name}("
             #     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"    # IN Parameters
             #     f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                       # OUT Parameters
-            )
+            # )
             # Call the Stored Procedure RestaurantSignin
             # call_stored_procedure = (stored_procedure_name_and_in_out_parameters)
             #     f"CALL {stored_procedure_name}("

@@ -33,11 +33,11 @@ def stored_procedure_ui():
                     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"  # IN Parameters
                     f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                     # OUT Parameters
                 )
-
+                stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
                 # Show loading indicator
                 with st.spinner("Executing stored procedure..."):
                     # Execute the stored procedure
-                    result = execute_stored_procedure(stored_procedure_call)
+                    result = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters)
 
                 stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
                 

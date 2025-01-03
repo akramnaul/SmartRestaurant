@@ -38,18 +38,19 @@ def stored_procedure_ui():
                 # Show loading indicator
                 with st.spinner("Executing Stored Procedure....."):
                     # Execute the stored procedure
-                    result = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters)
+                    out_parameters = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters)
 
                 # Display the results
-                if result:
+                if out_parameters: {
                     st.write("Stored Procedure Output Parameters:")
-                    st.write(f"pRestaurantUserName: {result['pRestaurantUserName']}")
-                    st.write(f"pStatus: {result['pStatus']}")
-                    st.write(f"pStatusCheck: {result['pStatusCheck']}")
+                    st.write("pRestaurantUserName": out_parameters[0])
+                    st.write("pStatus": bool(out_parameters[1])
+                    st.write("pStatusCheck": out_parameters[2])
+                }
                 else:
                     st.error("Failed to execute the stored procedure or retrieve results.")
         else:
-            st.error("Failed to connect to the database. Please check the connection details.")
+            st.error("Failed to Connect to the Database. Please Check the Connection Details.....")
 
     except Error as e:
         st.error(f"An error occurred while interacting with the database: {e}")

@@ -41,12 +41,11 @@ def stored_procedure_ui():
                     out_parameters = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters)
 
                     # Display the results
-                    if out_parameters: {
+                    if out_parameters:
                         st.write("Stored Procedure Output Parameters:")
                         st.write(f"pRestaurantUserName : {out_parameters[0]}")
                         st.write(f"pStatus : {bool(out_parameters[1])}")
                         st.write(f"pStatusCheck : {out_parameters[2]}")
-                    }
                     else:
                         st.error("Failed to execute the stored procedure or retrieve results.")
         else:

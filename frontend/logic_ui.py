@@ -38,10 +38,10 @@ def stored_procedure_ui():
                 # Show loading indicator
                 with st.spinner("Executing Stored Procedure....."):
                     # Execute the stored procedure
-                    out_parameters = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters)
+                    returning_out_parameters = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters)
 
                     # Display the results
-                    if out_parameters:
+                    if returning_out_parameters:
                         st.write("Stored Procedure Output Parameters:")
                         st.write(f"pRestaurantUserName : {out_parameters[0]}")
                         st.write(f"pStatus : {bool(out_parameters[1])}")

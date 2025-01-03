@@ -8,9 +8,9 @@ from database.connect_database import connect_database
 from frontend.logic_ui import stored_procedure_ui
 
 stored_procedure_call = (
-    f"CALL {stored_procedure_name}("
-    f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"  # IN Parameters
-    f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                    # OUT Parameters
+    f"CALL RestaurantSignin("
+    f"'KhanBurger', '03004444001', 'abcd',"            # IN Parameters
+    f"@pRestaurantUserName, @pStatus, @pStatusCheck);" # OUT Parameters
 )
 
 execute_stored_procedure(stored_procedure_call)

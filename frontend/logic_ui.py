@@ -21,6 +21,7 @@ def stored_procedure_ui():
 
             # Button to trigger the stored procedure
             if st.button("Click 2 Test : RestaurantSignin"):
+
                 # Define stored procedure name and IN parameters
                 stored_procedure_name = "RestaurantSignin"
                 pRestaurant = "KhanBurger"
@@ -35,12 +36,10 @@ def stored_procedure_ui():
                 )
                 stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
                 # Show loading indicator
-                with st.spinner("Executing stored procedure..."):
+                with st.spinner("Executing Stored Procedure....."):
                     # Execute the stored procedure
                     result = execute_stored_procedure(stored_procedure_call,stored_procedure_out_parameters)
 
-                stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
-                
                 # Display the results
                 if result:
                     st.write("Stored Procedure Output Parameters:")

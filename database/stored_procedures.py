@@ -5,6 +5,7 @@ from database.connect_database import connect_database
 
 # Function to Execute a Stored Procedure
 def execute_stored_procedure(stored_procedure_call):
+    connection = None
     try:
         # Connect to the database
         connection = connect_database()

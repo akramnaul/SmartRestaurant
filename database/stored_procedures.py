@@ -1,6 +1,9 @@
 # stored_procedures.py
 import streamlit as st
+import mysql.connector
 from mysql.connector import Error
+from dotenv import load_dotenv
+import os
 from database.connect_database import connect_database
 
 # Function to Execute a Stored Procedure

@@ -48,13 +48,13 @@ def execute_stored_procedure(stored_procedure_call, stored_procedure_out_paramet
             # }
             
             # Return the dictionary
-            return stored_procedure_returning_parameters
+            # return stored_procedure_returning_parameters
 
-            # return {
-            #     "pRestaurantUserName": out_parameters[0],
-            #     "pStatus": bool(out_parameters[1]),
-            #     "pStatusCheck": out_parameters[2],
-            # }
+            return {
+                "pRestaurantUserName": out_parameters[0],
+                "pStatus": bool(out_parameters[1]),
+                "pStatusCheck": out_parameters[2],
+            }
         else:
             st.error("Failed to Execute Stored Procedure.....Database Connection Failed.....")
             return None

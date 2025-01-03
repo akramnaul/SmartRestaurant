@@ -27,9 +27,9 @@ def execute_stored_procedure(stored_procedure_call,stored_procedure_out_paramete
         # Validate and return the result as a dictionary
         if out_parameters:
             return out_parameters # {
-                "pRestaurantUserName": out_parameters[0],
-                "pStatus": bool(out_parameters[1]),
-                "pStatusCheck": out_parameters[2],
+                # "pRestaurantUserName": out_parameters[0],
+                # "pStatus": bool(out_parameters[1]),
+                # "pStatusCheck": out_parameters[2],
             # }
         else:
             st.warning("No Output Parameters Returned from the Stored Procedure.")

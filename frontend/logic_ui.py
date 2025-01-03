@@ -52,4 +52,4 @@ def stored_procedure_ui():
             st.error("Failed to Connect to the Database. Please Check the Connection Details.....")
 
     except Error as e:
-        st.error(f"An error occurred while interacting with the database: {e}")
+        st.error(f"An Error Occurred While Interacting with the Database: {e}")

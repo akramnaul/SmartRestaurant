@@ -21,18 +21,22 @@ def execute_stored_procedure(stored_procedure_call):
             cursor.execute("SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;")
             out_parameters = cursor.fetchone()
 
-        # Return the result as a dictionary
-        return {
-            "pRestaurantUserName": out_parameters[0],
-            "pStatus": bool(out_parameters[1]),
-            "pStatusCheck": out_parameters[2],
-        }
+        # Validate and return the result as a dictionary
+        if out_parameters:
+            return {
+                "pRestaurantUserName": out_parameters[0],
+                "pStatus": bool(out_parameters[1]),
+                "pStatusCheck": out_parameters[2],
+            }
+        else:
+            st.warning("No output parameters returned from the stored procedure.")
+            return None
 
     except Error as e:
-        st.error(f"An error occurred while executing the stored procedure: {e}")
+        st.exception(f"An error occurred while executing the stored procedure: {e}")
         return None
 
     finally:
         # Ensure the connection is closed
-        if connection is not None and connection.is_connected():
+        if connection and connection.is_connected():
             connection.close()

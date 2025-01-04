@@ -7,5 +7,7 @@ import os
 from database.connect_database import connect_database
 from database.stored_procedures import execute_stored_procedure
 from frontend.logic_ui import stored_procedure_ui
+from frontend.restaurant_landing_page import signin
 
-stored_procedure_ui() # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")
+signin()
+# stored_procedure_ui() # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")

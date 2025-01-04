@@ -75,7 +75,7 @@ def signin():
                     st.success(f"Restaurant '{restaurant}' selected!")
                     # st.experimental_rerun()
                     # Instead of above now
-                    st.query_params(selected_restaurant=restaurant)
+                    # st.query_params(selected_restaurant=restaurant)
 
         else:
             st.warning("No Restaurants Available.")

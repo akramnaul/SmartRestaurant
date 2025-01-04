@@ -77,7 +77,7 @@ def signin():
                     st.experimental_set_query_params(selected_restaurant=restaurant)
 
                     # Optionally stop execution to ensure state updates are applied
-                    st.stop()
+                    # st.stop()
 
     # Optionally stop execution to ensure state updates are applied
     st.stop()

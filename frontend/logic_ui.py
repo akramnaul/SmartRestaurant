@@ -31,10 +31,10 @@ def stored_procedure_ui():
                 # Build the Stored Procedure Call String
                 stored_procedure_call = (
                     f"CALL {stored_procedure_name}("
-                    f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"  # IN Parameters
-                    f"@pRestaurantUserName, @pStatus, @pStatusCheck);"                     # OUT Parameters
+                    f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"                              # IN Parameters
+                    f"@pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck);" # OUT Parameters
                 )
-                stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pStatus, @pStatusCheck;"
+                stored_procedure_out_parameters = "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
                 # Show loading indicator
                 with st.spinner("Executing Stored Procedure....."):
                     # Execute the stored procedure

@@ -32,16 +32,19 @@ def fetch_list_of_restaurants():
         if connection and connection.is_connected():
             connection.close()
 
-# Function to validate user credentials, signin and fetch user details
+# Function to validate user credentials, sign in, and fetch user details
 def validate_user(restaurant, restaurant_user, restaurant_user_password):
     try:
         stored_procedure_name = "RestaurantSignin"
-            stored_procedure_call = (
-                f"CALL {stored_procedure_name}("
-                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"                              # IN Parameters
-                f"@pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck);" # OUT Parameters
+        stored_procedure_call = (
+            f"CALL {stored_procedure_name}("
+            f"'{restaurant}', '{restaurant_user}', '{restaurant_user_password}',"  # IN Parameters
+            f"@pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck);"  # OUT Parameters
         )
-        out_parameters_query = "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck ; "
+        out_parameters_query = (
+            "SELECT @pRestaurantUserName, @pRestaurantUserClass, "
+            "@pRestaurantUserAddress, @pStatus, @pStatusCheck;"
+        )
 
         # Execute the stored procedure and fetch output parameters
         result = execute_stored_procedure(stored_procedure_call, out_parameters_query)
@@ -77,17 +80,17 @@ def signin():
 
     # Step 2: User Login
     st.title("User Login")
-    st.write(f"Selected Restaurant : **{st.session_state.selected_restaurant}**")
+    st.write(f"Selected Restaurant: **{st.session_state.selected_restaurant}**")
 
-    RestaurantUser = st.text_input("Enter Your Mobile Number")
-    RestaurantUserPassword = st.text_input("Enter Password", type="password")
+    restaurant_user = st.text_input("Enter Your Mobile Number")
+    restaurant_user_password = st.text_input("Enter Password", type="password")
 
     if st.button("Login"):
-        if not RestaurantUser or not RestaurantUserPassword:
+        if not restaurant_user or not restaurant_user_password:
             st.error("Please provide both User Mobile Number and Password.")
         else:
             user_details = validate_user(
-                st.session_state.selected_restaurant, RestaurantUser, RestaurantUserPassword
+                st.session_state.selected_restaurant, restaurant_user, restaurant_user_password
             )
 
             if user_details:
@@ -95,8 +98,8 @@ def signin():
                     "Name": user_details[0],
                     "Class": user_details[1],
                     "Address": user_details[2],
-                    "Status: user_details[3],
-                    "StatusCheck: user_details[4]
+                    "Status": user_details[3],
+                    "StatusCheck": user_details[4],
                 }
                 st.success("Login successful!")
                 st.write("User Details:")

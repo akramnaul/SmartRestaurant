@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 import os 
 from database.connect_database import connect_database
 from database.stored_procedures import execute_stored_procedure
-from frontend.restaurant_user_login import restaurant_user_login
 
 # Load environment variables (if needed for database credentials)
 load_dotenv()

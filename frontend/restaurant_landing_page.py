@@ -73,14 +73,7 @@ def signin():
                 if st.button(restaurant):
                     st.session_state.selected_restaurant = restaurant
                     st.success(f"Restaurant '{restaurant}' selected!")
-                    # Trigger a rerun-like behavior by setting query parameters
-                    st.experimental_set_query_params(selected_restaurant=restaurant)
-
-                    # Optionally stop execution to ensure state updates are applied
-                    # st.stop()
-
-    # Optionally stop execution to ensure state updates are applied
-    st.stop()
+                    st.stop()  # Stop execution and rerun
         else:
             st.warning("No Restaurants Available.")
         return
@@ -101,22 +94,27 @@ def signin():
             )
 
             if user_details:
-                st.session_state.user_details = {
-                    "Name": user_details[0],
-                    "Class": user_details[1],
-                    "Address": user_details[2],
-                    "Status": user_details[3],
-                    "StatusCheck": user_details[4],
-                }
-                st.success("Login successful!")
-                st.write("User Details:")
-                st.write(f"Name: {user_details[0]}")
-                st.write(f"Class: {user_details[1]}")
-                st.write(f"Address: {user_details[2]}")
-                st.write(f"Status: {user_details[3]}")
-                st.write(f"StatusCheck: {user_details[4]}")
+                # Ensure the result contains all required details
+                if all(user_details):
+                    st.session_state.user_details = {
+                        "Name": user_details[0],
+                        "Class": user_details[1],
+                        "Address": user_details[2],
+                        "Status": user_details[3],
+                        "StatusCheck": user_details[4],
+                    }
+                    st.success("Login successful!")
+                    st.write("User Details:")
+                    st.write(f"Name: {user_details[0]}")
+                    st.write(f"Class: {user_details[1]}")
+                    st.write(f"Address: {user_details[2]}")
+                    st.write(f"Status: {user_details[3]}")
+                    st.write(f"StatusCheck: {user_details[4]}")
+                else:
+                    st.error("Incomplete user details returned from the database.")
             else:
                 st.error("Invalid credentials or an error occurred.")
+
 
 
 

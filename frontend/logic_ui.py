@@ -7,7 +7,7 @@ from database.connect_database import connect_database
 from database.stored_procedures import execute_stored_procedure
 
 # Load environment variables (if needed for database credentials)
-# load_dotenv()
+load_dotenv()
 
 # Stored Procedure User Interface
 def stored_procedure_ui():
@@ -19,16 +19,16 @@ def stored_procedure_ui():
         if connection is not None:
             st.success("Successfully Connected MySQL Database : Rest !")
 
-            # Button to trigger the stored procedure
-            if st.button("Click 2 Test : RestaurantSignin"):
+            # Define Stored Procedure Name
+            stored_procedure_name = "RestaurantSignin"
+            # Define Stored Procedure IN parameters
+            pRestaurant = "KhanBurger"
+            pRestaurantUser = "03004444001"
+            pRestaurantUserPassword = "abcd"
 
-                # Define stored procedure name and IN parameters
-                stored_procedure_name = "RestaurantSignin"
-                pRestaurant = "KhanBurger"
-                pRestaurantUser = "03004444001"
-                pRestaurantUserPassword = "abcd"
-
-                # Build the stored procedure call string
+            # Button to Trigger the Stored Procedure
+            if st.button("Click 2 Test : {stored_procedure_name}"):
+                # Build the Stored Procedure Call String
                 stored_procedure_call = (
                     f"CALL {stored_procedure_name}("
                     f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}',"  # IN Parameters

@@ -44,8 +44,10 @@ def stored_procedure_ui():
                     if returning_out_parameters:
                         st.write("Stored Procedure Output Parameters:")
                         st.write(f"pRestaurantUserName : {returning_out_parameters[0]}")
-                        st.write(f"pStatus : {bool(returning_out_parameters[1])}")
-                        st.write(f"pStatusCheck : {returning_out_parameters[2]}")
+                        st.write(f"pRestaurantUserClass : {returning_out_parameters[1]}")
+                        st.write(f"pRestaurantUserAddress : {returning_out_parameters[2]}")
+                        st.write(f"pStatus : {bool(returning_out_parameters[3])}")
+                        st.write(f"pStatusCheck : {returning_out_parameters[4]}")
                     else:
                         st.error("Failed to execute the stored procedure or retrieve results.")
         else:

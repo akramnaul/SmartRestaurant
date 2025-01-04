@@ -76,6 +76,9 @@ def signin():
                     # Trigger a rerun-like behavior by setting query parameters
                     st.experimental_set_query_params(selected_restaurant=restaurant)
 
+                    # Optionally stop execution to ensure state updates are applied
+                    st.stop()
+
     # Optionally stop execution to ensure state updates are applied
     st.stop()
         else:

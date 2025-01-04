@@ -73,10 +73,11 @@ def signin():
                 if st.button(restaurant):
                     st.session_state.selected_restaurant = restaurant
                     st.success(f"Restaurant '{restaurant}' selected!")
-                    # st.experimental_rerun()
-                    # Instead of above now
-                    # st.query_params(selected_restaurant=restaurant)
+                    # Trigger a rerun-like behavior by setting query parameters
+                    st.experimental_set_query_params(selected_restaurant=restaurant)
 
+    # Optionally stop execution to ensure state updates are applied
+    st.stop()
         else:
             st.warning("No Restaurants Available.")
         return

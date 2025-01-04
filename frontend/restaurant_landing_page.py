@@ -1,4 +1,5 @@
-# restaurant_landing_page.py.py
+# Check the code :
+# restaurant_landing_page.py
 import streamlit as st
 from mysql.connector import Error
 from dotenv import load_dotenv

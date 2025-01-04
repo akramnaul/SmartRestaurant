@@ -19,15 +19,15 @@ def stored_procedure_ui():
         if connection is not None:
             st.success("Successfully Connected MySQL Database : Rest !")
 
-            # Define Stored Procedure Name
+            # Define Stored Procedure Name &  IN Parameters
             stored_procedure_name = "RestaurantSignin"
-            # Define Stored Procedure IN parameters
             pRestaurant = "KhanBurger"
             pRestaurantUser = "03004444001"
             pRestaurantUserPassword = "abcd"
-
+            stored_procedure_button = "Click 2 Test"
+            
             # Button to Trigger the Stored Procedure
-            if st.button("Click 2 Test : {stored_procedure_name}"):
+            if st.button("{stored_procedure_button} : {stored_procedure_name}"):
                 # Build the Stored Procedure Call String
                 stored_procedure_call = (
                     f"CALL {stored_procedure_name}("

@@ -27,7 +27,7 @@ def stored_procedure_ui():
             stored_procedure_button = "Click 2 Test"
             
             # Button to Trigger the Stored Procedure
-            if st.button("{stored_procedure_button} : {stored_procedure_name}"):
+            if st.button("Click 2 Test : {stored_procedure_name}"):
                 # Build the Stored Procedure Call String
                 stored_procedure_call = (
                     f"CALL {stored_procedure_name}("

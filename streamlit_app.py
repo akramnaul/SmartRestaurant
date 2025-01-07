@@ -58,14 +58,14 @@ else:
 if animation_enabled:
     st.subheader("Real-time Animation")
     placeholder = st.empty()
-    for i in range(100):
+
+    for i in range(50):  # Reduced iterations for smoother updates
         animated_data = pd.DataFrame(
-            np.random.randn(50, 2),
+            np.random.randn(10, 2),  # Smaller dataset for simplicity
             columns=["X", "Y"]
         )
-        with placeholder.container():
-            st.line_chart(animated_data)
-        time.sleep(0.1)
+        placeholder.line_chart(animated_data)
+        time.sleep(0.2)  # Increased delay for better user experience
 
 # User interaction example
 st.subheader("Interactive Widgets")

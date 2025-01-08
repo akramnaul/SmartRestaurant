@@ -77,9 +77,9 @@ def signin():
                     }
                     st.success(f"Restaurant : '{restaurant}' Address : '{restaurant_address}' : selected ! ")
                     st.stop()  # Stop execution and rerun
-            }
-            st.success(f"Restaurant: '{restaurant}' (ID: {restaurant_id}) selected!")
-            st.stop()  # Stop execution and rerun
+
+                st.success(f"Restaurant : '{restaurant}' (Address : '{restaurant_address}') selected ! ")
+                st.stop()  # Stop execution and rerun
         
         
         

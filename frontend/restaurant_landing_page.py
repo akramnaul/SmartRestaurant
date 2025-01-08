@@ -18,7 +18,7 @@ def fetch_list_of_restaurants():
             st.error("Database Connection Failed.")
             return []
 
-        query = "SELECT Restaurant,' : ',RestaurantAddress FROM Restaurant;"
+        query = "SELECT CONCAT(Restaurant,' : ',RestaurantAddress) FROM Restaurant;"
         with connection.cursor() as cursor:
             cursor.execute(query)
             list_of_restaurants = [row[0] for row in cursor.fetchall()]

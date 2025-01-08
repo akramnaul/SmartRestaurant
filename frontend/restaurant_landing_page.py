@@ -70,23 +70,35 @@ def signin():
         if list_of_restaurants:
             st.subheader("Available Restaurants")
             for restaurant in list_of_restaurants:
-                if st.button(restaurant):
+                if st.button(restaurant,restaurant_address):
                     st.session_state.selected_restaurant = {
                         "Restaurant ": restaurant,
                         "Address ": restaurant_address,
                     }
                     st.success(f"Restaurant : '{restaurant}' Address : '{restaurant_address}' : selected ! ")
                     st.stop()  # Stop execution and rerun
-
-                st.success(f"Restaurant : '{restaurant}' (Address : '{restaurant_address}') selected ! ")
-                st.stop()  # Stop execution and rerun
-        
-        
-        
         else:
             st.warning("No Restaurants Available.")
         return
 
+if list_of_restaurants:
+    st.subheader("Available Restaurants")
+    for restaurant, restaurant_address in list_of_restaurants:  # Unpack tuple from the database query
+        if st.button(restaurant):  # Display restaurant name as button
+            st.session_state.selected_restaurant = {
+                "Restaurant": restaurant,
+                "Address": restaurant_address,
+            }
+            st.success(f"Restaurant: '{restaurant}' (Address: '{restaurant_address}') selected!")
+            st.stop()  # Stop execution and rerun
+else:
+    st.warning("No Restaurants Available.")
+    return
+
+
+
+
+    
     # Step 2: User Login
     st.title("User Login")
     st.write(f"Selected Restaurant: **{st.session_state.selected_restaurant}**")

@@ -5,7 +5,7 @@ from mysql.connector import Error
 from dotenv import load_dotenv
 import os
 from database.connect_database import connect_database
-from database.stored_procedures import execute_stored_procedure
+from database.execute_stored_procedure import execute_stored_procedure
 
 # Load environment variables
 load_dotenv()

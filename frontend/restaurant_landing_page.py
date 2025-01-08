@@ -18,7 +18,7 @@ def fetch_list_of_restaurants():
             st.error("Database Connection Failed.")
             return []
 
-        query = "SELECT CONCAT(Restaurant,' : ',RestaurantAddress),Restaurant FROM Restaurant;"
+        query = "SELECT Restaurant, RestaurantAddress FROM Restaurant;"
         with connection.cursor() as cursor:
             cursor.execute(query)
             list_of_restaurants = [row[0] for row in cursor.fetchall()]
@@ -71,9 +71,18 @@ def signin():
             st.subheader("Available Restaurants")
             for restaurant in list_of_restaurants:
                 if st.button(restaurant):
-                    st.session_state.selected_restaurant = restaurant
-                    st.success(f"Restaurant : '{restaurant[1]}' selected ! ")
+                    st.session_state.selected_restaurant = {
+                        "Restaurant ": restaurant,
+                        "Address ": restaurant_address,
+                    }
+                    st.success(f"Restaurant : '{restaurant}' Address : '{restaurant_address}' : selected ! ")
                     st.stop()  # Stop execution and rerun
+            }
+            st.success(f"Restaurant: '{restaurant}' (ID: {restaurant_id}) selected!")
+            st.stop()  # Stop execution and rerun
+        
+        
+        
         else:
             st.warning("No Restaurants Available.")
         return

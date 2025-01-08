@@ -72,7 +72,7 @@ def signin():
             for restaurant in list_of_restaurants:
                 if st.button(restaurant):
                     st.session_state.selected_restaurant = restaurant
-                    st.success(f"Restaurant '{restaurant}' selected!")
+                    st.success(f"Restaurant : '{restaurant[1]}' selected ! ")
                     st.stop()  # Stop execution and rerun
         else:
             st.warning("No Restaurants Available.")

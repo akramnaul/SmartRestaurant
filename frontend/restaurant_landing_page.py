@@ -3,7 +3,7 @@
 import streamlit as st
 from mysql.connector import Error
 from dotenv import load_dotenv
-import os 
+import os
 from database.connect_database import connect_database
 from database.stored_procedures import execute_stored_procedure
 
@@ -18,7 +18,7 @@ def fetch_list_of_restaurants():
             st.error("Database Connection Failed.")
             return []
 
-        query = "SELECT Restaurant FROM Restaurant;"
+        query = "SELECT Restaurant,' : ',RestaurantAddress FROM Restaurant;"
         with connection.cursor() as cursor:
             cursor.execute(query)
             list_of_restaurants = [row[0] for row in cursor.fetchall()]

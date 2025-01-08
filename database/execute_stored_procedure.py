@@ -1,4 +1,4 @@
-# stored_procedures.py
+# execute_stored_procedure.py
 import streamlit as st
 import mysql.connector
 from mysql.connector import Error

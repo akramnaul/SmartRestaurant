@@ -10,4 +10,4 @@ from database.execute_stored_procedure import execute_stored_procedure
 from frontend.restaurant_landing_page import signin
 
 signin()
-# stored_procedure_ui() # stored_procedure_name="RestaurantSignin",pRestaurant="KhanBurger",pRestaurantUser="03004444001",pRestaurantUserPassword="abcd")
+

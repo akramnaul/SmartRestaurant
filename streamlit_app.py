@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import os 
 from database.connect_database import connect_database
 from database.execute_stored_procedure import execute_stored_procedure
-from frontend.restaurant_landing_page import signin
+from frontend.restaurant_landing_page import user_signin
 
-signin()
+user_signin()
 

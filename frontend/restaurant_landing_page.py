@@ -50,7 +50,10 @@ def user_signin():
             ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         )
         # Display the read-only list
-        st.title("Choose Your Restaurant From This List")
+        if not st.session_state.get('selected_restaurant'):
+            st.warning("No Restaurants Registered / Available.")
+        else:
+            st.title("Choose Your Restaurant From This List")
         for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
             if st.button(f"{restaurant} ({restaurant_address})"):
                 st.session_state.selected_restaurant = {
@@ -59,8 +62,6 @@ def user_signin():
                 }
                 st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
                 st.stop()
-        if not st.session_state.get('selected_restaurant'):
-            st.warning("No Restaurants Registered / Available.")
         return
 
 

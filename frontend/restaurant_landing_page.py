@@ -31,19 +31,25 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 # Main function to render the app
 def user_signin():
     # Check if all session variables are set : Confirm Valid Signin
-    if (st.session_state['list_of_restaurants'] is not None and
-        st.session_state['Restaurant'] is not None and
-        st.session_state['RestaurantUser'] is not None and
-        st.session_state['RestaurantUserPassword'] is not None and
-        st.session_state['RestaurantUserName'] is not None and
-        st.session_state['RestaurantUserClass'] is not None and
-        st.session_state['RestaurantUserAddress'] is not None):
+    if (
+        st.session_state.get('list_of_restaurants') is not None and
+        st.session_state.get('Restaurant') is not None and
+        st.session_state.get('RestaurantUser') is not None and
+        st.session_state.get('RestaurantUserPassword') is not None and
+        st.session_state.get('RestaurantUserName') is not None and
+        st.session_state.get('RestaurantUserClass') is not None and
+        st.session_state.get('RestaurantUserAddress') is not None
+    ):
         st.session_state['RestaurantUserSignin'] = True
         return
-    else
-        st.session_state['list_of_restaurants'] = tuple(("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"))
+    else:
+        st.session_state['list_of_restaurants'] = (
+            ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+            ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+            ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+            ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        )
         # Display the read-only list
-        # st.write("Read-Only List of Restaurants:", st.session_state['list_of_restaurants'])
         st.title("Choose Your Restaurant From This List")
         for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
             if st.button(f"{restaurant} ({restaurant_address})"):
@@ -51,10 +57,10 @@ def user_signin():
                     "Restaurant": restaurant,
                     "Address": restaurant_address,
                 }
-                st.success(f"You Selected : Restaurant : '{restaurant}' (Address : '{restaurant_address}')")
+                st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
                 st.stop()
-            else:
-                st.warning("No Restaurants Registered / Available.")
+        if not st.session_state.get('selected_restaurant'):
+            st.warning("No Restaurants Registered / Available.")
         return
 
 

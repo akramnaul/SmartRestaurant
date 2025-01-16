@@ -48,7 +48,7 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 
 # Main function to render the app
 def user_signin():
-    # Check if all session variables are set : Valid Signin
+    # Check if all session variables are set : Confirm Valid Signin
     if (st.session_state['Restaurant'] is not None and
         st.session_state['RestaurantUser'] is not None and
         st.session_state['RestaurantUserPassword'] is not None and
@@ -59,7 +59,7 @@ def user_signin():
         return
     else
         if 'list_of_restaurants' not in st.session_state:
-            st.session_state['list_of_restaurants'] = tuple(["FinePizza", "HajiRestaurant", "HotNSpicy", "KhanBurger"])
+            st.session_state['list_of_restaurants'] = tuple(("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),("KhanBurger"))
             # Display the read-only list
             st.write("Read-Only List of Restaurants:", st.session_state['list_of_restaurants'])
 

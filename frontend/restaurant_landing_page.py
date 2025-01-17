@@ -44,43 +44,30 @@ def user_signin():
     def get_random_color():
         return f"#{random.randint(0, 0xFFFFFF):06x}"
 
-    # Render buttons for each restaurant with unique colors
+    # Render buttons for each restaurant
     st.title("Choose Your Restaurant:")
-    cols = st.columns(len(st.session_state['list_of_restaurants']))  # Create columns for simultaneous display
+    for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
+        # Generate a unique color for each button
+        button_color = get_random_color()
 
-    for idx, (restaurant, restaurant_address) in enumerate(st.session_state['list_of_restaurants']):
-        # Assign a column for each button
-        with cols[idx]:
-            # Generate a unique color for each button
-            button_color = get_random_color()
+        # Create a button with custom color
+        if st.button(
+            f"{restaurant} ({restaurant_address})",
+            key=f"{restaurant}",
+            help=f"Select {restaurant}",
+        ):
+            # Store the selected restaurant in session state
+            st.session_state.selected_restaurant = {
+                "Restaurant": restaurant,
+                "Address": restaurant_address,
+            }
+            st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
+            st.stop()
 
-            # Button with custom style
-            button_html = f"""
-                <button style="
-                    background-color: {button_color};
-                    color: white;
-                    padding: 10px 20px;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    width: 100%;
-                    text-align: center;">
-                    {restaurant} ({restaurant_address})
-                </button>
-            """
-            # Display the button and handle the click event
-            if st.markdown(f'<a href="javascript:void(0);">{button_html}</a>', unsafe_allow_html=True):
-                st.session_state.selected_restaurant = {
-                    "Restaurant": restaurant,
-                    "Address": restaurant_address,
-                }
-                st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
-                st.stop()
-
-    # Warning message if no restaurant is selected yet
+    # Warning message if no restaurant is selected
     if 'selected_restaurant' not in st.session_state:
         st.warning("Please select a restaurant.")
+
 
 
 

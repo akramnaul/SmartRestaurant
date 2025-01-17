@@ -7,3 +7,5 @@ numpy>=2.2.0                  # For numerical operations (optional, if needed)
 python-dotenv>=1.0.1          # For keeping / getting Database Credentials in .env
 
 matplotlib>=3.10.0
+
+random

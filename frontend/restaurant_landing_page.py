@@ -33,51 +33,57 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 def user_signin():
     # Initialize the list of restaurants
     if 'list_of_restaurants' not in st.session_state:
-        st.session_state['list_of_restaurants'] = (
+        st.session_state['list_of_restaurants'] = [
             ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
             ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
             ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
             ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        )
+        ]
 
     # Function to generate random colors
     def get_random_color():
         return f"#{random.randint(0, 0xFFFFFF):06x}"
 
-    # Render buttons for each restaurant with unique colors
+    # Render buttons with unique colors for each restaurant
     st.title("Choose Your Restaurant:")
     for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
-        # Generate a unique random color
-        button_color = get_random_color()
-        button_style = f"""
+        button_color = get_random_color()  # Generate a unique color for each button
+
+        # Apply custom styles to buttons
+        button_html = f"""
             <style>
-            .button-{restaurant} {{
+            .button {{
                 background-color: {button_color};
                 color: white;
                 border: none;
                 padding: 10px 20px;
                 text-align: center;
-                text-decoration: none;
-                display: inline-block;
                 font-size: 16px;
-                margin: 5px 2px;
+                margin: 10px 5px;
                 cursor: pointer;
                 border-radius: 5px;
                 width: 100%;
             }}
+            .button:hover {{
+                background-color: #333333;
+            }}
             </style>
+            <button class="button">{restaurant} ({restaurant_address})</button>
         """
-        button_html = f"""
-            {button_style}
-            <button class="button-{restaurant}" onclick="window.location.href='/Selected-{restaurant}'">
-                {restaurant} ({restaurant_address})
-            </button>
-        """
-        st.markdown(button_html, unsafe_allow_html=True)
+
+        # Display the button
+        if st.markdown(button_html, unsafe_allow_html=True):
+            st.session_state.selected_restaurant = {
+                "Restaurant": restaurant,
+                "Address": restaurant_address,
+            }
+            st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
+            st.stop()
 
     # Warning message if no restaurant is selected
     if 'selected_restaurant' not in st.session_state:
         st.warning("Please select a restaurant.")
+
 
 
 

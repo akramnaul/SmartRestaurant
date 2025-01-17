@@ -31,7 +31,7 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 
 # Main function to render the app
 def user_signin():
-    # Initialize the list of restaurants
+    # Initialize the list of restaurants with names and addresses
     if 'list_of_restaurants' not in st.session_state:
         st.session_state['list_of_restaurants'] = [
             ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
@@ -43,10 +43,10 @@ def user_signin():
     # Render buttons for each restaurant
     st.title("Choose Your Restaurant:")
 
-    # Create exactly 4 buttons for the 4 restaurants
-    buttons = [restaurant[0] for restaurant in st.session_state['list_of_restaurants']]
+    # Loop through the list of restaurants and create buttons with both name and address
     for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
-        if st.button(restaurant):
+        button_label = f"{restaurant} ({restaurant_address})"
+        if st.button(button_label):
             st.session_state.selected_restaurant = {
                 "Restaurant": restaurant,
                 "Address": restaurant_address,
@@ -57,6 +57,7 @@ def user_signin():
     # If no restaurant is selected yet
     if 'selected_restaurant' not in st.session_state:
         st.warning("Please select a restaurant.")
+
 
 
 

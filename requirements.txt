@@ -5,7 +5,5 @@ requests>=2.32.3              # For handling HTTP requests (if needed for authen
 pandas>=2.2.3                 # For data manipulation (often used with Streamlit apps)
 numpy>=2.2.0                  # For numerical operations (optional, if needed)
 python-dotenv>=1.0.1          # For keeping / getting Database Credentials in .env
-
 matplotlib>=3.10.0
-
 random

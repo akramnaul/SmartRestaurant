@@ -11,22 +11,22 @@ from database.execute_stored_procedure import execute_stored_procedure
 load_dotenv()
 
 # Function to validate user credentials
-def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
-    try:
-        StoredProcedureName = "RestaurantSignin"
-        StoredProcedureCall = (
-            f"CALL {StoredProcedureName}("
-            f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}', "
-            f"@pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck);"
-        )
-        OutParametersQuery = (
-            "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
-        )
-        result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
-        return result
-    except Error as e:
-        st.error(f"An error occurred while validating user: {e}")
-        return None
+# def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
+#     try:
+#         StoredProcedureName = "RestaurantSignin"
+#         StoredProcedureCall = (
+#             f"CALL {StoredProcedureName}("
+#             f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}', "
+#             f"@pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck);"
+#         )
+#         OutParametersQuery = (
+#             "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
+#         )
+#         result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
+#         return result
+#     except Error as e:
+#         st.error(f"An error occurred while validating user: {e}")
+#         return None
 
 # Main function to render the app
 def user_signin():

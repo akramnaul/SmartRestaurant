@@ -1,6 +1,7 @@
 # Check the code :
 # restaurant_landing_page.py
 import streamlit as st
+import random
 from mysql.connector import Error
 from dotenv import load_dotenv
 import os
@@ -30,43 +31,52 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 
 # Main function to render the app
 def user_signin():
-    # Initialize session state keys if not present
-    session_keys = [
-        'list_of_restaurants', 'Restaurant', 'RestaurantUser', 
-        'RestaurantUserPassword', 'RestaurantUserName', 
-        'RestaurantUserClass', 'RestaurantUserAddress'
-    ]
-    for key in session_keys:
-        if key not in st.session_state:
-            st.session_state[key] = None
+    # Initialize the list of restaurants
+    if 'list_of_restaurants' not in st.session_state:
+        st.session_state['list_of_restaurants'] = (
+            ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+            ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+            ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+            ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        )
 
-    # Check if all session variables are set
-    if all(st.session_state.get(key) is not None for key in session_keys):
-        st.session_state['RestaurantUserSignin'] = True
-        return
+    # Generate random colors for alternate buttons
+    def get_random_color():
+        return f"#{random.randint(0, 0xFFFFFF):06x}"
 
-    # Fallback: Initialize list of restaurants
-    st.session_state['list_of_restaurants'] = (
-        ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-    )
+    st.title("Choose Your Restaurant:")
+    
+    for i, (restaurant, restaurant_address) in enumerate(st.session_state['list_of_restaurants']):
+        # Generate a random color for every alternate button
+        if i % 2 == 0:
+            color = get_random_color()
+        else:
+            color = get_random_color()
 
-    # Render list of restaurants
-    st.title("Choose Your Restaurant From This List")
-    for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
-        if st.button(f"{restaurant} ({restaurant_address})"):
+        # Render the button with a custom style
+        button_html = f"""
+            <button style="
+                background-color: {color};
+                color: white;
+                padding: 10px 20px;
+                margin: 5px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+            ">{restaurant} ({restaurant_address})</button>
+        """
+        if st.markdown(f'<a href="javascript:void(0);" onclick="window.button_clicked=true;">{button_html}</a>', unsafe_allow_html=True):
             st.session_state.selected_restaurant = {
                 "Restaurant": restaurant,
                 "Address": restaurant_address,
             }
             st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
             st.stop()
-
-    # Warning if no restaurant is selected
+    
     if 'selected_restaurant' not in st.session_state:
         st.warning("No Restaurants Registered / Available.")
+
 
 
 

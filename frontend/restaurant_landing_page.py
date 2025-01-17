@@ -44,29 +44,41 @@ def user_signin():
     def get_random_color():
         return f"#{random.randint(0, 0xFFFFFF):06x}"
 
-    # Render buttons for each restaurant
+    # Render buttons for each restaurant with unique colors
     st.title("Choose Your Restaurant:")
     for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
-        # Generate a unique color for each button
+        # Generate a unique random color
         button_color = get_random_color()
-
-        # Create a button with custom color
-        if st.button(
-            f"{restaurant} ({restaurant_address})",
-            key=f"{restaurant}",
-            help=f"Select {restaurant}",
-        ):
-            # Store the selected restaurant in session state
-            st.session_state.selected_restaurant = {
-                "Restaurant": restaurant,
-                "Address": restaurant_address,
-            }
-            st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
-            st.stop()
+        button_style = f"""
+            <style>
+            .button-{restaurant} {{
+                background-color: {button_color};
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 5px 2px;
+                cursor: pointer;
+                border-radius: 5px;
+                width: 100%;
+            }}
+            </style>
+        """
+        button_html = f"""
+            {button_style}
+            <button class="button-{restaurant}" onclick="window.location.href='/Selected-{restaurant}'">
+                {restaurant} ({restaurant_address})
+            </button>
+        """
+        st.markdown(button_html, unsafe_allow_html=True)
 
     # Warning message if no restaurant is selected
     if 'selected_restaurant' not in st.session_state:
         st.warning("Please select a restaurant.")
+
 
 
 

@@ -40,37 +40,12 @@ def user_signin():
             ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         )
 
-    # Generate random colors for buttons
-    def get_random_color():
-        return f"#{random.randint(0, 0xFFFFFF):06x}"
-
     # Render buttons for each restaurant
     st.title("Choose Your Restaurant:")
     for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
-        # Generate a random color for each button
-        color = get_random_color()
-
-        # Create the button with custom style
-        button_clicked = st.markdown(
-            f"""
-            <button style="
-                background-color: {color};
-                color: white;
-                padding: 10px 20px;
-                margin: 5px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 16px;"
-                onclick="window.button_clicked=true;">
-                {restaurant} ({restaurant_address})
-            </button>
-            """,
-            unsafe_allow_html=True,
-        )
-        
-        # Check if the button was clicked
-        if button_clicked:
+        # Button for selecting the restaurant
+        if st.button(f"{restaurant} ({restaurant_address})"):
+            # Store the selected restaurant in session state
             st.session_state.selected_restaurant = {
                 "Restaurant": restaurant,
                 "Address": restaurant_address,
@@ -78,9 +53,13 @@ def user_signin():
             st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
             st.stop()
 
-    # Warning message if no selection has been made
+    # Warning message if no selection has been made yet
     if 'selected_restaurant' not in st.session_state:
         st.warning("Please select a restaurant.")
+
+# Call the function
+# user_signin()
+
 
 
 

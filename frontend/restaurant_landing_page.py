@@ -30,40 +30,43 @@ load_dotenv()
 
 # Main function to render the app
 def user_signin():
-    # Check if all session variables are set : Confirm Valid Signin
-    if (
-        st.session_state.get('list_of_restaurants') is not None and
-        st.session_state.get('Restaurant') is not None and
-        st.session_state.get('RestaurantUser') is not None and
-        st.session_state.get('RestaurantUserPassword') is not None and
-        st.session_state.get('RestaurantUserName') is not None and
-        st.session_state.get('RestaurantUserClass') is not None and
-        st.session_state.get('RestaurantUserAddress') is not None
-    ):
+    # Initialize session state keys if not present
+    session_keys = [
+        'list_of_restaurants', 'Restaurant', 'RestaurantUser', 
+        'RestaurantUserPassword', 'RestaurantUserName', 
+        'RestaurantUserClass', 'RestaurantUserAddress'
+    ]
+    for key in session_keys:
+        if key not in st.session_state:
+            st.session_state[key] = None
+
+    # Check if all session variables are set
+    if all(st.session_state.get(key) is not None for key in session_keys):
         st.session_state['RestaurantUserSignin'] = True
         return
-    else:
-        st.session_state['list_of_restaurants'] = (
-            ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-            ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-            ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-            ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        )
-        # Display the read-only list
-        # if not st.session_state.get('selected_restaurant'):
-        if st.session_state.get('list_of_restaurants') is not None
-            st.title("Choose Your Restaurant From This List")
-        else:
-            st.warning("No Restaurants Registered / Available.")
-        for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
-            if st.button(f"{restaurant} ({restaurant_address})"):
-                st.session_state.selected_restaurant = {
-                    "Restaurant": restaurant,
-                    "Address": restaurant_address,
-                }
-                st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
-                st.stop()
-        return
+
+    # Fallback: Initialize list of restaurants
+    st.session_state['list_of_restaurants'] = (
+        ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+    )
+
+    # Render list of restaurants
+    st.title("Choose Your Restaurant From This List")
+    for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
+        if st.button(f"{restaurant} ({restaurant_address})"):
+            st.session_state.selected_restaurant = {
+                "Restaurant": restaurant,
+                "Address": restaurant_address,
+            }
+            st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
+            st.stop()
+
+    # Warning if no restaurant is selected
+    if 'selected_restaurant' not in st.session_state:
+        st.warning("No Restaurants Registered / Available.")
 
 
 

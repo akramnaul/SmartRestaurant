@@ -40,18 +40,20 @@ def user_signin():
             ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         )
 
+    # Display all restaurants at the top
+    st.title("Available Restaurants:")
+    for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
+        st.write(f"- **{restaurant}**: {restaurant_address}")
+    
     # Generate random colors for alternate buttons
     def get_random_color():
         return f"#{random.randint(0, 0xFFFFFF):06x}"
 
-    st.title("Choose Your Restaurant:")
-    
+    # Render selection buttons
+    st.subheader("Choose Your Restaurant:")
     for i, (restaurant, restaurant_address) in enumerate(st.session_state['list_of_restaurants']):
-        # Generate a random color for every alternate button
-        if i % 2 == 0:
-            color = get_random_color()
-        else:
-            color = get_random_color()
+        # Alternate colors for buttons
+        color = get_random_color()
 
         # Render the button with a custom style
         button_html = f"""
@@ -66,16 +68,21 @@ def user_signin():
                 font-size: 16px;
             ">{restaurant} ({restaurant_address})</button>
         """
-        if st.markdown(f'<a href="javascript:void(0);" onclick="window.button_clicked=true;">{button_html}</a>', unsafe_allow_html=True):
+        if st.markdown(
+            f'<a href="javascript:void(0);" onclick="window.button_clicked=true;">{button_html}</a>',
+            unsafe_allow_html=True
+        ):
             st.session_state.selected_restaurant = {
                 "Restaurant": restaurant,
                 "Address": restaurant_address,
             }
             st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
             st.stop()
-    
+
+    # Display a warning if no restaurant is selected yet
     if 'selected_restaurant' not in st.session_state:
-        st.warning("No Restaurants Registered / Available.")
+        st.warning("Please select a restaurant from the list.")
+
 
 
 

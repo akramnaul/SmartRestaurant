@@ -42,6 +42,9 @@ def user_signin():
 
     # Render buttons for each restaurant
     st.title("Choose Your Restaurant:")
+    # If no restaurant is selected yet
+    # if 'selected_restaurant' not in st.session_state:
+    #     st.warning("Please select a restaurant.")
 
     # Loop through the list of restaurants and create buttons with both name and address
     for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
@@ -54,9 +57,6 @@ def user_signin():
             st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
             st.stop()  # Stop the loop after a selection is made
 
-    # If no restaurant is selected yet
-    if 'selected_restaurant' not in st.session_state:
-        st.warning("Please select a restaurant.")
 
 
 

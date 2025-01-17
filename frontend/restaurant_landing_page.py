@@ -47,11 +47,10 @@ def user_signin():
     # Render buttons with unique colors for each restaurant
     st.title("Choose Your Restaurant:")
 
-    # Display buttons for each restaurant
     for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
         button_color = get_random_color()  # Generate a unique color for each button
         
-        # Display the button with custom CSS to change the background color
+        # Create a button with the unique color and restaurant name
         button_html = f"""
         <style>
             .button-{restaurant} {{
@@ -74,20 +73,19 @@ def user_signin():
         """
 
         # Render the button using markdown
-        st.markdown(button_html, unsafe_allow_html=True)
-
-        # Handle button click (using Streamlit buttons)
-        if st.button(f"Select {restaurant}"):
-            st.session_state.selected_restaurant = {
-                "Restaurant": restaurant,
-                "Address": restaurant_address,
-            }
-            st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
-            st.stop()
+        if st.markdown(button_html, unsafe_allow_html=True):
+            if st.button(f"Select {restaurant}"):
+                st.session_state.selected_restaurant = {
+                    "Restaurant": restaurant,
+                    "Address": restaurant_address,
+                }
+                st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
+                st.stop()
 
     # Warning message if no restaurant is selected
     if 'selected_restaurant' not in st.session_state:
         st.warning("Please select a restaurant.")
+
 
 
 

@@ -40,51 +40,24 @@ def user_signin():
             ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         ]
 
-    # Function to generate random colors
-    def get_random_color():
-        return f"#{random.randint(0, 0xFFFFFF):06x}"
-
-    # Render buttons with unique colors for each restaurant
+    # Render buttons for each restaurant
     st.title("Choose Your Restaurant:")
 
+    # Create exactly 4 buttons for the 4 restaurants
+    buttons = [restaurant[0] for restaurant in st.session_state['list_of_restaurants']]
     for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
-        button_color = get_random_color()  # Generate a unique color for each button
-        
-        # Create a button with the unique color and restaurant name
-        button_html = f"""
-        <style>
-            .button-{restaurant} {{
-                background-color: {button_color};
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                text-align: center;
-                font-size: 16px;
-                margin: 10px 5px;
-                cursor: pointer;
-                border-radius: 5px;
-                width: 100%;
-            }}
-            .button-{restaurant}:hover {{
-                background-color: #333333;
-            }}
-        </style>
-        <button class="button-{restaurant}">{restaurant} ({restaurant_address})</button>
-        """
+        if st.button(restaurant):
+            st.session_state.selected_restaurant = {
+                "Restaurant": restaurant,
+                "Address": restaurant_address,
+            }
+            st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
+            st.stop()  # Stop the loop after a selection is made
 
-        # Render the button using markdown
-        if st.markdown(button_html, unsafe_allow_html=True):
-            if st.button(f"Select {restaurant}"):
-                st.session_state.selected_restaurant = {
-                    "Restaurant": restaurant,
-                    "Address": restaurant_address,
-                }
-                st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
-                st.stop()
-
-    # Warning message if no restaurant is selected
+    # If no restaurant is selected yet
     if 'selected_restaurant' not in st.session_state:
         st.warning("Please select a restaurant.")
+
 
 
 

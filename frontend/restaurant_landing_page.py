@@ -51,7 +51,7 @@ def user_signin():
         st.stop()  # Stop execution to avoid rendering the restaurant selection
 
     # Render restaurant selection
-    st.title("Choose A Smart Restaurant :")
+    st.title("Smart Restaurant")
     
     # Create a list of restaurant display names (name and address combined)
     restaurant_options = [
@@ -87,12 +87,16 @@ def user_signin():
             "Restaurant": default_restaurant,
             "Address": default_address,
         }
-        st.info(f"Default Choice : '{default_restaurant}' ('{default_address}')")
+        st.info(f": '{default_restaurant}' ('{default_address}')")
 
     # Add fields to get ID and Password from the user
     st.subheader("Enter Your Credentials")
     
-    user_id = st.text_input("User ID:")
+    # Display User ID inside the input field
+    user_id = st.text_input(
+        "User ID:",
+        value=st.session_state.get('user_id', '')  # Pre-fill with stored user_id or leave empty
+    )
     user_password = st.text_input("Password:", type="password")
 
     if st.button("Sign In"):

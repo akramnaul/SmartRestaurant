@@ -82,7 +82,7 @@ def user_signin():
                 st.stop()  # Stop further rendering after a selection is made
     else:
         # Handle the default scenario
-        default_restaurant, default_address = st.session_state['list_of_restaurants'][4]
+        default_restaurant, default_address = st.session_state['list_of_restaurants'][3]
         st.session_state['selected_restaurant'] = {
             "Restaurant": default_restaurant,
             "Address": default_address,

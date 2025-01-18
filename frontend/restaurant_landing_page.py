@@ -65,7 +65,7 @@ def user_signin():
     # Display the selectbox for restaurant selection
     selected_option = st.selectbox(
         "",
-        options=["Select....."] + restaurant_options,
+        options=["Select..."] + restaurant_options,
         index=4  # The index corresponds to "Select..." as the default
     )
     

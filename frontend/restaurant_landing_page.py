@@ -51,7 +51,7 @@ def user_signin():
         st.stop()  # Stop execution to avoid rendering the restaurant selection
 
     # Render restaurant selection
-    st.title("Choose Restaurant:")
+    st.title("Choose A Smart Restaurant :")
     
     # Create a list of restaurant display names (name and address combined)
     restaurant_options = [
@@ -66,7 +66,7 @@ def user_signin():
     selected_option = st.selectbox(
         "",
         options=["Select..."] + restaurant_options,
-        index=4  # The index corresponds to "Select..." as the default
+        index=4  # The index 0 corresponds to "Select..." as the default 4 is KhanBurger
     )
     
     # Handle selection or default
@@ -78,7 +78,7 @@ def user_signin():
                     "Restaurant": restaurant,
                     "Address": address,
                 }
-                st.success(f"My Selection : '{restaurant}' ('{address}')")
+                st.success(f"My Choice : '{restaurant}' ('{address}')")
                 st.stop()  # Stop further rendering after a selection is made
     else:
         # Handle the default scenario

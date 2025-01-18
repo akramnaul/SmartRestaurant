@@ -30,6 +30,8 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
         return None
 
 # Main function to render the app
+import streamlit as st
+
 def user_signin():
     # Initialize the list of restaurants in the session with names and addresses
     st.session_state.setdefault('list_of_restaurants', [
@@ -48,19 +50,32 @@ def user_signin():
     if all(st.session_state.get(field) for field in required_fields):
         st.session_state['RestaurantUserSignin'] = True
         st.success("Sign-in successful!")
-        st.stop()  # Stop execution to avoid rendering the restaurant buttons
+        st.stop()  # Stop execution to avoid rendering the restaurant selection
 
     # Render restaurant selection
     st.title("Choose Restaurant:")
-    for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
-        button_label = f"{restaurant} ({restaurant_address})"
-        if st.button(button_label):
-            st.session_state['selected_restaurant'] = {
-                "Restaurant": restaurant,
-                "Address": restaurant_address,
-            }
-            st.success(f"You Selected : Restaurant : '{restaurant}' (Address : '{restaurant_address}')")
-            st.stop()  # Stop the loop after a selection is made
+    
+    # Create a list of restaurant display names (name and address combined)
+    restaurant_options = [
+        f"{restaurant} ({address})" 
+        for restaurant, address in st.session_state['list_of_restaurants']
+    ]
+    
+    # Display a selectbox for restaurant selection
+    selected_option = st.selectbox("Select a restaurant:", options=["Select..."] + restaurant_options)
+    
+    # Check if the user has made a valid selection
+    if selected_option != "Select...":
+        # Extract the restaurant name and address from the selected option
+        for restaurant, address in st.session_state['list_of_restaurants']:
+            if selected_option == f"{restaurant} ({address})":
+                st.session_state['selected_restaurant'] = {
+                    "Restaurant": restaurant,
+                    "Address": address,
+                }
+                st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{address}')")
+                st.stop()  # Stop further rendering after a selection is made
+
 
 
         # try:

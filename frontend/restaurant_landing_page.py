@@ -66,7 +66,7 @@ def user_signin():
     selected_option = st.selectbox(
         "",
         options=["Select..."] + restaurant_options,
-        index=0  # The index 0 corresponds to "Select..." as the default 4 is KhanBurger
+        index=0  # The index 0 corresponds to "Select..." as the default
     )
     
     # Handle selection or default
@@ -89,6 +89,20 @@ def user_signin():
         }
         st.info(f"Default Choice : '{default_restaurant}' ('{default_address}')")
 
+    # Add fields to get ID and Password from the user
+    st.subheader("Enter Your Credentials")
+    
+    user_id = st.text_input("User ID:")
+    user_password = st.text_input("Password:", type="password")
+
+    if st.button("Sign In"):
+        if user_id and user_password:
+            st.session_state['user_id'] = user_id
+            st.session_state['user_password'] = user_password
+            st.success("Sign-in successful with the provided credentials!")
+            st.stop()
+        else:
+            st.error("Please provide both User ID and Password.")
 
 
 

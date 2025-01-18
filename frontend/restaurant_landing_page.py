@@ -32,6 +32,8 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 # Main function to render the app
 import streamlit as st
 
+import streamlit as st
+
 def user_signin():
     # Initialize the list of restaurants in the session with names and addresses
     st.session_state.setdefault('list_of_restaurants', [
@@ -53,7 +55,7 @@ def user_signin():
         st.stop()  # Stop execution to avoid rendering the restaurant selection
 
     # Render restaurant selection
-    st.title("Choose A Restaurant:")
+    st.title("Choose Restaurant:")
     
     # Create a list of restaurant display names (name and address combined)
     restaurant_options = [
@@ -61,11 +63,17 @@ def user_signin():
         for restaurant, address in st.session_state['list_of_restaurants']
     ]
     
-    # Display a selectbox for restaurant selection
-    # selected_option = st.selectbox("Select a restaurant:", options=["Select..."] + restaurant_options)
-    selected_option = st.selectbox("", options= restaurant_options)
+    # Set a default restaurant (e.g., the first restaurant in the list)
+    default_selection = restaurant_options[0]  # You can change this to any specific restaurant
     
-    # Check if the user has made a valid selection
+    # Display the selectbox for restaurant selection
+    selected_option = st.selectbox(
+        "Select a restaurant:",
+        options=["Select..."] + restaurant_options,
+        index=0  # The index corresponds to "Select..." as the default
+    )
+    
+    # Handle selection or default
     if selected_option != "Select...":
         # Extract the restaurant name and address from the selected option
         for restaurant, address in st.session_state['list_of_restaurants']:
@@ -76,6 +84,15 @@ def user_signin():
                 }
                 st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{address}')")
                 st.stop()  # Stop further rendering after a selection is made
+    else:
+        # Handle the default scenario
+        default_restaurant, default_address = st.session_state['list_of_restaurants'][0]
+        st.session_state['selected_restaurant'] = {
+            "Restaurant": default_restaurant,
+            "Address": default_address,
+        }
+        st.info(f"Default selection applied: Restaurant: '{default_restaurant}' (Address: '{default_address}')")
+
 
 
 

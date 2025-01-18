@@ -32,35 +32,36 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 # Main function to render the app
 def user_signin():
     # Initialize the list of restaurants in the session with names and addresses
-    if 'list_of_restaurants' not in st.session_state:
-        st.session_state['list_of_restaurants'] = [
-            ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-            ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-            ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-            ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ]
+    st.session_state.setdefault('list_of_restaurants', [
+        ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+    ])
+    st.session_state.setdefault('RestaurantUserSignin', False)
 
-    if (st.session_state['Restaurant'] is not None and
-        st.session_state['RestaurantUser'] is not None and
-        st.session_state['RestaurantUserPassword'] is not None and
-        st.session_state['RestaurantUserName'] is not None and
-        st.session_state['RestaurantUserClass'] is not None and
-        st.session_state['RestaurantUserAddress'] is not None):
+    # Validate required fields for sign-in
+    required_fields = [
+        'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
+        'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
+    ]
+    if all(st.session_state.get(field) for field in required_fields):
         st.session_state['RestaurantUserSignin'] = True
-        return
-    # Render buttons for each restaurant
-    st.title("Choose Restaurant:")
+        st.success("Sign-in successful!")
+        st.stop()  # Stop execution to avoid rendering the restaurant buttons
 
-    # Loop through the list of restaurants and create buttons with both name and address
+    # Render restaurant selection
+    st.title("Choose Restaurant:")
     for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
         button_label = f"{restaurant} ({restaurant_address})"
         if st.button(button_label):
-            st.session_state.selected_restaurant = {
+            st.session_state['selected_restaurant'] = {
                 "Restaurant": restaurant,
                 "Address": restaurant_address,
             }
             st.success(f"You Selected : Restaurant : '{restaurant}' (Address : '{restaurant_address}')")
             st.stop()  # Stop the loop after a selection is made
+
 
         # try:
         #     StoredProcedureName        = "RestaurantSignin"

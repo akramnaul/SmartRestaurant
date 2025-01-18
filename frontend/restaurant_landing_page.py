@@ -31,7 +31,7 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 
 # Main function to render the app
 def user_signin():
-    # Initialize the list of restaurants with names and addresses
+    # Initialize the list of restaurants in the session with names and addresses
     if 'list_of_restaurants' not in st.session_state:
         st.session_state['list_of_restaurants'] = [
             ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
@@ -40,11 +40,16 @@ def user_signin():
             ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         ]
 
+    if (st.session_state['Restaurant'] is not None and
+        st.session_state['RestaurantUser'] is not None and
+        st.session_state['RestaurantUserPassword'] is not None and
+        st.session_state['RestaurantUserName'] is not None and
+        st.session_state['RestaurantUserClass'] is not None and
+        st.session_state['RestaurantUserAddress'] is not None):
+        st.session_state['RestaurantUserSignin'] = True
+        return
     # Render buttons for each restaurant
-    st.title("Choose Your Restaurant:")
-    # If no restaurant is selected yet
-    # if 'selected_restaurant' not in st.session_state:
-    #     st.warning("Please select a restaurant.")
+    st.title("Choose Restaurant:")
 
     # Loop through the list of restaurants and create buttons with both name and address
     for restaurant, restaurant_address in st.session_state['list_of_restaurants']:
@@ -54,31 +59,9 @@ def user_signin():
                 "Restaurant": restaurant,
                 "Address": restaurant_address,
             }
-            st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{restaurant_address}')")
+            st.success(f"You Selected : Restaurant : '{restaurant}' (Address : '{restaurant_address}')")
             st.stop()  # Stop the loop after a selection is made
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        
         # try:
         #     StoredProcedureName        = "RestaurantSignin"
         #     pRestaurant                = st.session_state['Restaurant']
@@ -102,9 +85,6 @@ def user_signin():
         # st.write(f"Welcome, {st.session_state['RestaurantUser']} from {st.session_state['Restaurant']}!")
         # return True
 
-    
-    # List of Registered Restaurants
-    list_of_restaurants = ["FinePizza", "HajiRestaurant", "HotNSpicy", "KhanBurger"]
 
     
     # # Initialize session state variables only once

@@ -92,12 +92,9 @@ def user_signin():
     # Add fields to get ID and Password from the user
     st.subheader("Enter Your Credentials")
     
-    # Display User ID inside the input field
-    user_id = st.text_input(
-        "User ID:",
-        value=st.session_state.get('user_id', '')  # Pre-fill with stored user_id or leave empty
-    )
-    user_password = st.text_input("Password:", type="password")
+    # Display placeholder in the User ID input field
+    user_id = st.text_input("", placeholder="Enter Mobile Number")  # Placeholder text for the input field
+    user_password = st.text_input("", type="password", placeholder="Enter Password")
 
     if st.button("Sign In"):
         if user_id and user_password:

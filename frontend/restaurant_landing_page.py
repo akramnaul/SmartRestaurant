@@ -30,10 +30,6 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
         return None
 
 # Main function to render the app
-import streamlit as st
-
-import streamlit as st
-
 def user_signin():
     # Initialize the list of restaurants in the session with names and addresses
     st.session_state.setdefault('list_of_restaurants', [
@@ -64,13 +60,13 @@ def user_signin():
     ]
     
     # Set a default restaurant (e.g., the first restaurant in the list)
-    default_selection = restaurant_options[0]  # You can change this to any specific restaurant
+    default_selection = restaurant_options[3]  # You can change this to any specific restaurant
     
     # Display the selectbox for restaurant selection
     selected_option = st.selectbox(
-        "Select a restaurant:",
-        options=["Select..."] + restaurant_options,
-        index=0  # The index corresponds to "Select..." as the default
+        "",
+        options=["Select....."] + restaurant_options,
+        index=4  # The index corresponds to "Select..." as the default
     )
     
     # Handle selection or default

@@ -60,13 +60,13 @@ def user_signin():
     ]
     
     # Set a default restaurant (e.g., the first restaurant in the list)
-    default_selection = restaurant_options[3]  # You can change this to any specific restaurant
+    default_selection = restaurant_options[3]  # 3 : KhanBurger : You can change this to any specific restaurant
     
     # Display the selectbox for restaurant selection
     selected_option = st.selectbox(
         "",
         options=["Select..."] + restaurant_options,
-        index=4  # The index 0 corresponds to "Select..." as the default 4 is KhanBurger
+        index=0  # The index 0 corresponds to "Select..." as the default 4 is KhanBurger
     )
     
     # Handle selection or default
@@ -87,7 +87,7 @@ def user_signin():
             "Restaurant": default_restaurant,
             "Address": default_address,
         }
-        st.info(f"Default : Restaurant : '{default_restaurant}' ('{default_address}')")
+        st.info(f"Default Choice : '{default_restaurant}' ('{default_address}')")
 
 
 

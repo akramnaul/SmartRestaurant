@@ -53,7 +53,7 @@ def user_signin():
         st.stop()  # Stop execution to avoid rendering the restaurant selection
 
     # Render restaurant selection
-    st.title("Choose Restaurant:")
+    st.title("Choose A Restaurant:")
     
     # Create a list of restaurant display names (name and address combined)
     restaurant_options = [
@@ -62,7 +62,8 @@ def user_signin():
     ]
     
     # Display a selectbox for restaurant selection
-    selected_option = st.selectbox("Select a restaurant:", options=["Select..."] + restaurant_options)
+    # selected_option = st.selectbox("Select a restaurant:", options=["Select..."] + restaurant_options)
+    selected_option = st.selectbox("", options= restaurant_options)
     
     # Check if the user has made a valid selection
     if selected_option != "Select...":

@@ -78,7 +78,7 @@ def user_signin():
                     "Restaurant": restaurant,
                     "Address": address,
                 }
-                st.success(f"You Selected: Restaurant: '{restaurant}' (Address: '{address}')")
+                st.success(f"My Selection : '{restaurant}' ('{address}')")
                 st.stop()  # Stop further rendering after a selection is made
     else:
         # Handle the default scenario

@@ -8,8 +8,8 @@ import os
 from database.connect_database import connect_database
 from database.execute_stored_procedure import execute_stored_procedure
 # from frontend.restaurant_landing_page import user_signin
-from database.user_signin import verify_valid_user_signin, user_signin
+from database.user_signin import verify_valid_user_signin, user_signin, setup_session_variables
 if (verify_valid_user_signin() is False):
   st.write(".....Signin InValid.....")
   user_signin()
-
+  setup_session_variables()

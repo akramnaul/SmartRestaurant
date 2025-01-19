@@ -10,5 +10,7 @@ from database.execute_stored_procedure import execute_stored_procedure
 # from frontend.restaurant_landing_page import user_signin
 from database.user_signin import verify_valid_user_signin
 
+if (verify_valid_user_signin()):
+  st.write("...........")
 verify_valid_user_signin()
 

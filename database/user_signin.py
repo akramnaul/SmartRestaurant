@@ -11,6 +11,7 @@ from database.execute_stored_procedure import execute_stored_procedure
 # Load environment variables
 load_dotenv()
 
+
 # Function to validate user credentials
 def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
     try:
@@ -30,32 +31,6 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
         return None
 
 
-# Setup Session Variables
-def setup_session_variables():
-    # Create and Initialize the list of restaurants in the session with names and addresses
-    st.session_state.setdefault('list_of_restaurants', [
-        ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-    ])
-    st.session_state.setdefault('RestaurantUserSigninValid', False)
-
-    # Validate required fields for signin
-    signin_required_fields = [
-        'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
-        'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress',
-        'RestaurantUserSigninValid'
-    ]
-
-    # Check all session variables for existence and valid / True values
-    if all(st.session_state.get(field) for field in signin_required_fields):
-        st.session_state['RestaurantUserSigninValid'] = True
-        st.success("Sign-in successful!")
-        st.stop()  # Stop execution to avoid rendering the restaurant selection
-
-
-
 # Verify a Valid User Signin
 def verify_valid_user_signin():
     # Check if 'signin_required_fields' exists and validate all required fields / values
@@ -69,6 +44,37 @@ def verify_valid_user_signin():
     else:
         st.error("Sign-in is Not-Valid ! ")
         return False
+
+
+# Setup Session Variables
+def setup_session_variables():
+    # Create and Initialize the list of restaurants in the session with names and addresses
+    st.session_state.setdefault('list_of_restaurants', [
+        ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+    ])
+
+    # Initialize the sign-in validation flag
+    st.session_state.setdefault('RestaurantUserSigninValid', False)
+
+    # Set the list of required fields for sign-in validation
+    st.session_state.setdefault('signin_required_fields', [
+        'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
+        'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress',
+        'RestaurantUserSigninValid'
+    ])
+
+    # Initialize all variables in signin_required_fields with None
+    st.session_state.setdefault('Restaurant', None)  # Default to None
+    st.session_state.setdefault('RestaurantUser', None)  # Default to None
+    st.session_state.setdefault('RestaurantUserPassword', None)  # Default to None
+    st.session_state.setdefault('RestaurantUserName', None)  # Default to None
+    st.session_state.setdefault('RestaurantUserClass', None)  # Default to None
+    st.session_state.setdefault('RestaurantUserAddress', None)  # Default to None
+
+    st.success("Session variables created successfully ! ")
 
 
 # Main function to render the app

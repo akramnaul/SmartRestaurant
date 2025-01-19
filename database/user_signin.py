@@ -37,13 +37,15 @@ def verify_valid_user_signin():
     if 'signin_required_fields' not in st.session_state:
         st.error("Sign-in Configuration is Missing ! ")
         return False
-    if all(st.session_state.get(field) for field in st.session_state['signin_required_fields']):
-        st.session_state['RestaurantUserSigninValid'] = True
-        st.success("Signin is Valid ! ")
+    # Validate all required fields and check the sign-in validation flag
+    if all(st.session_state.get(field) for field in st.session_state['signin_required_fields']) and \
+            st.session_state.get('RestaurantUserSigninValid', False):
+        st.success("Sign-in is valid!")
         return True
     else:
-        st.error("Sign-in is Not-Valid ! ")
+        st.error("Sign-in is not valid!")
         return False
+
 
 
 # Setup Session Variables
@@ -56,9 +58,6 @@ def setup_session_variables():
         ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
     ])
 
-    # Initialize the sign-in validation flag
-    st.session_state.setdefault('RestaurantUserSigninValid', False)
-
     # Set the list of required fields for sign-in validation
     st.session_state.setdefault('signin_required_fields', [
         'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
@@ -67,28 +66,18 @@ def setup_session_variables():
     ])
 
     # Initialize all variables in signin_required_fields with None
-    st.session_state.setdefault('Restaurant', None)  # Default to None
-    st.session_state.setdefault('RestaurantUser', None)  # Default to None
-    st.session_state.setdefault('RestaurantUserPassword', None)  # Default to None
-    st.session_state.setdefault('RestaurantUserName', None)  # Default to None
-    st.session_state.setdefault('RestaurantUserClass', None)  # Default to None
-    st.session_state.setdefault('RestaurantUserAddress', None)  # Default to None
-
-    st.success("Session variables created successfully ! ")
+    st.session_state.setdefault('Restaurant', None)
+    st.session_state.setdefault('RestaurantUser', None)
+    st.session_state.setdefault('RestaurantUserPassword', None)
+    st.session_state.setdefault('RestaurantUserName', None)
+    st.session_state.setdefault('RestaurantUserClass', None)
+    st.session_state.setdefault('RestaurantUserAddress', None)
+    st.session_state.setdefault('RestaurantUserSigninValid', None)
 
 
 # Main function to render the app
 def user_signin():
-    # Initialize the list of restaurants in the session with names and addresses
-    st.session_state.setdefault('list_of_restaurants', [
-        ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-    ])
-    st.session_state.setdefault('RestaurantUserSigninValid', False)
-
-    # Validate required fields for signin
+verify_valid_user_signin():    # Validate required fields for signin
     signin_required_fields = [
         'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
         'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'

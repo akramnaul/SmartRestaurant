@@ -77,6 +77,7 @@ def setup_session_variables():
 
 # Main function to render the app
 def user_signin():
+    setup_session_variables()     # Setup Session Variables
     verify_valid_user_signin()    # Validate required fields for signin
     signin_required_fields = [
         'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',

@@ -47,7 +47,6 @@ def verify_valid_user_signin():
         return False
 
 
-
 # Setup Session Variables
 def setup_session_variables():
     # Create and Initialize the list of restaurants in the session with names and addresses

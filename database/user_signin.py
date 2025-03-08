@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 from database.connect_database import connect_database
 from database.execute_stored_procedure import execute_stored_procedure
+
 # Load environment variables
 load_dotenv()
 
@@ -14,7 +15,7 @@ load_dotenv()
 # Setup Session Variables
 def setup_session_variables():
     # Create and Initialize the list of restaurants in the session with names and addresses
-    if 'list_of_restaurants' not in st.session_state:
+    if ('list_of_restaurants' not in st.session_state):
         st.session_state.setdefault('list_of_restaurants', [
         ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
@@ -23,7 +24,7 @@ def setup_session_variables():
     ])
 
     # Set the list of required fields for sign-in validation
-    if 'signin_required_fields' not in st.session_state:
+    if ('signin_required_fields' not in st.session_state):
         st.session_state.setdefault('signin_required_fields', [
             'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
             'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress',
@@ -70,12 +71,13 @@ def verify_valid_user_signin():
 
 # Main function to render the app
 def user_signin():
-    if verify_valid_user_signin() is True:
+    if (verify_valid_user_signin() is False):
+        st.title("Smart Restaurant 1")
     # Create a list of fields required for signin
-    signin_required_fields = [
-        'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
-        'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
-    ]
+    # signin_required_fields = [
+    #     'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
+    #     'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
+    # ]
 
     if all(st.session_state.get(field) for field in signin_required_fields):
         st.session_state['RestaurantUserSigninValid'] = True

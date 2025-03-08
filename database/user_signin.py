@@ -43,6 +43,11 @@ def setup_session_variables():
 
 # Function to validate user credentials
 def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
+    # Check if 'signin_required_fields' exists and validate user signin
+    if (('RestaurantUserSigninValid' not in st.session_state) or (st.session_state['RestaurantUserSigninValid'] is not True)):
+        setup_session_variables()
+    else:
+        return True
     try:
         StoredProcedureName = "RestaurantSignin"
         StoredProcedureCall = (
@@ -63,10 +68,10 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 # Verify a Valid User Signin
 def verify_valid_user_signin():
     # Check if 'signin_required_fields' exists and validate user signin
-    if (('RestaurantUserSigninValid' not in st.session_state) or (st.session_state['RestaurantUserSigninValid'] is not True)):
-        setup_session_variables()
-    else:
-        return True
+    # if (('RestaurantUserSigninValid' not in st.session_state) or (st.session_state['RestaurantUserSigninValid'] is not True)):
+    #     setup_session_variables()
+    # else:
+    #     return True
 
 
 # Main function to render the app

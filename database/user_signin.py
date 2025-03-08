@@ -27,7 +27,7 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
         result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
         return result
     except Error as e:
-        st.error(f"An error occurred while validating user: {e}")
+        st.error(f"An error occurred while validating User: {e} ..... from ..... validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword) ..... ")
         return None
 
 
@@ -82,9 +82,10 @@ def user_signin():
         'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
         'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
     ]
+
     if all(st.session_state.get(field) for field in signin_required_fields):
         st.session_state['RestaurantUserSigninValid'] = True
-        st.success("Sign-in successful!")
+        st.success("Sign-in Successful !")
         st.stop()  # Stop execution to avoid rendering the restaurant selection
 
     # Render restaurant selection

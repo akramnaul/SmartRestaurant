@@ -35,15 +35,15 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 def verify_valid_user_signin():
     # Check if 'signin_required_fields' exists and validate all required fields / values
     if 'signin_required_fields' not in st.session_state:
-        st.error("Sign-in Configuration is Missing ! ")
+        st.error("Sign-in Configuration is Missing ! ..... from ..... verify_valid_user_signin() ..... 1")
         return False
     # Validate all required fields and check the sign-in validation flag
     if all(st.session_state.get(field) for field in st.session_state['signin_required_fields']) and \
             st.session_state.get('RestaurantUserSigninValid', False):
-        st.success("Sign-in is valid!")
+        st.success("Sign-in is Valid ! ..... from ..... verify_valid_user_signin() ..... 2")
         return True
     else:
-        st.error("Sign-in is not valid!")
+        st.error("Sign-in is Not Valid ! ..... from ..... verify_valid_user_signin() ..... 2")
         return False
 
 

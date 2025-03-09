@@ -76,8 +76,8 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 
 # Main function to render the app
 def user_signin():
-    if (verify_valid_user_signin() is False):
-        st.title("Smart Restaurant 1")
+    # if (verify_valid_user_signin() is False):
+    #     st.title("Smart Restaurant 1")
     # Create a list of fields required for signin
     # signin_required_fields = [
     #     'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',

@@ -76,18 +76,18 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 
 # Main function to render the app
 def user_signin():
-    # if (verify_valid_user_signin() is False):
-    #     st.title("Smart Restaurant 1")
-    # Create a list of fields required for signin
-    # signin_required_fields = [
-    #     'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
-    #     'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
-    # ]
+    if (verify_valid_user_signin() is False):
+        st.title("Smart Restaurant 1")
+    Create a list of fields required for signin
+    signin_required_fields = [
+        'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
+        'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
+    ]
 
-    # if all(st.session_state.get(field) for field in signin_required_fields):
-    #     st.session_state['RestaurantUserSigninValid'] = True
-    #     st.success("Sign-in Successful !")
-    #     st.stop()  # Stop execution to avoid rendering the restaurant selection
+    if all(st.session_state.get(field) for field in signin_required_fields):
+        st.session_state['RestaurantUserSigninValid'] = True
+        st.success("Sign-in Successful !")
+        st.stop()  # Stop execution to avoid rendering the restaurant selection
 
     # Render restaurant selection
     st.title("Smart Restaurant")

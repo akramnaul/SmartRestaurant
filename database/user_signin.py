@@ -15,30 +15,30 @@ load_dotenv()
 # Setup Session Variables
 def setup_session_variables():
     # Create and Initialize the list of restaurants in the session with names and addresses
-    # if ('list_of_restaurants' not in st.session_state):
-    #     st.session_state.setdefault('list_of_restaurants', [
-    #     ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-    #     ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-    #     ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-    #     ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-    # ])
+    if ('list_of_restaurants' not in st.session_state):
+        st.session_state.setdefault('list_of_restaurants', [
+        ("FinePizza", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+    ])
 
     # Set the list of required fields for sign-in validation
-    # if ('signin_required_fields' not in st.session_state):
-    #     st.session_state.setdefault('signin_required_fields', [
-    #         'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
-    #         'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress',
-    #         'RestaurantUserSigninValid'
-    #     ])
+    if ('signin_required_fields' not in st.session_state):
+        st.session_state.setdefault('signin_required_fields', [
+            'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
+            'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress',
+            'RestaurantUserSigninValid'
+        ])
 
         # Initialize all variables in signin_required_fields with None
-        # st.session_state.setdefault('Restaurant', None)
-        # st.session_state.setdefault('RestaurantUser', None)
-        # st.session_state.setdefault('RestaurantUserPassword', None)
-        # st.session_state.setdefault('RestaurantUserName', None)
-        # st.session_state.setdefault('RestaurantUserClass', None)
-        # st.session_state.setdefault('RestaurantUserAddress', None)
-        # st.session_state.setdefault('RestaurantUserSigninValid', False)
+        st.session_state.setdefault('Restaurant', None)
+        st.session_state.setdefault('RestaurantUser', None)
+        st.session_state.setdefault('RestaurantUserPassword', None)
+        st.session_state.setdefault('RestaurantUserName', None)
+        st.session_state.setdefault('RestaurantUserClass', None)
+        st.session_state.setdefault('RestaurantUserAddress', None)
+        st.session_state.setdefault('RestaurantUserSigninValid', False)
 
 
 # Function to validate user credentials

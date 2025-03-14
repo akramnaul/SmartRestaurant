@@ -24,21 +24,21 @@ def setup_session_variables():
     ])
 
     # Set the list of required fields for sign-in validation
-    if ('signin_required_fields' not in st.session_state):
-        st.session_state.setdefault('signin_required_fields', [
-            'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
-            'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress',
-            'RestaurantUserSigninValid'
-        ])
+    # if ('signin_required_fields' not in st.session_state):
+    #     st.session_state.setdefault('signin_required_fields', [
+    #         'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
+    #         'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress',
+    #         'RestaurantUserSigninValid'
+    #     ])
 
         # Initialize all variables in signin_required_fields with None
-        st.session_state.setdefault('Restaurant', None)
-        st.session_state.setdefault('RestaurantUser', None)
-        st.session_state.setdefault('RestaurantUserPassword', None)
-        st.session_state.setdefault('RestaurantUserName', None)
-        st.session_state.setdefault('RestaurantUserClass', None)
-        st.session_state.setdefault('RestaurantUserAddress', None)
-        st.session_state.setdefault('RestaurantUserSigninValid', False)
+        # st.session_state.setdefault('Restaurant', None)
+        # st.session_state.setdefault('RestaurantUser', None)
+        # st.session_state.setdefault('RestaurantUserPassword', None)
+        # st.session_state.setdefault('RestaurantUserName', None)
+        # st.session_state.setdefault('RestaurantUserClass', None)
+        # st.session_state.setdefault('RestaurantUserAddress', None)
+        # st.session_state.setdefault('RestaurantUserSigninValid', False)
 
 
 # Function to validate user credentials

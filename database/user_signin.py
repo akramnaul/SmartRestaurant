@@ -78,11 +78,11 @@ def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):
 def user_signin():
     if (verify_valid_user_signin() is False):
         st.title("Smart Restaurant 1")
-    Create a list of fields required for signin
-    signin_required_fields = [
-        'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
-        'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
-    ]
+    # Create a list of fields required for signin
+    # signin_required_fields = [
+    #     'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
+    #     'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
+    # ]
 
     # if all(st.session_state.get(field) for field in signin_required_fields):
     #     st.session_state['RestaurantUserSigninValid'] = True

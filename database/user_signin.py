@@ -100,7 +100,7 @@ def user_signin():
     ]
 
     # Set a default restaurant (e.g., the first restaurant in the list)
-    default_selection = restaurant_options[0]  # 3 : KhanBurger : You can change this to any specific restaurant
+    # default_selection = restaurant_options[0]  # 3 : KhanBurger : You can change this to any specific restaurant
 
     # Display the selectbox for restaurant selection
     selected_option = st.selectbox(

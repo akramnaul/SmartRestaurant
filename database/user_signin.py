@@ -81,24 +81,24 @@ def user_signin():
         st.title("Smart Restaurant : Starting To Setup New Session & Signin")
         setup_new_session()
 
-    if (verify_valid_user_signin() is False):
-        st.title("Smart Restaurant 1")
-    Create a list of fields required for signin
+    # if (verify_valid_user_signin() is False):
+    #     st.title("Smart Restaurant 1")
+    # Create a list of fields required for signin
     signin_required_fields = [
         'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
         'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
     ]
 
-    if all(st.session_state.get(field) for field in signin_required_fields):
-        st.session_state['RestaurantUserSigninValid'] = True
-        st.success("Sign-in Successful !")
-        st.stop()  # Stop execution to avoid rendering the restaurant selection
+    # if all(st.session_state.get(field) for field in signin_required_fields):
+    #     st.session_state['RestaurantUserSigninValid'] = True
+    #     st.success("Sign-in Successful !")
+    #     st.stop()  # Stop execution to avoid rendering the restaurant selection
 
-    Create a list of restaurant display names (name and address combined)
-    restaurant_options = [
-        f"{restaurant} ({address})" 
-        for restaurant, address in st.session_state['list_of_restaurants']
-    ]
+    # Create a list of restaurant display names (name and address combined)
+    # restaurant_options = [
+    #     f"{restaurant} ({address})" 
+    #     for restaurant, address in st.session_state['list_of_restaurants']
+    # ]
 
     # Set a default restaurant (e.g., the first restaurant in the list)
     # default_selection = restaurant_options[3]  # 3 : KhanBurger : You can change this to any specific restaurant

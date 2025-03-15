@@ -76,10 +76,10 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
     else:
         pass
 
-    if all(st.session_state.get(field) for field in signin_required_fields):
-        st.session_state['RestaurantUserSigninValid'] = True
-        st.success("Sign-in Successful !")
-        st.stop()  # Stop execution to avoid rendering the restaurant selection
+    # if all(st.session_state.get(field) for field in signin_required_fields):
+    #     st.session_state['RestaurantUserSigninValid'] = True
+    #     st.success("Sign-in Successful !")
+    #     st.stop()  # Stop execution to avoid rendering the restaurant selection
 
     try:
         StoredProcedureName = "RestaurantSignin"

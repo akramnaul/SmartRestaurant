@@ -63,7 +63,7 @@ def user_signin_afresh():
     )
     
     # Handle selection or default
-    if selected_option != "Select Restaurant ...":
+    # if selected_option != "Select Restaurant ...":
         # Extract the restaurant name and address from the selected option
         for restaurant, address in st.session_state['list_of_restaurants']:
             if selected_option == f"{restaurant} ({address})":
@@ -73,8 +73,8 @@ def user_signin_afresh():
                 }
                 # st.success(f"My Choice : '{restaurant}' ('{address}')")
                 # st.stop()  # Stop further rendering after a selection is made
-    else:
-        pass
+    # else:
+    #     pass
 
     pRestaurant = st.session_state.get(['selected_restaurant'],None)
 

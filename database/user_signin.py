@@ -92,7 +92,7 @@ def user_signin():
         st.success("Sign-in Successful !")
         st.stop()  # Stop execution to avoid rendering the restaurant selection
 
-    Create a list of restaurant display names (name and address combined)
+    # Create a list of restaurant display names (name and address combined)
     restaurant_options = [
         f"{restaurant} ({address})" 
         for restaurant, address in st.session_state['list_of_restaurants']

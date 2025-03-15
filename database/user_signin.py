@@ -106,7 +106,7 @@ def user_signin_afresh():
             "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
         )
         result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
-        st.write("pRestaurantUserName", "pRestaurantUserClass", "pRestaurantUserAddress", "pStatus", "pStatusCheck")
+        st.write({pRestaurantUserName}, "pRestaurantUserClass", "pRestaurantUserAddress", "pStatus", "pStatusCheck")
         return result
     except Error as e:
         st.error(f"Error Signing in ..... {e}..... ")

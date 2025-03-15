@@ -106,7 +106,12 @@ def user_signin_afresh():
             "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
         )
         result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
-        # st.write(f"'{@pRestaurantUserName or ''}', '{@pRestaurantUserClass or ''}', '{@pRestaurantUserAddress or ''}', '{@pStatus or ''}', '{@pStatusCheck or ''}'")
+        if result:
+            pRestaurantUserName, pRestaurantUserClass, pRestaurantUserAddress, pStatus, pStatusCheck = result
+            st.write(f"'{pRestaurantUserName or ''}', '{pRestaurantUserClass or ''}', '{pRestaurantUserAddress or ''}', '{pStatus or ''}', '{pStatusCheck or ''}'")
+        else:
+            st.error("Error: No data returned from the database.")
+        st.write(f"'{pRestaurantUserName or ''}', '{pRestaurantUserClass or ''}', '{pRestaurantUserAddress or ''}', '{pStatus or ''}', '{pStatusCheck or ''}'")
         return result
     except Error as e:
         st.error(f"Error Signing in ..... {e}..... ")

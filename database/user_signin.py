@@ -99,6 +99,8 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
 
     try:
         StoredProcedureName = "RestaurantSignin"
+        pRestaurantUser = RestaurantUser
+        pRestaurantUserPassword = RestaurantUserPassword
         StoredProcedureCall = (
             f"CALL {StoredProcedureName}("
             f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}', "

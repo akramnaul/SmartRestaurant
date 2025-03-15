@@ -76,6 +76,8 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
     else:
         pass
 
+    pRestaurant = st.session_state['selected_restaurant']
+
     # Add fields to get ID and Password from the user
     st.subheader("Enter Your Credentials")
     

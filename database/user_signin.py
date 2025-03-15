@@ -86,9 +86,9 @@ def user_signin_afresh():
     pRestaurantUserPassword = st.text_input("", type="password", placeholder="Enter Password")
 
     if st.button("Sign In"):
-        if RestaurantUser and RestaurantUserPassword:
-            st.session_state['RestaurantUser'] = RestaurantUser
-            st.session_state['RestaurantUserPassword'] = RestaurantUserPassword
+        if pRestaurantUser and pRestaurantUserPassword:
+            st.session_state['RestaurantUser'] = pRestaurantUser
+            st.session_state['RestaurantUserPassword'] = pRestaurantUserPassword
             st.success("Sign-in successful with the provided credentials!")
             st.stop()
         else:

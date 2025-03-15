@@ -121,6 +121,7 @@ def user_signin():
                 st.success(f"My Choice : '{restaurant}' ('{address}')")
                 st.stop()  # Stop further rendering after a selection is made
     else:
+        pass
         # Handle the default scenario
         # default_restaurant, default_address = st.session_state['list_of_restaurants'][0]
         # st.session_state['selected_restaurant'] = {

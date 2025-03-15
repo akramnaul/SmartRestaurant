@@ -76,6 +76,22 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
     else:
         pass
 
+    # Add fields to get ID and Password from the user
+    st.subheader("Enter Your Credentials")
+    
+    # Display placeholder in the User ID input field
+    user_id = st.text_input("", placeholder="Enter Mobile Number")  # Placeholder text for the input field
+    user_password = st.text_input("", type="password", placeholder="Enter Password")
+
+    if st.button("Sign In"):
+        if user_id and user_password:
+            st.session_state['user_id'] = user_id
+            st.session_state['user_password'] = user_password
+            st.success("Sign-in successful with the provided credentials!")
+            st.stop()
+        else:
+            st.error("Please provide both User ID and Password.")
+
     # if all(st.session_state.get(field) for field in signin_required_fields):
     #     st.session_state['RestaurantUserSigninValid'] = True
     #     st.success("Sign-in Successful !")
@@ -83,6 +99,9 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
 
     try:
         StoredProcedureName = "RestaurantSignin"
+        pRestaurant = st.session_state['selected_restaurant']
+        pRestaurantUser = 
+        pRestaurantUserPassword = 
         StoredProcedureCall = (
             f"CALL {StoredProcedureName}("
             f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}', "

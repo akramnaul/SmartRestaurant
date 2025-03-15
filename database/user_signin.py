@@ -45,7 +45,7 @@ def setup_new_session():
 
 
 # Function to validate user credentials
-def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPassword):
+def user_signin_afresh():
     # Create a list of restaurant display names (name and address combined)
     restaurant_options = [
         f"{restaurant} ({address})" 
@@ -53,7 +53,7 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
     ]
 
     # Set a default restaurant (e.g., the first restaurant in the list)
-    default_selection = restaurant_options[0]  # 3 : KhanBurger : You can change this to any specific restaurant
+    # default_selection = restaurant_options[0]  # 3 : KhanBurger : You can change this to any specific restaurant
 
     # Display the selectbox for restaurant selection
     selected_option = st.selectbox(

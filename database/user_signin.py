@@ -40,6 +40,8 @@ def setup_new_session():
     st.session_state.setdefault('RestaurantUserAddress', None)
     st.session_state.setdefault('RestaurantUserSigninValid', False)
 
+    st.title("Smart Restaurant : Started New Session Successfully")
+
 
 # Function to validate user credentials
 def validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword):

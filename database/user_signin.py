@@ -86,13 +86,14 @@ def user_signin_afresh():
     pRestaurantUserPassword = st.text_input("", type="password", placeholder="Enter Password")
 
     if st.button("Sign In"):
-        if pRestaurantUser and pRestaurantUserPassword:
+        if pRestaurant and pRestaurantUser and pRestaurantUserPassword:
+            st.session_state['Restaurant'] = pRestaurant
             st.session_state['RestaurantUser'] = pRestaurantUser
             st.session_state['RestaurantUserPassword'] = pRestaurantUserPassword
-            st.success("Sign-in successful with the provided credentials!")
-            st.stop()
+            # st.success("Sign-in successful with the provided credentials!")
+            # st.stop()
         else:
-            st.error("Please provide both User ID and Password.")
+            st.error("Please select restaurant and provide ID and Password.")
 
     try:
         StoredProcedureName = "RestaurantSignin"
@@ -105,12 +106,13 @@ def user_signin_afresh():
             "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
         )
         result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
+        st.write("pRestaurantUserName", "pRestaurantUserClass", "pRestaurantUserAddress", "pStatus", "pStatusCheck")
         return result
     except Error as e:
-        st.error(f"An error occurred while validating User: {e} ..... from ..... validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword) ..... ")
+        st.error(f"Error Signing in ..... {e}..... ")
         return None
 
-    st.subheader("Smart Restaurant : Signin Success")
+    st.subheader("Smart Restaurant : Fresh Signin Success")
 
 
 # Main function to render the app

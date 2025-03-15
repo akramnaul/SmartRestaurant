@@ -73,7 +73,7 @@ def user_signin_afresh():
                 }
                 st.success(f"My Choice : '{restaurant}' ('{address}')")
                 # pRestaurant = restaurant
-                st.stop()  # Stop further rendering after a selection is made
+                # st.stop()  # Stop further rendering after a selection is made
     else:
         pass
 
@@ -114,15 +114,6 @@ def user_signin_afresh():
     st.subheader("Smart Restaurant : Signin Success")
 
 
-# Verify a Valid User Signin
-# def verify_valid_user_signin():
-    # Check if 'signin_required_fields' exists and validate user signin
-    # if (('RestaurantUserSigninValid' not in st.session_state) or (st.session_state['RestaurantUserSigninValid'] is not True)):
-    #     setup_new_session()
-    # else:
-    #     return True
-
-
 # Main function to render the app
 def user_signin():
     # Check if 'RestaurantUserSigninValid' exists and True
@@ -133,67 +124,3 @@ def user_signin():
         st.subheader("Smart Restaurant : New Session & Signin")
         setup_new_session()
         user_signin_afresh()
-
-    # # Create a list of fields required for signin
-    # signin_required_fields = [
-    #     'Restaurant', 'RestaurantUser', 'RestaurantUserPassword',
-    #     'RestaurantUserName', 'RestaurantUserClass', 'RestaurantUserAddress'
-    # ]
-
-    # if all(st.session_state.get(field) for field in signin_required_fields):
-    #     st.session_state['RestaurantUserSigninValid'] = True
-    #     st.success("Sign-in Successful !")
-    #     st.stop()  # Stop execution to avoid rendering the restaurant selection
-
-    # # Create a list of restaurant display names (name and address combined)
-    # restaurant_options = [
-    #     f"{restaurant} ({address})" 
-    #     for restaurant, address in st.session_state['list_of_restaurants']
-    # ]
-
-    # # Set a default restaurant (e.g., the first restaurant in the list)
-    # default_selection = restaurant_options[0]  # 3 : KhanBurger : You can change this to any specific restaurant
-
-    # # Display the selectbox for restaurant selection
-    # selected_option = st.selectbox(
-    #     "",
-    #     options=["Select..."] + restaurant_options,
-    #     index=0  # The index 0 corresponds to "Select..." as the default
-    # )
-    
-    # # Handle selection or default
-    # if selected_option != "Select...":
-    #     # Extract the restaurant name and address from the selected option
-    #     for restaurant, address in st.session_state['list_of_restaurants']:
-    #         if selected_option == f"{restaurant} ({address})":
-    #             st.session_state['selected_restaurant'] = {
-    #                 "Restaurant": restaurant,
-    #                 "Address": address,
-    #             }
-    #             st.success(f"My Choice : '{restaurant}' ('{address}')")
-    #             st.stop()  # Stop further rendering after a selection is made
-    # else:
-    #     pass
-        # Handle the default scenario
-        # default_restaurant, default_address = st.session_state['list_of_restaurants'][0]
-        # st.session_state['selected_restaurant'] = {
-        #     "Restaurant": default_restaurant,
-        #     "Address": default_address,
-        # }
-        # st.info(f": '{default_restaurant}' ('{default_address}')")
-
-    # Add fields to get ID and Password from the user
-    # st.subheader("Enter Your Credentials")
-    
-    # Display placeholder in the User ID input field
-    # user_id = st.text_input("", placeholder="Enter Mobile Number")  # Placeholder text for the input field
-    # user_password = st.text_input("", type="password", placeholder="Enter Password")
-
-    # if st.button("Sign In"):
-    #     if user_id and user_password:
-    #         st.session_state['user_id'] = user_id
-    #         st.session_state['user_password'] = user_password
-    #         st.success("Sign-in successful with the provided credentials!")
-    #         st.stop()
-    #     else:
-    #         st.error("Please provide both User ID and Password.")

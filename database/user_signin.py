@@ -80,8 +80,8 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
     st.subheader("Enter Your Credentials")
     
     # Display placeholder in the User ID input field
-    user_id = st.text_input("", placeholder="Enter Mobile Number")  # Placeholder text for the input field
-    user_password = st.text_input("", type="password", placeholder="Enter Password")
+    RestaurantUser = st.text_input("", placeholder="Enter Mobile Number")  # Placeholder text for the input field
+    RestaurantUserPassword = st.text_input("", type="password", placeholder="Enter Password")
 
     if st.button("Sign In"):
         if RestaurantUser and RestaurantUserPassword:

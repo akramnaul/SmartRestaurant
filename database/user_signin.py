@@ -72,19 +72,19 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
                     "Address": address,
                 }
                 st.success(f"My Choice : '{restaurant}' ('{address}')")
-                pRestaurant = restaurant
+                # pRestaurant = restaurant
                 st.stop()  # Stop further rendering after a selection is made
     else:
         pass
 
-    # pRestaurant = st.session_state['selected_restaurant']
+    pRestaurant = st.session_state.get(['selected_restaurant'],[0])
 
     # Add fields to get ID and Password from the user
     st.subheader("Enter Your Credentials")
     
     # Display placeholder in the User ID input field
-    RestaurantUser = st.text_input("", placeholder="Enter Mobile Number")  # Placeholder text for the input field
-    RestaurantUserPassword = st.text_input("", type="password", placeholder="Enter Password")
+    pRestaurantUser = st.text_input("", placeholder="Enter Mobile Number")  # Placeholder text for the input field
+    pRestaurantUserPassword = st.text_input("", type="password", placeholder="Enter Password")
 
     if st.button("Sign In"):
         if RestaurantUser and RestaurantUserPassword:
@@ -95,13 +95,9 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
         else:
             st.error("Please provide both User ID and Password.")
 
-    # if all(st.session_state.get(field) for field in signin_required_fields):
-    #     st.session_state['RestaurantUserSigninValid'] = True
-    #     st.success("Sign-in Successful !")
-    #     st.stop()  # Stop execution to avoid rendering the restaurant selection
-
     try:
         StoredProcedureName = "RestaurantSignin"
+        pRestaurant = RestaurantUser
         pRestaurantUser = RestaurantUser
         pRestaurantUserPassword = RestaurantUserPassword
         StoredProcedureCall = (

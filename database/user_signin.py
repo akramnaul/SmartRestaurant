@@ -96,13 +96,10 @@ def user_signin_afresh():
             if result:
                 pRestaurantUserName, pRestaurantUserClass, pRestaurantUserAddress, pStatus, pStatusCheck = result
                 st.write(f"'{pRestaurantUserName}', '{pRestaurantUserClass}', '{pRestaurantUserAddress}', '{pStatus}', '{pStatusCheck}'")
+                st.subheader("Smart Restaurant : Fresh Signin Success")  # ✅ Now it will execute
             else:
                 st.error("Error: No data returned from the database.")
-
-            st.subheader("Smart Restaurant : Fresh Signin Success")  # ✅ Now it will execute
-
             return result
-
         except Error as e:
             st.error(f"Error Signing in: {e}")
             return None

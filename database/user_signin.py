@@ -127,10 +127,10 @@ def user_signin_afresh():
 def user_signin():
     # Check if 'RestaurantUserSigninValid' exists and True
     if (('RestaurantUserSigninValid' in st.session_state) and (st.session_state['RestaurantUserSigninValid'] is True)):
-        st.title("Smart Restaurant : Previous Valid Session & Signin")
+        st.subheader("Smart Restaurant : Previous Valid Session & Signin")
         return True
     else:
-        st.header("Smart Restaurant : New Session & Signin")
+        st.subheader("Smart Restaurant : New Session & Signin")
         setup_new_session()
         user_signin_afresh()
 

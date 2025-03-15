@@ -46,43 +46,30 @@ def setup_new_session():
 
 # Function to validate user credentials
 def user_signin_afresh():
-    # Create a list of restaurant display names (name and address combined)
     restaurant_options = [
         f"{restaurant} ({address})" 
-        for restaurant, address in st.session_state['list_of_restaurants']
+        for restaurant, address in st.session_state.get('list_of_restaurants', [])
     ]
 
-    # Set a default restaurant (e.g., the first restaurant in the list)
-    # default_selection = restaurant_options[0]  # 3 : KhanBurger : You can change this to any specific restaurant
-
-    # Display the selectbox for restaurant selection
     selected_option = st.selectbox(
-        "",
+        "Select Restaurant",
         options=["Select Restaurant ..."] + restaurant_options,
-        index=0  # The index 0 corresponds to "Select..." as the default
+        index=0
     )
-    
-    # Handle selection or default
+
     if selected_option != "Select Restaurant ...":
-        # Extract the restaurant name and address from the selected option
-        for restaurant, address in st.session_state['list_of_restaurants']:
+        for restaurant, address in st.session_state.get('list_of_restaurants', []):
             if selected_option == f"{restaurant} ({address})":
                 st.session_state['selected_restaurant'] = {
                     "Restaurant": restaurant,
                     "Address": address,
                 }
-                # st.success(f"My Choice : '{restaurant}' ('{address}')")
-                # st.stop()  # Stop further rendering after a selection is made
-    else:
-        pass
 
-    pRestaurant = st.session_state.get(['selected_restaurant'],None)
+    # ✅ Fixing session state access
+    pRestaurant = st.session_state.get('selected_restaurant', None)
 
-    # Add fields to get ID and Password from the user
     st.subheader("Enter Your Credentials")
-    
-    # Display placeholder in the User ID input field
-    pRestaurantUser = st.text_input("", placeholder="Enter Mobile Number")  # Placeholder text for the input field
+    pRestaurantUser = st.text_input("", placeholder="Enter Mobile Number")
     pRestaurantUserPassword = st.text_input("", type="password", placeholder="Enter Password")
 
     if st.button("Sign In"):
@@ -90,8 +77,9 @@ def user_signin_afresh():
             st.session_state['Restaurant'] = pRestaurant
             st.session_state['RestaurantUser'] = pRestaurantUser
             st.session_state['RestaurantUserPassword'] = pRestaurantUserPassword
-            # st.success("Sign-in successful with the provided credentials!")
-            # st.stop()
+        else:
+            st.error("Please select a restaurant and provide ID and Password.")
+            return None  # ✅ Stop execution if inputs are missing
 
         try:
             StoredProcedureName = "RestaurantSignin"
@@ -104,20 +92,20 @@ def user_signin_afresh():
                 "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
             )
             result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
+
             if result:
                 pRestaurantUserName, pRestaurantUserClass, pRestaurantUserAddress, pStatus, pStatusCheck = result
-                st.write(f"'{pRestaurantUserName or ''}', '{pRestaurantUserClass or ''}', '{pRestaurantUserAddress or ''}', '{pStatus or ''}', '{pStatusCheck or ''}'")
+                st.write(f"'{pRestaurantUserName}', '{pRestaurantUserClass}', '{pRestaurantUserAddress}', '{pStatus}', '{pStatusCheck}'")
             else:
                 st.error("Error: No data returned from the database.")
-            st.write(f"'{pRestaurantUserName or ''}', '{pRestaurantUserClass or ''}', '{pRestaurantUserAddress or ''}', '{pStatus or ''}', '{pStatusCheck or ''}'")
-            return result
-        except Error as e:
-            st.error(f"Error Signing in ..... {e}..... ")
-            return None
 
-        st.subheader("Smart Restaurant : Fresh Signin Success")
-    else:
-        st.error("Please select restaurant and provide ID and Password.")
+            st.subheader("Smart Restaurant : Fresh Signin Success")  # ✅ Now it will execute
+
+            return result
+
+        except Error as e:
+            st.error(f"Error Signing in: {e}")
+            return None
 
 
 # Main function to render the app

@@ -95,27 +95,27 @@ def user_signin_afresh():
         else:
             st.error("Please select restaurant and provide ID and Password.")
 
-    try:
-        StoredProcedureName = "RestaurantSignin"
-        StoredProcedureCall = (
-            f"CALL {StoredProcedureName}("
-            f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}', "
-            f"@pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck);"
-        )
-        OutParametersQuery = (
-            "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
-        )
-        result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
-        if result:
-            pRestaurantUserName, pRestaurantUserClass, pRestaurantUserAddress, pStatus, pStatusCheck = result
+        try:
+            StoredProcedureName = "RestaurantSignin"
+            StoredProcedureCall = (
+                f"CALL {StoredProcedureName}("
+                f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}', "
+                f"@pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck);"
+            )
+            OutParametersQuery = (
+                "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
+            )
+            result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
+            if result:
+                pRestaurantUserName, pRestaurantUserClass, pRestaurantUserAddress, pStatus, pStatusCheck = result
+                st.write(f"'{pRestaurantUserName or ''}', '{pRestaurantUserClass or ''}', '{pRestaurantUserAddress or ''}', '{pStatus or ''}', '{pStatusCheck or ''}'")
+            else:
+                st.error("Error: No data returned from the database.")
             st.write(f"'{pRestaurantUserName or ''}', '{pRestaurantUserClass or ''}', '{pRestaurantUserAddress or ''}', '{pStatus or ''}', '{pStatusCheck or ''}'")
-        else:
-            st.error("Error: No data returned from the database.")
-        st.write(f"'{pRestaurantUserName or ''}', '{pRestaurantUserClass or ''}', '{pRestaurantUserAddress or ''}', '{pStatus or ''}', '{pStatusCheck or ''}'")
-        return result
-    except Error as e:
-        st.error(f"Error Signing in ..... {e}..... ")
-        return None
+            return result
+        except Error as e:
+            st.error(f"Error Signing in ..... {e}..... ")
+            return None
 
     st.subheader("Smart Restaurant : Fresh Signin Success")
 

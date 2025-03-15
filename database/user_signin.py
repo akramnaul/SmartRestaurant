@@ -58,21 +58,20 @@ def user_signin_afresh():
     # Display the selectbox for restaurant selection
     selected_option = st.selectbox(
         "",
-        options=["Select..."] + restaurant_options,
+        options=["Select Restaurant ..."] + restaurant_options,
         index=0  # The index 0 corresponds to "Select..." as the default
     )
     
     # Handle selection or default
-    # if selected_option != "Select...":
-    # Extract the restaurant name and address from the selected option
-    for restaurant, address in st.session_state['list_of_restaurants']:
-        if selected_option == f"{restaurant} ({address})":
-            st.session_state['selected_restaurant'] = {
-                "Restaurant": restaurant,
-                "Address": address,
-            }
+    if selected_option != "Select Restaurant ...":
+        # Extract the restaurant name and address from the selected option
+        for restaurant, address in st.session_state['list_of_restaurants']:
+            if selected_option == f"{restaurant} ({address})":
+                st.session_state['selected_restaurant'] = {
+                    "Restaurant": restaurant,
+                    "Address": address,
+                }
                 # st.success(f"My Choice : '{restaurant}' ('{address}')")
-                # pRestaurant = restaurant
                 # st.stop()  # Stop further rendering after a selection is made
     else:
         pass

@@ -92,41 +92,41 @@ def user_signin():
         st.success("Sign-in Successful !")
         st.stop()  # Stop execution to avoid rendering the restaurant selection
 
-    # Create a list of restaurant display names (name and address combined)
-    # restaurant_options = [
-    #     f"{restaurant} ({address})" 
-    #     for restaurant, address in st.session_state['list_of_restaurants']
-    # ]
+    Create a list of restaurant display names (name and address combined)
+    restaurant_options = [
+        f"{restaurant} ({address})" 
+        for restaurant, address in st.session_state['list_of_restaurants']
+    ]
 
     # Set a default restaurant (e.g., the first restaurant in the list)
-    # default_selection = restaurant_options[3]  # 3 : KhanBurger : You can change this to any specific restaurant
-    
+    default_selection = restaurant_options[3]  # 3 : KhanBurger : You can change this to any specific restaurant
+
     # Display the selectbox for restaurant selection
-    # selected_option = st.selectbox(
-    #     "",
-    #     options=["Select..."] + restaurant_options,
-    #     index=0  # The index 0 corresponds to "Select..." as the default
-    # )
+    selected_option = st.selectbox(
+        "",
+        options=["Select..."] + restaurant_options,
+        index=0  # The index 0 corresponds to "Select..." as the default
+    )
     
     # Handle selection or default
-    # if selected_option != "Select...":
-    #     # Extract the restaurant name and address from the selected option
-    #     for restaurant, address in st.session_state['list_of_restaurants']:
-    #         if selected_option == f"{restaurant} ({address})":
-    #             st.session_state['selected_restaurant'] = {
-    #                 "Restaurant": restaurant,
-    #                 "Address": address,
-    #             }
-    #             st.success(f"My Choice : '{restaurant}' ('{address}')")
-    #             st.stop()  # Stop further rendering after a selection is made
-    # else:
-    #     # Handle the default scenario
-    #     default_restaurant, default_address = st.session_state['list_of_restaurants'][3]
-    #     st.session_state['selected_restaurant'] = {
-    #         "Restaurant": default_restaurant,
-    #         "Address": default_address,
-    #     }
-    #     st.info(f": '{default_restaurant}' ('{default_address}')")
+    if selected_option != "Select...":
+        # Extract the restaurant name and address from the selected option
+        for restaurant, address in st.session_state['list_of_restaurants']:
+            if selected_option == f"{restaurant} ({address})":
+                st.session_state['selected_restaurant'] = {
+                    "Restaurant": restaurant,
+                    "Address": address,
+                }
+                st.success(f"My Choice : '{restaurant}' ('{address}')")
+                st.stop()  # Stop further rendering after a selection is made
+    else:
+        # Handle the default scenario
+        default_restaurant, default_address = st.session_state['list_of_restaurants'][3]
+        st.session_state['selected_restaurant'] = {
+            "Restaurant": default_restaurant,
+            "Address": default_address,
+        }
+        st.info(f": '{default_restaurant}' ('{default_address}')")
 
     # Add fields to get ID and Password from the user
     # st.subheader("Enter Your Credentials")

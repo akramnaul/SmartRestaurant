@@ -41,7 +41,7 @@ def setup_new_session():
     st.session_state.setdefault('RestaurantUserAddress', None)
     st.session_state.setdefault('RestaurantUserSigninValid', False)
 
-    st.subtitle("Smart Restaurant : New Session & Signin Success")
+    st.header("Smart Restaurant : New Session & Signin Success")
 
 
 # Function to validate user credentials
@@ -128,7 +128,7 @@ def user_signin():
         st.title("Smart Restaurant : Previous Valid Session & Signin")
         return True
     else:
-        st.subtitle("Smart Restaurant : New Session & Signin")
+        st.header("Smart Restaurant : New Session & Signin")
         setup_new_session()
         user_signin_afresh()
 

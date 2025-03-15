@@ -41,7 +41,7 @@ def setup_new_session():
     st.session_state.setdefault('RestaurantUserAddress', None)
     st.session_state.setdefault('RestaurantUserSigninValid', False)
 
-    st.header("Smart Restaurant : New Session & Signin Success")
+    st.subheader("Smart Restaurant : New Session Success")
 
 
 # Function to validate user credentials
@@ -110,6 +110,8 @@ def user_signin_afresh():
     except Error as e:
         st.error(f"An error occurred while validating User: {e} ..... from ..... validate_user(pRestaurant, pRestaurantUser, pRestaurantUserPassword) ..... ")
         return None
+
+    st.subheader("Smart Restaurant : Signin Success")
 
 
 # Verify a Valid User Signin

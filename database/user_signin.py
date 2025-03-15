@@ -81,7 +81,7 @@ def user_signin():
 
     # Check if 'signin_required_fields' exists and validate user signin
     if (('RestaurantUserSigninValid' in st.session_state) and (st.session_state['RestaurantUserSigninValid'] is True)):
-        pass
+        return True
     else:
         setup_session_variables()
 

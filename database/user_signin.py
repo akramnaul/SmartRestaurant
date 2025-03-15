@@ -63,7 +63,7 @@ def user_signin_afresh():
     )
     
     # Handle selection or default
-    # if selected_option != "Select Restaurant ...":
+    if selected_option != "Select Restaurant ...":
         # Extract the restaurant name and address from the selected option
         for restaurant, address in st.session_state['list_of_restaurants']:
             if selected_option == f"{restaurant} ({address})":
@@ -73,8 +73,8 @@ def user_signin_afresh():
                 }
                 # st.success(f"My Choice : '{restaurant}' ('{address}')")
                 # st.stop()  # Stop further rendering after a selection is made
-    # else:
-    #     pass
+    else:
+        pass
 
     pRestaurant = st.session_state.get(['selected_restaurant'],None)
 
@@ -92,8 +92,6 @@ def user_signin_afresh():
             st.session_state['RestaurantUserPassword'] = pRestaurantUserPassword
             # st.success("Sign-in successful with the provided credentials!")
             # st.stop()
-        else:
-            st.error("Please select restaurant and provide ID and Password.")
 
         try:
             StoredProcedureName = "RestaurantSignin"
@@ -117,7 +115,9 @@ def user_signin_afresh():
             st.error(f"Error Signing in ..... {e}..... ")
             return None
 
-    st.subheader("Smart Restaurant : Fresh Signin Success")
+        st.subheader("Smart Restaurant : Fresh Signin Success")
+    else:
+        st.error("Please select restaurant and provide ID and Password.")
 
 
 # Main function to render the app

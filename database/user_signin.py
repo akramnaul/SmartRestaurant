@@ -72,11 +72,12 @@ def user_signin_afresh(): # pRestaurant, pRestaurantUser, pRestaurantUserPasswor
                     "Address": address,
                 }
                 st.success(f"My Choice : '{restaurant}' ('{address}')")
+                pRestaurant = restaurant
                 st.stop()  # Stop further rendering after a selection is made
     else:
         pass
 
-    pRestaurant = st.session_state['selected_restaurant']
+    # pRestaurant = st.session_state['selected_restaurant']
 
     # Add fields to get ID and Password from the user
     st.subheader("Enter Your Credentials")

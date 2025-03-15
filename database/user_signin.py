@@ -76,7 +76,7 @@ def user_signin_afresh():
     else:
         pass
 
-    pRestaurant = st.session_state.get(['selected_restaurant'],[0])
+    pRestaurant = st.session_state.get(['selected_restaurant'],None)
 
     # Add fields to get ID and Password from the user
     st.subheader("Enter Your Credentials")
@@ -106,7 +106,7 @@ def user_signin_afresh():
             "SELECT @pRestaurantUserName, @pRestaurantUserClass, @pRestaurantUserAddress, @pStatus, @pStatusCheck;"
         )
         result = execute_stored_procedure(StoredProcedureCall, OutParametersQuery)
-        # st.write(f"'{pRestaurantUserName or ''}', '{pRestaurantUserClass or ''}', '{pRestaurantUserAddress or ''}', '{pStatus or ''}', '{pStatusCheck or ''}'")
+        # st.write(f"'{@pRestaurantUserName or ''}', '{@pRestaurantUserClass or ''}', '{@pRestaurantUserAddress or ''}', '{@pStatus or ''}', '{@pStatusCheck or ''}'")
         return result
     except Error as e:
         st.error(f"Error Signing in ..... {e}..... ")

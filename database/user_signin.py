@@ -80,10 +80,10 @@ def user_signin():
     st.title("Smart Restaurant")
 
     # Check if 'signin_required_fields' exists and validate user signin
-    if (('RestaurantUserSigninValid' in st.session_state) and (st.session_state['RestaurantUserSigninValid'] is True)):
-        pass
-    else:
-        setup_session_variables()
+    # if (('RestaurantUserSigninValid' in st.session_state) and (st.session_state['RestaurantUserSigninValid'] is True)):
+    #     pass
+    # else:
+    #     setup_session_variables()
 
     # if (verify_valid_user_signin() is False):
     #     st.title("Smart Restaurant 1")

@@ -21,6 +21,7 @@ def setup_new_session():
         # ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         # ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
+        ("KhanBurger", "Gulberg, Lahore"),
     ])
 
     # Set the list of required fields for sign-in validation
@@ -121,12 +122,12 @@ def user_signin():
                 st.stop()  # Stop further rendering after a selection is made
     else:
         # Handle the default scenario
-        default_restaurant, default_address = st.session_state['list_of_restaurants'][0]
-        st.session_state['selected_restaurant'] = {
-            "Restaurant": default_restaurant,
-            "Address": default_address,
-        }
-        st.info(f": '{default_restaurant}' ('{default_address}')")
+        # default_restaurant, default_address = st.session_state['list_of_restaurants'][0]
+        # st.session_state['selected_restaurant'] = {
+        #     "Restaurant": default_restaurant,
+        #     "Address": default_address,
+        # }
+        # st.info(f": '{default_restaurant}' ('{default_address}')")
 
     # Add fields to get ID and Password from the user
     # st.subheader("Enter Your Credentials")

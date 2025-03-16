@@ -106,7 +106,7 @@ def user_signin_afresh():
                 st.session_state['pStatusCheck'] = pStatusCheck
                 st.session_state['RestaurantUserSigninValid'] = True
 
-                st.subheader("Smart Restaurant : Fresh Signin Successful")  # ✅ Fresh Signin Successful ✅ Now it will Proceed / Execute Application
+                st.subheader("Smart Restaurant : Afresh Signin Successful")  # ✅ Afresh Signin Successful ✅ Now it will Proceed / Execute Application
             else:
                 st.error("Error: No data returned from the database.") # ❌ Signin Unsuccessful
             return True
@@ -114,7 +114,7 @@ def user_signin_afresh():
             st.error(f"Error Signing in: {e}")
             return False
     else:
-        st.warning("Select a Restaurant ... Enter Mobile Number and Password ... the Click 'Sign In' to Continue ... ")
+        st.warning("Select a Restaurant ... Enter Mobile Number and Password ... then ... Click 'Sign In' to Continue ... ")
         st.stop()  # Stop further execution
 
 # Main function to render the app

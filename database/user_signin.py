@@ -93,8 +93,8 @@ def user_signin_afresh():
 
             if result:
                 pRestaurantUserName, pRestaurantUserClass, pRestaurantUserAddress, pStatus, pStatusCheck = result
-                st.write(f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}'")
-                # st.write(f"'{pRestaurantUserName}', '{pRestaurantUserClass}', '{pRestaurantUserAddress}', '{pStatus}', '{pStatusCheck}'")
+                st.write(f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}'\n")
+                st.write(f"'{pRestaurantUserName}', '{pRestaurantUserClass}', '{pRestaurantUserAddress}', '{pStatus}', '{pStatusCheck}'\n")
 
                 st.session_state['Restaurant'] = pRestaurant
                 st.session_state['RestaurantUser'] = pRestaurantUser

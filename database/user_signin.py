@@ -66,7 +66,7 @@ def user_signin_afresh():
                 }
 
     # ✅ Fixing session state access
-    pRestaurant = st.session_state.get('selected_restaurant', [])
+    pRestaurant = st.session_state.get('selected_restaurant', [0])
 
     st.subheader("Enter Your Credentials")
     pRestaurantUser = st.text_input("", placeholder="Enter Mobile Number")

@@ -21,7 +21,6 @@ def setup_new_session():
         # ("HajiRestaurant", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         # ("HotNSpicy", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
         ("KhanBurger", "Guldasht Town, Zarrar Shaheed Road, Lahore"),
-        ("KhanBurger", "Gulberg, Lahore"),
     ])
 
     # Set the list of required fields for sign-in validation
@@ -108,7 +107,7 @@ def user_signin_afresh():
 
                 st.subheader("Smart Restaurant : Afresh Signin Successful")  # ✅ Afresh Signin Successful ✅ Now it will Proceed / Execute Application
             else:
-                st.error("Error: No data returned from the database.") # ❌ Signin Unsuccessful
+                st.error("Error: No data returned from the database.") # ❌ Afresh Signin Unsuccessful
             return True
         except Error as e:
             st.error(f"Error Signing in: {e}")
@@ -133,3 +132,28 @@ def user_signin():
         else:
             st.write("User Signin Afresh UnSuccessfully Reached : user_signin()")
             return False
+
+    if(user_signin() is True):
+      st.write("User Signin Successfully Reached : streamlit_app.py")
+    else:
+      st.write("User Signin UnSuccessfully Reached : streamlit_app.py")
+    
+    # Check User's Roll / Class ... then ... Redirect to Appropriate Webpage
+    if (('RestaurantUser' in st.session_state) and ('RestaurantUser' in st.session_state) and
+        ('RestaurantUserSigninValid' in st.session_state) and (st.session_state['RestaurantUserSigninValid'] is True)):
+        st.subheader("Smart Restaurant : Previous Valid Session & Signin")
+    else:
+        st.subheader("Smart Restaurant : New Session & Signin")
+    
+    # JavaScript to Reload the Page
+    def clear_page():
+        st.markdown("""
+            <script>
+                location.reload();
+            </script>
+        """, unsafe_allow_html=True)
+    
+    # st.write("This is some content on the screen.")
+    
+    if st.button("Clear Screen"):
+        clear_page()  # Reloads the page, effectively clearing it

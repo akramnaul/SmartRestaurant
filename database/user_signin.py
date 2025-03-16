@@ -74,12 +74,10 @@ def user_signin_afresh():
 
     if st.button("Sign In"):
         if pRestaurant and pRestaurantUser and pRestaurantUserPassword:
-            st.session_state['Restaurant'] = pRestaurant
-            st.session_state['RestaurantUser'] = pRestaurantUser
-            st.session_state['RestaurantUserPassword'] = pRestaurantUserPassword
+            pass # ✅ Proceed with Execution as User Input 3 Fields Correctly for Signin
         else:
-            st.error("Select a restaurant ... Enter Mobile Number and Password...")
-            return None  # ✅ Stop execution if inputs are missing
+            st.error("Select a Restaurant ... Enter Mobile Number and Password ... ")
+            return None # ❌ Stop Execution as User did'nt Input 3 Fields Correctly for Signin
 
         try:
             StoredProcedureName = "RestaurantSignin"
@@ -95,10 +93,22 @@ def user_signin_afresh():
 
             if result:
                 pRestaurantUserName, pRestaurantUserClass, pRestaurantUserAddress, pStatus, pStatusCheck = result
+                st.write(f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}'")
                 st.write(f"'{pRestaurantUserName}', '{pRestaurantUserClass}', '{pRestaurantUserAddress}', '{pStatus}', '{pStatusCheck}'")
-                st.subheader("Smart Restaurant : Fresh Signin Success")  # ✅ Now it will execute
+
+                st.session_state['Restaurant'] = pRestaurant
+                st.session_state['RestaurantUser'] = pRestaurantUser
+                st.session_state['RestaurantUserPassword'] = pRestaurantUserPassword
+                st.session_state['pRestaurantUserName'] = pRestaurantUserName
+                st.session_state['pRestaurantUserClass'] = pRestaurantUserClass
+                st.session_state['pRestaurantUserAddress'] = pRestaurantUserAddress
+                st.session_state['pStatus'] = pStatus
+                st.session_state['pStatusCheck'] = pStatusCheck
+                st.session_state['RestaurantUserSigninValid'] = True
+
+                st.subheader("Smart Restaurant : Fresh Signin Successful")  # ✅ Fresh Signin Successful ✅ Now it will Proceed / Execute Application
             else:
-                st.error("Error: No data returned from the database.")
+                st.error("Error: No data returned from the database.") # ❌ Signin Unsuccessful
             return result
         except Error as e:
             st.error(f"Error Signing in: {e}")

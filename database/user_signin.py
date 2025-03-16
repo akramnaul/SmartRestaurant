@@ -120,9 +120,7 @@ def user_signin_afresh():
 # Main function to render the app
 def user_signin():
     # Check if Session Variables 'Restaurant','RestaurantUser','RestaurantUserPassword','RestaurantUserSigninValid' Exists and True
-    if (('Restaurant' in st.session_state) and (st.session_state['Restaurant'] is True) and
-        ('RestaurantUser' in st.session_state) and (st.session_state['RestaurantUser'] is True) and
-        ('RestaurantUserPassword' in st.session_state) and (st.session_state['RestaurantUserPassword'] is True) and
+    if (('Restaurant' in st.session_state) and ('RestaurantUser' in st.session_state) and ('RestaurantUserPassword' in st.session_state) and
         ('RestaurantUserSigninValid' in st.session_state) and (st.session_state['RestaurantUserSigninValid'] is True)):
         st.subheader("Smart Restaurant : Previous Valid Session & Signin")
         return True

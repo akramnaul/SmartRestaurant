@@ -22,7 +22,7 @@ if (('RestaurantUser' in st.session_state) and ('RestaurantUser' in st.session_s
 else:
     st.subheader("Smart Restaurant : New Session & Signin")
 
-st.clear_screen()
+st.rerun()
 
 # RestaurantAdmin
 # RestaurantCashier

@@ -70,11 +70,11 @@ def user_signin_afresh():
 
     st.subheader("Enter Your Credentials")
     pRestaurantUser = st.text_input("", placeholder="Enter Mobile Number")
-    pRestaurantUserPassword = st.text_input("", type="password", placeholder="Enter Password")
+    pRestaurantUserPassword = st.text_input("", type="password", placeholder="Enter Your Password")
 
     if st.button("Sign In"):
         if pRestaurant and pRestaurantUser and pRestaurantUserPassword:
-            pass # ✅ Proceed with Execution as User Input 3 Fields Correctly for Signin
+            pass # ✅ Proceed with Execution of Stored Procedure as User Input 3 Fields Correctly for Signin
         else:
             st.error("Select a Restaurant ... Enter Mobile Number and Password ... ")
             return None # ❌ Stop Execution as User did'nt Input 3 Fields Correctly for Signin
@@ -94,7 +94,7 @@ def user_signin_afresh():
             if result:
                 pRestaurantUserName, pRestaurantUserClass, pRestaurantUserAddress, pStatus, pStatusCheck = result
                 st.write(f"'{pRestaurant}', '{pRestaurantUser}', '{pRestaurantUserPassword}'")
-                st.write(f"'{pRestaurantUserName}', '{pRestaurantUserClass}', '{pRestaurantUserAddress}', '{pStatus}', '{pStatusCheck}'")
+                # st.write(f"'{pRestaurantUserName}', '{pRestaurantUserClass}', '{pRestaurantUserAddress}', '{pStatus}', '{pStatusCheck}'")
 
                 st.session_state['Restaurant'] = pRestaurant
                 st.session_state['RestaurantUser'] = pRestaurantUser

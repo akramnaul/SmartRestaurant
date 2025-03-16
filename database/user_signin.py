@@ -114,7 +114,7 @@ def user_signin_afresh():
             st.error(f"Error Signing in: {e}")
             return False
     else:
-        st.warning("Please click 'Sign In' to continue.")
+        st.warning("Select a Restaurant ... Enter Mobile Number and Password ... the Click 'Sign In' to Continue ... ")
         st.stop()  # Stop further execution
 
 # Main function to render the app

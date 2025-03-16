@@ -57,13 +57,13 @@ def user_signin_afresh():
         index=0
     )
 
-    # if selected_option != "Select Restaurant ...":
-    for restaurant, address in st.session_state.get('list_of_restaurants', []):
-        if selected_option == f"{restaurant} ({address})":
-            st.session_state['selected_restaurant'] = {
-                "Restaurant": restaurant,
-                "Address": address,
-            }
+    if selected_option != "Select Restaurant ...":
+        for restaurant, address in st.session_state.get('list_of_restaurants', []):
+            if selected_option == f"{restaurant} ({address})":
+                st.session_state['selected_restaurant'] = {
+                    "Restaurant": restaurant,
+                    "Address": address,
+                }
 
     # ✅ Fixing session state access
     pRestaurant = st.session_state.get('selected_restaurant', [])

@@ -113,7 +113,9 @@ def user_signin_afresh():
         except Error as e:
             st.error(f"Error Signing in: {e}")
             return False
-
+    else:
+        st.warning("Please click 'Sign In' to continue.")
+        st.stop()  # Stop further execution
 
 # Main function to render the app
 def user_signin():

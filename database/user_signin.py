@@ -66,7 +66,7 @@ def user_signin_afresh():
                 }
 
     # ✅ Fixing session state access
-    pRestaurant = st.session_state.get('selected_restaurant', [0])
+    pRestaurant = st.session_state.get('selected_restaurant', {}).get('Restaurant', None)
 
     st.subheader("Enter Your Credentials")
     pRestaurantUser = st.text_input("", placeholder="Enter Mobile Number")
@@ -78,7 +78,7 @@ def user_signin_afresh():
             st.session_state['RestaurantUser'] = pRestaurantUser
             st.session_state['RestaurantUserPassword'] = pRestaurantUserPassword
         else:
-            st.error("Please select a restaurant and provide ID and Password.")
+            st.error("Select a restaurant ... Enter Mobile Number and Password...")
             return None  # ✅ Stop execution if inputs are missing
 
         try:

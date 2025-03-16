@@ -14,3 +14,23 @@ if(user_signin() is True):
   st.write("User Signin Successfully Reached : streamlit_app.py")
 else:
   st.write("User Signin UnSuccessfully Reached : streamlit_app.py")
+
+# Check User's Roll / Class ... then ... Redirect to Appropriate Webpage
+if (('RestaurantUser' in st.session_state) and ('RestaurantUser' in st.session_state) and
+    ('RestaurantUserSigninValid' in st.session_state) and (st.session_state['RestaurantUserSigninValid'] is True)):
+    st.subheader("Smart Restaurant : Previous Valid Session & Signin")
+else:
+    st.subheader("Smart Restaurant : New Session & Signin")
+
+clear_screen()
+
+# RestaurantAdmin
+# RestaurantCashier
+# RestaurantCustomer
+# RestaurantOrderTaker
+# RestaurantOwner
+# RestaurantRider
+# RestaurantStation
+
+
+

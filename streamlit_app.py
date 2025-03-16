@@ -22,7 +22,21 @@ if (('RestaurantUser' in st.session_state) and ('RestaurantUser' in st.session_s
 else:
     st.subheader("Smart Restaurant : New Session & Signin")
 
-st.empty()
+import streamlit as st
+
+# JavaScript to Reload the Page
+def clear_page():
+    st.markdown("""
+        <script>
+            location.reload();
+        </script>
+    """, unsafe_allow_html=True)
+
+# st.write("This is some content on the screen.")
+
+if st.button("Clear Screen"):
+    clear_page()  # Reloads the page, effectively clearing it
+
 
 # RestaurantAdmin
 # RestaurantCashier

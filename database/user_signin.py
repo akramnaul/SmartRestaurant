@@ -53,8 +53,7 @@ def user_signin_afresh():
 
     selected_option = st.selectbox(
         # "Select Restaurant",
-        # options=["Select Restaurant ..."] + restaurant_options,
-        options=restaurant_options, # ["Select Restaurant ..."] + 
+        options=["Select Restaurant ..."] + restaurant_options,
         index=0
     )
 

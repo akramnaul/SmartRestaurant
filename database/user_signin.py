@@ -128,6 +128,8 @@ def user_signin():
         st.subheader("Smart Restaurant : New Session & Signin")
         setup_new_session()
         if(user_signin_afresh() is True):
+            st.write("User Signin Afresh Successfully Reached : user_signin()")
             return True
         else:
+            st.write("User Signin Afresh UnSuccessfully Reached : user_signin()")
             return False
